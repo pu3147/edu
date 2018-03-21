@@ -1,31 +1,16 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="60 seconds" debug="false">
-	<contextName>eduSpringBoot</contextName>
-	<property name="AppName" value="eduSpringBoot" />
-	<property name="LogHome" value="${catalina.base}" />
-	<appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${LogHome}/logs/${AppName}.log</File>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${LogHome}/logs/${AppName}/${AppName}-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
-			<MaxHistory>30</MaxHistory>
-			<TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-				<MaxFileSize>10MB</MaxFileSize>
-			</TimeBasedFileNamingAndTriggeringPolicy>
-		</rollingPolicy>
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
-			</pattern>
-		</layout>
-	</appender>
+<configuration>
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
-			</pattern>
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
 		</layout>
 	</appender>
+
+	<logger name="cc.fbsky" level="DEBUG" />
+
 	<root level="DEBUG">
 		<appender-ref ref="STDOUT" />
-		<appender-ref ref="LOGFILE" />
 	</root>
 </configuration>
