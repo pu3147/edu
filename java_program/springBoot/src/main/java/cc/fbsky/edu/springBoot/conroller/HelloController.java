@@ -1,18 +1,20 @@
 package cc.fbsky.edu.springBoot.conroller;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@EnableAutoConfiguration
 public class HelloController
 {
     @RequestMapping("/")
     @ResponseBody
-    String home() {
+    public String home() {
         return "Hello World!";
+    }
+    
+    @RequestMapping("/hello")
+    public String hello() {
+        return "hello";
     }
 }
