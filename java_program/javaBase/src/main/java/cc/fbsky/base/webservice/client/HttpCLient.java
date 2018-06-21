@@ -15,12 +15,8 @@ public class HttpCLient {
 	
 	public static void main(String[] args) {
 		
-		String iBillCode = "2000003273";
-		String info = yq_9(iBillCode);
-		System.out.println(info);
-		send("http://123.56.21.37:8080/webservice/iMiddleServerService", info);
-		
-		info = yq_10(iBillCode);
+		String iBillCode = "2000003365";
+		String info = yq_12(iBillCode);
 		System.out.println(info);
 		send("http://123.56.21.37:8080/webservice/iMiddleServerService", info);
 		
@@ -29,12 +25,12 @@ public class HttpCLient {
 	
 	public static void send(String url,String soapXml) {
         String retStr = "";  
-        // ´´½¨HttpClientBuilder  
+        // åˆ›å»ºHttpClientBuilder  
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();  
         // HttpClient  
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();  
         HttpPost httpPost = new HttpPost(url);  
-                //  ÉèÖÃÇëÇóºÍ´«Êä³¬Ê±Ê±¼ä  
+                //  è®¾ç½®è¯·æ±‚å’Œä¼ è¾“è¶…æ—¶æ—¶é—´  
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(10000).build();  
         httpPost.setConfig(requestConfig);  
         try {
@@ -46,71 +42,17 @@ public class HttpCLient {
             CloseableHttpResponse response = closeableHttpClient.execute(httpPost);  
             HttpEntity httpEntity = response.getEntity();  
             if (httpEntity != null) {  
-                // ´òÓ¡ÏìÓ¦ÄÚÈİ  
+                // æ‰“å°å“åº”å†…å®¹  
                 retStr = EntityUtils.toString(httpEntity, "UTF-8");  
             }  
             
             System.out.println(retStr);
-            // ÊÍ·Å×ÊÔ´  
+            // é‡Šæ”¾èµ„æº  
             closeableHttpClient.close();  
         } catch (Exception e) {  
         	e.printStackTrace();
         }  
         
-	}
-	
-	
-	private static String dz_8() {
-		
-		String str = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:chem=\"http://www.chemcn.com/\"> " +
-				"   <soapenv:Header/> " +
-				"   <soapenv:Body> " +
-				"      <chem:updateBillForMiddle> " +
-				"        <arg0> " +
-				"            <!--Optional: ¿ªµ¥Á¿ --> " +
-				"            <extend1>58.000</extend1> " +
-				"            <!--Optional: ³µÅÆºÅ--> " +
-				"            <extend2>°¡Q12301</extend2> " +
-				"            <!--Optional:--> " +
-				"            <extend3></extend3> " +
-				"            <!--Optional:--> " +
-				"            <extend4></extend4> " +
-				"            <!--Optional: Éí·İÖ¤ºÅ--> " +
-				"            <extend5>650121199207011727</extend5> " +
-				"            <!--Optional:--> " +
-				"            <billCode></billCode> " +
-				"            <!--Optional: Ìáµ¥¸ú×Ù×´Ì¬ " +
-				"            		5£ºÆ¤ÖØ×¼±¸ " +
-				"            		6£º¹ıÆ¤ÖØ " +
-				"            		8£ºÃ«ÖØ×¼±¸ " +
-				"            		9£º¹ıÃ«ÖØ " +
-				"            		10£ºÒÑ½áËã " +
-				"            		12£ºÒÑ×÷·Ï(³¬Ìáºó£¬»»µ¥Ö±½Ó×÷·Ï) " +
-				"            <command>8</command> " +
-				"            <!--Optional:--> " +
-				"            <commandDesc>µØ°õÈËÔ±²Ù×÷´íÎó</commandDesc> " +
-				"            <!--Optional:--> " +
-				"            <commandTime>20180207085200</commandTime> " +
-				"            <!--Optional:--> " +
-				"            <extend6>°¡Q12301</extend6> " +
-				"            <!--Optional: SAP½»»õµ¥ºÅ--> " +
-				"            <externalBillCode>2000003262</externalBillCode> " +
-				"            <!-- ÊµÌáÁ¿ --> " +
-				"            <realBillWeight>1</realBillWeight> " +
-				"            <!-- Æ¤ÖØ --> " +
-				"            <weight1>2</weight1> " +
-				"            <!-- Ã«ÖØ --> " +
-				"            <weight2>1</weight2> " +
-				"            <!-- ÕÛ°ÙÁ¿--> " +
-				"            <weight3>0</weight3> " +
-				"         </arg0> " +
-				"          " +
-				"      </chem:updateBillForMiddle> " +
-				"   </soapenv:Body> " +
-				"</soapenv:Envelope> " ;
-				
-		return str;
-		
 	}
 	
 	
@@ -126,13 +68,13 @@ public class HttpCLient {
 						" 				{   " +
 						" 					\"iBillCode\" : \""+iBillCode+"\",   " +
 						" 					\"iCommand\" : \"9\",   " +
-						" 					\"iNet\" : 1000,   " +
+						" 					\"iNet\" : 1000,   " +						//	ç»“ç®—é‡é‡,å•ä½æ˜¯åƒå…‹,
 						" 					\"iGreenChannel\" : 0,   " +
 						" 					\"iTime\" : \"2018-05-04 14:57:44\",   " +
 						" 					\"iOrderType\" : 20,   " +
 						" 					\"iMaterialId\" : \"\",   " +
-						" 					\"iMode\" : \"0\",   " +
-						" 					\"actualNet\" : 29900,   " +
+						" 					\"iMode\" : \"0\",   " +					//	ç»“ç®—æ–¹å¼ï¼Œ0-åœ°ç£…ç»“ç®—ï¼Œ1-æµé‡è®¡ç»“ç®—
+						" 					\"actualNet\" : 29900,   " +				//	å®æé‡é‡,å•ä½åƒå…‹
 						" 					\"cancelRemark\" : \"\"   " +
 						" 				}			   " +
 						" 			</json>   " +
@@ -163,6 +105,35 @@ public class HttpCLient {
 						" 				\"iMode\" : \"0\",   " +
 						" 				\"actualNet\" : 1000,   " +
 						" 				\"cancelRemark\" : \"\"   " +
+						" 			}   " +
+						" 			</json>   " +
+						" 		</SetBillState>   " +
+						" 	</soap:Body>   " +
+						" </soap:Envelope>   ";
+		
+		return str;
+	}
+	
+	private static String yq_12(String iBillCode) {
+		String str = 
+						" <soap:Envelope   " +
+						" 	xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"   " +
+						" 	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"   " +
+						" 	xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">   " +
+						" 	<soap:Body>   " +
+						" 		<SetBillState xmlns=\"http://www.chemcn.com/\">   " +
+						" 			<json xmlns=\"\">   " +
+						" 			{   " +
+						" 				\"iBillCode\" : \""+iBillCode+"\",   " +
+						" 				\"iCommand\" : \"12\",   " +
+						" 				\"iNet\" : 1000,   " +
+						" 				\"iGreenChannel\" : 0,   " +
+						" 				\"iTime\" : \"2018-05-04 15:06:36\",   " +
+						" 				\"iOrderType\" : 20,   " +
+						" 				\"iMaterialId\" : \"\",   " +
+						" 				\"iMode\" : \"0\",   " +
+						" 				\"actualNet\" : 1000,   " +
+						" 				\"cancelRemark\" : \"åœ°ç£…ä½œåºŸ\"   " +
 						" 			}   " +
 						" 			</json>   " +
 						" 		</SetBillState>   " +

@@ -1,5 +1,6 @@
 package cc.fbsky.base.webservice.client;
 
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 
 import org.apache.http.HttpEntity;
@@ -14,35 +15,45 @@ import org.apache.http.util.EntityUtils;
 public class DzUpdateBillForMiddleLogBill {
 	
 	public static void main(String[] args) {
-		
 		String billWight = null;
 		String carId = null;
 		String idCard = null;
-		String commandTime = "20180207085200";
-		String sapBillCode = null;
-		String piZhong = null;
-		String maoZhong = null;
+		String commandTime = "20180510000000";
+		String sapBillCode = null;//ÁºñÁ†Å
+		String piZhong = "5";
+		String maoZhong = "";
 		String zheBai = null;
 		String realZhong = null;
 		
-		billWight = "";carId = "";idCard = "";sapBillCode = "";piZhong = "";maoZhong = "";zheBai = "";realZhong = "";
+		sapBillCode="2001223433";	
+		idCard="11010119200101767X";	
+		carId = "ÈªëM02609";  	
+		billWight="13";  
+		
+		realZhong ="32.840";      
+		zheBai = "32.840";
+		
+		piZhong = "1";
+		maoZhong = new BigDecimal(realZhong).add(new BigDecimal(piZhong)).toString();
+		
+		System.out.println(maoZhong);
 		
 		String info =dz_10(billWight, carId, idCard, commandTime, sapBillCode, piZhong, maoZhong, zheBai, realZhong);
 		
 		System.out.println(info);
-		send("http://123.56.21.37:8080/webservice/newMiddleServerService", info);
+		send("http://openapi.e-chemchina.com/webservice/newMiddleServerService", info);
 		
 		
-	}
+	} 
 	
 	public static void send(String url,String soapXml) {
         String retStr = "";  
-        // ¥¥Ω®HttpClientBuilder  
+        // ÂàõÂª∫HttpClientBuilder  
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();  
         // HttpClient  
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();  
         HttpPost httpPost = new HttpPost(url);  
-                //  …Ë÷√«Î«Û∫Õ¥´ ‰≥¨ ± ±º‰  
+                //  ËÆæÁΩÆËØ∑Ê±ÇÂíå‰º†ËæìË∂ÖÊó∂Êó∂Èó¥  
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(10000).build();  
         httpPost.setConfig(requestConfig);  
         try {
@@ -54,12 +65,12 @@ public class DzUpdateBillForMiddleLogBill {
             CloseableHttpResponse response = closeableHttpClient.execute(httpPost);  
             HttpEntity httpEntity = response.getEntity();  
             if (httpEntity != null) {  
-                // ¥Ú”°œÏ”¶ƒ⁄»›  
+                // ÊâìÂç∞ÂìçÂ∫îÂÜÖÂÆπ  
                 retStr = EntityUtils.toString(httpEntity, "UTF-8");  
             }  
             
             System.out.println(retStr);
-            //  Õ∑≈◊ ‘¥  
+            // ÈáäÊîæËµÑÊ∫ê  
             closeableHttpClient.close();  
         } catch (Exception e) {  
         	e.printStackTrace();
@@ -67,6 +78,63 @@ public class DzUpdateBillForMiddleLogBill {
         
 	}
 	
+	
+	private static String dz_12(String billWight,String carId,String idCard,String commandTime,String sapBillCode,
+			String piZhong, String maoZhong, String zheBai, String realZhong) {
+		String str = "";
+		str = str
+				+ " <soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:chem=\"http://www.chemcn.com/\">                      ";
+		str = str + "    <soapenv:Header/>                      ";
+		str = str + "    <soapenv:Body>                      ";
+		str = str + "       <chem:updateBillForMiddle>                      ";
+		str = str + "          <!--Optional:-->                      ";
+		str = str + "         <arg0>                      ";
+		str = str + "             <!--Optional: ÂºÄÂçïÈáè -->                      ";
+		str = str + "             <extend1>" + billWight + "</extend1>                      ";
+		str = str + "             <!--Optional: ËΩ¶ÁâåÂè∑-->                      ";
+		str = str + "             <extend2>" + carId + "</extend2>                      ";
+		str = str + "             <!--Optional:-->                      ";
+		str = str + "             <extend3></extend3>                      ";
+		str = str + "             <!--Optional:-->                      ";
+		str = str + "             <extend4></extend4>                      ";
+		str = str + "             <!--Optional: Ë∫´‰ªΩËØÅÂè∑-->                      ";
+		str = str + "             <extend5>" + idCard + "</extend5>                      ";
+		str = str + "             <!--Optional:-->                      ";
+		str = str + "             <billCode></billCode>                      ";
+		str = str + "             <!--                      ";
+		str = str + "             		5ÔºöÁöÆÈáçÂáÜÂ§á                      ";
+		str = str + "             		6ÔºöËøáÁöÆÈáç                      ";
+		str = str + "             		8ÔºöÊØõÈáçÂáÜÂ§á                      ";
+		str = str + "             		9ÔºöËøáÊØõÈáç                      ";
+		str = str + "             		10ÔºöÂ∑≤ÁªìÁÆó                      ";
+		str = str + "             		12ÔºöÂ∑≤‰ΩúÂ∫ü(Ë∂ÖÊèêÂêéÔºåÊç¢ÂçïÁõ¥Êé•‰ΩúÂ∫ü)                      ";
+		str = str + "             		16ÔºöÁ©∫ËΩ¶Âá∫ÂéÇ            		                      ";
+		str = str + "             -->                      ";
+		str = str + "             <command>12</command>                      ";
+		str = str + "             <!--Optional:-->                      ";
+		str = str + "             <commandDesc>ÂêéÂè∞Áª¥Êä§</commandDesc>                      ";
+		str = str + "             <!--Optional:-->                      ";
+		str = str + "             <commandTime>" + commandTime + "</commandTime>                      ";
+		str = str + "             <!--Optional:-->                      ";
+		str = str + "             <extend6>" + carId + "</extend6>                      ";
+		str = str + "             <!--Optional: SAP‰∫§Ë¥ßÂçïÂè∑-->                      ";
+		str = str + "             <externalBillCode>2000003269</externalBillCode>                      ";
+		str = str + "             <!-- ÂÆûÊèêÈáè -->                      ";
+		str = str + "             <realBillWeight>" + realZhong + "</realBillWeight>                      ";
+		str = str + "             <!-- ÁöÆÈáç -->                      ";
+		str = str + "             <weight1>" + piZhong + "</weight1>                      ";
+		str = str + "             <!-- ÊØõÈáç -->                      ";
+		str = str + "             <weight2>" + maoZhong + "</weight2>                      ";
+		str = str + "             <!-- ÊäòÁôæÈáè-->                      ";
+		str = str + "             <weight3>" + zheBai + "</weight3>                      ";
+		str = str + "          </arg0>                      ";
+		str = str + "                                ";
+		str = str + "       </chem:updateBillForMiddle>                      ";
+		str = str + "    </soapenv:Body>                      ";
+		str = str + " </soapenv:Envelope>                      ";
+
+		return str;
+	}
 	
 	private static String dz_10(String billWight,String carId,String idCard,String commandTime,String sapBillCode,
 			String piZhong, String maoZhong, String zheBai, String realZhong) {
@@ -78,43 +146,43 @@ public class DzUpdateBillForMiddleLogBill {
 		str = str + "       <chem:updateBillForMiddle>                      ";
 		str = str + "          <!--Optional:-->                      ";
 		str = str + "         <arg0>                      ";
-		str = str + "             <!--Optional: ø™µ•¡ø -->                      ";
+		str = str + "             <!--Optional: ÂºÄÂçïÈáè -->                      ";
 		str = str + "             <extend1>" + billWight + "</extend1>                      ";
-		str = str + "             <!--Optional: ≥µ≈∆∫≈-->                      ";
+		str = str + "             <!--Optional: ËΩ¶ÁâåÂè∑-->                      ";
 		str = str + "             <extend2>" + carId + "</extend2>                      ";
 		str = str + "             <!--Optional:-->                      ";
 		str = str + "             <extend3></extend3>                      ";
 		str = str + "             <!--Optional:-->                      ";
 		str = str + "             <extend4></extend4>                      ";
-		str = str + "             <!--Optional: …Ì∑›÷§∫≈-->                      ";
+		str = str + "             <!--Optional: Ë∫´‰ªΩËØÅÂè∑-->                      ";
 		str = str + "             <extend5>" + idCard + "</extend5>                      ";
 		str = str + "             <!--Optional:-->                      ";
 		str = str + "             <billCode></billCode>                      ";
 		str = str + "             <!--                      ";
-		str = str + "             		5£∫∆§÷ÿ◊º±∏                      ";
-		str = str + "             		6£∫π˝∆§÷ÿ                      ";
-		str = str + "             		8£∫√´÷ÿ◊º±∏                      ";
-		str = str + "             		9£∫π˝√´÷ÿ                      ";
-		str = str + "             		10£∫“—Ω·À„                      ";
-		str = str + "             		12£∫“—◊˜∑œ(≥¨Ã·∫Û£¨ªªµ•÷±Ω”◊˜∑œ)                      ";
-		str = str + "             		16£∫ø’≥µ≥ˆ≥ß            		                      ";
+		str = str + "             		5ÔºöÁöÆÈáçÂáÜÂ§á                      ";
+		str = str + "             		6ÔºöËøáÁöÆÈáç                      ";
+		str = str + "             		8ÔºöÊØõÈáçÂáÜÂ§á                      ";
+		str = str + "             		9ÔºöËøáÊØõÈáç                      ";
+		str = str + "             		10ÔºöÂ∑≤ÁªìÁÆó                      ";
+		str = str + "             		12ÔºöÂ∑≤‰ΩúÂ∫ü(Ë∂ÖÊèêÂêéÔºåÊç¢ÂçïÁõ¥Êé•‰ΩúÂ∫ü)                      ";
+		str = str + "             		16ÔºöÁ©∫ËΩ¶Âá∫ÂéÇ            		                      ";
 		str = str + "             -->                      ";
 		str = str + "             <command>10</command>                      ";
 		str = str + "             <!--Optional:-->                      ";
-		str = str + "             <commandDesc>∫ÛÃ®Œ¨ª§</commandDesc>                      ";
+		str = str + "             <commandDesc>ÂêéÂè∞Áª¥Êä§</commandDesc>                      ";
 		str = str + "             <!--Optional:-->                      ";
 		str = str + "             <commandTime>" + commandTime + "</commandTime>                      ";
 		str = str + "             <!--Optional:-->                      ";
 		str = str + "             <extend6>" + carId + "</extend6>                      ";
-		str = str + "             <!--Optional: SAPΩªªıµ•∫≈-->                      ";
-		str = str + "             <externalBillCode>2000003269</externalBillCode>                      ";
-		str = str + "             <!--  µÃ·¡ø -->                      ";
+		str = str + "             <!--Optional: SAP‰∫§Ë¥ßÂçïÂè∑-->                      ";
+		str = str + "             <externalBillCode>"+sapBillCode+"</externalBillCode>                      ";
+		str = str + "             <!-- ÂÆûÊèêÈáè -->                      ";
 		str = str + "             <realBillWeight>" + realZhong + "</realBillWeight>                      ";
-		str = str + "             <!-- ∆§÷ÿ -->                      ";
+		str = str + "             <!-- ÁöÆÈáç -->                      ";
 		str = str + "             <weight1>" + piZhong + "</weight1>                      ";
-		str = str + "             <!-- √´÷ÿ -->                      ";
+		str = str + "             <!-- ÊØõÈáç -->                      ";
 		str = str + "             <weight2>" + maoZhong + "</weight2>                      ";
-		str = str + "             <!-- ’€∞Ÿ¡ø-->                      ";
+		str = str + "             <!-- ÊäòÁôæÈáè-->                      ";
 		str = str + "             <weight3>" + zheBai + "</weight3>                      ";
 		str = str + "          </arg0>                      ";
 		str = str + "                                ";
