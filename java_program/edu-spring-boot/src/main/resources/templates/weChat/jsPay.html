@@ -1,0 +1,274 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:text="${appId}"></div>
+
+
+<tbody>
+<tr>
+    <td>公众账号ID
+    <td>appid
+    <td>是
+    <td>String(32)
+    <td>wxd678efh567hg6787
+    <td>微信支付分配的公众账号ID（企业号corpid即为此appId）
+</tr>
+<tr>
+    <td>商户号
+    <td>mch_id
+    <td>是
+    <td>String(32)
+    <td>1230000109
+    <td>微信支付分配的商户号
+</tr>
+<tr>
+    <td>设备号
+    <td>device_info
+    <td>否
+    <td>String(32)
+    <td>013467007045764
+    <td>自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
+</tr>
+<tr>
+    <td>随机字符串
+    <td>nonce_str
+    <td>是
+    <td>String(32)
+    <td>5K8264ILTKCH16CQ2502SI8ZNMTM67VS
+    <td>随机字符串，长度要求在32位以内。推荐<a target="_blank" href="?chapter=4_3">随机数生成算法</a>
+</tr>
+<tr>
+    <td>签名
+    <td>sign
+    <td>是
+    <td>String(32)
+    <td>C380BEC2BFD727A4B6845133519F3AD6
+    <td>通过签名算法计算得出的签名值，详见<a target="_blank" href="?chapter=4_3">签名生成算法</a>
+</tr>
+<tr>
+    <td>签名类型
+    <td>sign_type
+    <td>否
+    <td>String(32)
+    <td>MD5
+    <td>签名类型，默认为MD5，支持HMAC-SHA256和MD5。
+</tr>
+<tr>
+    <td>商品描述
+    <td>body
+    <td>是
+    <td>String(128)
+    <td>腾讯充值中心-QQ会员充值
+    <td><p>商品简单描述，该字段请按照规范传递，具体请见<a target="_blank" href="?chapter=4_2">参数规定</a></p>
+</tr>
+<tr>
+    <td>商品详情
+    <td>detail
+    <td>否
+    <td>String(6000)
+    <td>&nbsp;
+    <td>商品详细描述，对于使用单品优惠的商户，该字段必须按照规范上传，详见<a target="_blank" href="danpin.php?chapter=9_102&amp;index=2">“单品优惠参数说明”</a>
+</tr>
+<tr>
+    <td>附加数据
+    <td>attach
+    <td>否
+    <td>String(127)
+    <td>深圳分店
+    <td>附加数据，在查询API和支付通知中原样返回，可作为自定义参数使用。
+</tr>
+<tr>
+    <td>商户订单号
+    <td>out_trade_no
+    <td>是
+    <td>String(32)
+    <td>20150806125346
+    <td>商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|* 且在同一个商户号下唯一。详见<a target="_blank" href="?chapter=4_2">商户订单号</a>
+</tr>
+<tr>
+    <td>标价币种
+    <td>fee_type
+    <td>否
+    <td>String(16)
+    <td>CNY
+    <td>符合ISO&nbsp;4217标准的三位字母代码，默认人民币：CNY，详细列表请参见<a target="_blank" href="?chapter=4_2">货币类型</a>
+</tr>
+<tr>
+    <td>标价金额
+    <td>total_fee
+    <td>是
+    <td>Int
+    <td>88
+    <td>订单总金额，单位为分，详见<a target="_blank" href="?chapter=4_2">支付金额</a>
+</tr>
+<tr>
+    <td>终端IP
+    <td>spbill_create_ip
+    <td>是
+    <td>String(64)
+    <td>123.12.12.123
+    <td>支持IPV4和IPV6两种格式的IP地址。用户的客户端IP
+</tr>
+<tr>
+    <td>交易起始时间
+    <td>time_start
+    <td>否
+    <td>String(14)
+    <td>20091225091010
+    <td>订单生成时间，格式为yyyyMMddHHmmss，如2009年12月25日9点10分10秒表示为20091225091010。其他详见<a target="_blank"
+                                                                              href="?chapter=4_2">时间规则</a>
+</tr>
+<tr>
+    <td>交易结束时间
+    <td>time_expire
+    <td>否
+    <td>String(14)
+    <td>20091227091010
+    <td><p>
+        订单失效时间，格式为yyyyMMddHHmmss，如2009年12月27日9点10分10秒表示为20091227091010。订单失效时间是针对订单号而言的，由于在请求支付的时候有一个必传参数prepay_id只有两小时的有效期，所以在重入时间超过2小时的时候需要重新请求下单接口获取新的prepay_id。其他详见<a
+            target="_blank" href="?chapter=4_2">时间规则</a></p>
+        <p><font color="#FF0000">建议：最短失效时间间隔大于1分钟</font></p>
+</tr>
+<tr>
+    <td>订单优惠标记
+    <td>goods_tag
+    <td>否
+    <td>String(32)
+    <td>WXG
+    <td>订单优惠标记，使用代金券或立减优惠功能时需要的参数，说明详见<a target="_blank" href="tools/sp_coupon.php?chapter=12_1">代金券或立减优惠</a>
+</tr>
+<tr>
+    <td>通知地址
+    <td>notify_url
+    <td>是
+    <td>String(256)
+    <td>http://www.weixin.qq.com/wxpay/pay.php
+    <td>异步接收微信支付结果通知的回调地址，通知url必须为外网可访问的url，不能携带参数。
+</tr>
+<tr>
+    <td>交易类型
+    <td>trade_type
+    <td>是
+    <td>String(16)
+    <td>JSAPI
+    <td><p>JSAPI -JSAPI支付</p>
+        <p>NATIVE -Native支付</p>
+        <p>APP -APP支付</p>
+        <p>说明详见<a target="_blank" href="?chapter=4_2">参数规定</a></p>
+</tr>
+<tr>
+    <td>商品ID
+    <td>product_id
+    <td>否
+    <td>String(32)
+    <td>12235413214070356458058
+    <td>trade_type=NATIVE时，此参数必传。此参数为二维码中包含的商品ID，商户自行定义。
+</tr>
+<tr>
+    <td>指定支付方式
+    <td>limit_pay
+    <td>否
+    <td>String(32)
+    <td>no_credit
+    <td>上传此参数no_credit--可限制用户不能使用信用卡支付
+</tr>
+<tr>
+    <td>用户标识
+    <td>openid
+    <td>否
+    <td>String(128)
+    <td>oUpF8uMuAJO_M2pxb1Q9zNjWeS6o
+    <td>trade_type=JSAPI时（即JSAPI支付），此参数必传，此参数为微信用户在商户对应appid下的唯一标识。openid如何获取，可参考【<a target="_blank"
+                                                                                     href="?chapter=4_4">获取openid</a>】。企业号请使用【<a
+            target="_blank"
+            href="http://qydev.weixin.qq.com/wiki/index.php?title=OAuth%E9%AA%8C%E8%AF%81%E6%8E%A5%E5%8F%A3">企业号OAuth2.0接口</a>】获取企业号内成员userid，再调用【<a
+            target="_blank"
+            href="http://qydev.weixin.qq.com/wiki/index.php?title=Userid%E4%B8%8Eopenid%E4%BA%92%E6%8D%A2%E6%8E%A5%E5%8F%A3">企业号userid转openid接口</a>】进行转换
+</tr>
+<tr>
+    <td>电子发票入口开放标识
+    <td>receipt
+    <td>否
+    <td>String(8)
+    <td>Y
+    <td>Y，传入Y时，支付成功消息和支付详情页将出现开票入口。需要在微信支付商户平台或微信公众平台开通电子发票功能，传此字段才可生效
+</tr>
+<tr class="a">
+    <td class="add"><span class="a">+</span>场景信息
+    <td>scene_info
+    <td>否
+    <td>String(256)
+    <td><p>{"store_info" : {<br>"id": "SZTX001",<br>"name": "腾大餐厅",<br>"area_code": "440305",<br>"address": "科技园中一路腾讯大厦"
+        }}</p>
+    <td><p>该字段常用于线下活动时的场景信息上报，支持上报实际门店信息，商户也可以按需求自己上报相关信息。该字段为JSON对象数据，对象格式为{"store_info":{"id": "门店ID","name":
+        "名称","area_code": "编码","address": "地址" }} ，字段详细说明请点击行前的+展开</p>
+</tr>
+<tr class="a1 two" style="display: none;">
+    <td>-门店id
+    <td>id
+    <td>否
+    <td>String(32)
+    <td>SZTX001
+    <td>门店编号，由商户自定义
+</tr>
+<tr class="a1 two" style="display: none;">
+    <td>-门店名称
+    <td>name
+    <td>否
+    <td>String(64)
+    <td>腾讯大厦腾大餐厅
+    <td>门店名称 ，由商户自定义
+</tr>
+<tr class="a1 two" style="display: none;">
+    <td>-门店行政区划码
+    <td>area_code
+    <td>否
+    <td>String(6)
+    <td>440305
+    <td>门店所在地行政区划码，详细见<a href="./download/store_adress.csv">《最新县及县以上行政区划代码》</a>
+</tr>
+<tr class="a1 two" style="display: none;">
+    <td>-门店详细地址
+    <td>address
+    <td>否
+    <td>String(128)
+    <td>科技园中一路腾讯大厦
+    <td>门店详细地址 ，由商户自定义
+</tr>
+</tbody>
+
+<script>
+    function onBridgeReady() {
+        alert("Run onBridgeReady");
+        WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+                "appId": "wx2421b1c4370ec43b",     //公众号名称，由商户传入
+                "timeStamp": "1395712654",         //时间戳，自1970年以来的秒数
+                "nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串
+                "package": "prepay_id=u802345jgfjsdfgsdg888",
+                "signType": "MD5",         //微信签名方式：
+                "paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名
+            },
+            function (res) {
+                for (var tmp in res) {
+                    alert(tmp + "_____________" + res[tmp]);
+
+                }
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    // 使用以上方式判断前端返回,微信团队郑重提示：
+                    //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                }
+            });
+    }
+
+    if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+    } else {
+        onBridgeReady();
+    }
+</script>
+</body>
