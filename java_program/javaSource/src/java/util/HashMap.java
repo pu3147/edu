@@ -407,6 +407,8 @@ public class HashMap<K, V> extends AbstractMap<K, V>
      * (We also tolerate length zero in some operations to allow
      * bootstrapping mechanics that are currently not needed.)
      */
+
+    //用transient关键字标记的成员变量不参与序列化过程
     transient Node<K, V>[] table;
 
     /**
@@ -645,8 +647,10 @@ public class HashMap<K, V> extends AbstractMap<K, V>
         int n, i;
         if ((tab = table) == null || (n = tab.length) == 0)
             n = (tab = resize()).length;
+
         if ((p = tab[i = (n - 1) & hash]) == null)
             tab[i] = newNode(hash, key, value, null);
+
         else {
             Node<K, V> e;
             K k;
