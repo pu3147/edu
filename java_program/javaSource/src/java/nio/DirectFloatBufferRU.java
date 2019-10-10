@@ -28,6 +28,7 @@
 package java.nio;
 
 import java.io.FileDescriptor;
+
 import sun.misc.Cleaner;
 import sun.misc.Unsafe;
 import sun.misc.VM;
@@ -37,166 +38,16 @@ import sun.nio.ch.DirectBuffer;
 class DirectFloatBufferRU
 
 
+        extends DirectFloatBufferU
 
-    extends DirectFloatBufferU
-
-    implements DirectBuffer
-{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        implements DirectBuffer {
 
 
     // For duplicates and slices
     //
     DirectFloatBufferRU(DirectBuffer db,         // package-private
-                               int mark, int pos, int lim, int cap,
-                               int off)
-    {
-
-
-
-
-
-
+                        int mark, int pos, int lim, int cap,
+                        int off) {
 
 
         super(db, mark, pos, lim, cap, off);
@@ -215,20 +66,14 @@ class DirectFloatBufferRU
 
     public FloatBuffer duplicate() {
         return new DirectFloatBufferRU(this,
-                                              this.markValue(),
-                                              this.position(),
-                                              this.limit(),
-                                              this.capacity(),
-                                              0);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                0);
     }
 
     public FloatBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -236,65 +81,7 @@ class DirectFloatBufferRU
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public FloatBuffer put(float x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -304,47 +91,11 @@ class DirectFloatBufferRU
     public FloatBuffer put(int i, float x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public FloatBuffer put(FloatBuffer src) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -354,43 +105,11 @@ class DirectFloatBufferRU
     public FloatBuffer put(float[] src, int offset, int length) {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public FloatBuffer compact() {
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -406,85 +125,13 @@ class DirectFloatBufferRU
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
-
 
 
         return ((ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN)
                 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

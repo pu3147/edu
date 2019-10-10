@@ -27,6 +27,7 @@ package java.security;
 
 import java.net.URI;
 import java.util.*;
+
 import static java.security.KeyStore.*;
 
 /**
@@ -101,41 +102,40 @@ import static java.security.KeyStore.*;
  * };
  *
  * </pre>
+ *
  * @since 1.8
  */
 public final class DomainLoadStoreParameter implements LoadStoreParameter {
 
     private final URI configuration;
-    private final Map<String,ProtectionParameter> protectionParams;
+    private final Map<String, ProtectionParameter> protectionParams;
 
     /**
      * Constructs a DomainLoadStoreParameter for a keystore domain with
      * the parameters used to protect keystore data.
      *
-     * @param configuration identifier for the domain configuration data.
-     *     The name of the target domain should be specified in the
-     *     {@code java.net.URI} fragment component when it is necessary
-     *     to distinguish between several domain configurations at the
-     *     same location.
-     *
+     * @param configuration    identifier for the domain configuration data.
+     *                         The name of the target domain should be specified in the
+     *                         {@code java.net.URI} fragment component when it is necessary
+     *                         to distinguish between several domain configurations at the
+     *                         same location.
      * @param protectionParams the map from keystore name to the parameter
-     *     used to protect keystore data.
-     *     A {@code java.util.Collections.EMPTY_MAP} should be used
-     *     when protection parameters are not required or when they have
-     *     been specified by properties in the domain configuration data.
-     *     It is cloned to prevent subsequent modification.
-     *
-     * @exception NullPointerException if {@code configuration} or
-     *     {@code protectionParams} is {@code null}
+     *                         used to protect keystore data.
+     *                         A {@code java.util.Collections.EMPTY_MAP} should be used
+     *                         when protection parameters are not required or when they have
+     *                         been specified by properties in the domain configuration data.
+     *                         It is cloned to prevent subsequent modification.
+     * @throws NullPointerException if {@code configuration} or
+     *                              {@code protectionParams} is {@code null}
      */
     public DomainLoadStoreParameter(URI configuration,
-        Map<String,ProtectionParameter> protectionParams) {
+                                    Map<String, ProtectionParameter> protectionParams) {
         if (configuration == null || protectionParams == null) {
             throw new NullPointerException("invalid null input");
         }
         this.configuration = configuration;
         this.protectionParams =
-            Collections.unmodifiableMap(new HashMap<>(protectionParams));
+                Collections.unmodifiableMap(new HashMap<>(protectionParams));
     }
 
     /**
@@ -152,9 +152,9 @@ public final class DomainLoadStoreParameter implements LoadStoreParameter {
      * domain.
      *
      * @return an unmodifiable map of keystore names to protection
-     *     parameters
+     * parameters
      */
-    public Map<String,ProtectionParameter> getProtectionParams() {
+    public Map<String, ProtectionParameter> getProtectionParams() {
         return protectionParams;
     }
 

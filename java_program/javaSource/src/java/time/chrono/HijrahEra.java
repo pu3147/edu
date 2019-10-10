@@ -78,9 +78,7 @@ import java.time.temporal.ValueRange;
  * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code HijrahEra}.
  * Use {@code getValue()} instead.</b>
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
- *
+ * @implSpec This is an immutable and thread-safe enum.
  * @since 1.8
  */
 public enum HijrahEra implements Era {
@@ -92,17 +90,18 @@ public enum HijrahEra implements Era {
     AH;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code HijrahEra} from an {@code int} value.
      * <p>
      * The current era, which is the only accepted value, has the value 1
      *
-     * @param hijrahEra  the era to represent, only 1 supported
+     * @param hijrahEra the era to represent, only 1 supported
      * @return the HijrahEra.AH singleton, not null
      * @throws DateTimeException if the value is invalid
      */
     public static HijrahEra of(int hijrahEra) {
-        if (hijrahEra == 1 ) {
+        if (hijrahEra == 1) {
             return AH;
         } else {
             throw new DateTimeException("Invalid era: " + hijrahEra);
@@ -110,6 +109,7 @@ public enum HijrahEra implements Era {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the numeric era {@code int} value.
      * <p>
@@ -123,6 +123,7 @@ public enum HijrahEra implements Era {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the range of valid values for the specified field.
      * <p>
@@ -142,9 +143,9 @@ public enum HijrahEra implements Era {
      * <p>
      * The {@code ERA} field returns a range for the one valid Hijrah era.
      *
-     * @param field  the field to query the range for, not null
+     * @param field the field to query the range for, not null
      * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
+     * @throws DateTimeException                if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
     @Override  // override as super would return range from 0 to 1

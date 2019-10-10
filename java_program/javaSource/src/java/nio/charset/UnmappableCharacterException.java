@@ -35,8 +35,7 @@ package java.nio.charset;
  */
 
 public class UnmappableCharacterException
-    extends CharacterCodingException
-{
+        extends CharacterCodingException {
 
     private static final long serialVersionUID = -7026962371537706123L;
 
@@ -45,6 +44,7 @@ public class UnmappableCharacterException
     /**
      * Constructs an {@code UnmappableCharacterException} with the
      * given length.
+     *
      * @param inputLength the length of the input
      */
     public UnmappableCharacterException(int inputLength) {
@@ -53,6 +53,7 @@ public class UnmappableCharacterException
 
     /**
      * Returns the length of the input.
+     *
      * @return the length of the input
      */
     public int getInputLength() {
@@ -61,6 +62,7 @@ public class UnmappableCharacterException
 
     /**
      * Returns the message.
+     *
      * @return the message
      */
     public String getMessage() {

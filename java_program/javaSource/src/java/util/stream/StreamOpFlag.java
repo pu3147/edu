@@ -173,19 +173,19 @@ import java.util.Spliterator;
  * flags can be calculated, using {@link #combineOpFlags(int, int)}.  Such flags
  * ensure that preservation, clearing and injecting information is retained at
  * each stage.
- *
+ * <p>
  * The combined stream and operation flags for the source stage of the pipeline
  * is calculated as follows:
  * <pre> {@code
  *     int flagsForSourceStage = combineOpFlags(sourceFlags, INITIAL_OPS_VALUE);
  * }</pre>
- *
+ * <p>
  * The combined stream and operation flags of each subsequent intermediate
  * operation stage in the pipeline is calculated as follows:
  * <pre> {@code
  *     int flagsForThisStage = combineOpFlags(flagsForPreviousStage, thisOpFlags);
  * }</pre>
- *
+ * <p>
  * Finally the flags output from the last intermediate operation of the pipeline
  * are combined with the operation flags of the terminal operation to produce
  * the flags output from the pipeline.
@@ -196,7 +196,7 @@ import java.util.Spliterator;
  * pre-allocate data structures and combined with
  * {@link java.util.Spliterator#SUBSIZED} that information can be utilized to
  * perform concurrent in-place updates into a shared array.
- *
+ * <p>
  * For specific details see the {@link AbstractPipeline} constructors.
  *
  * @since 1.8
@@ -245,7 +245,7 @@ enum StreamOpFlag {
     // 0, 0x00000001
     // Matches Spliterator.DISTINCT
     DISTINCT(0,
-             set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP)),
+            set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP)),
 
     /**
      * Characteristic value signifying that encounter order follows a natural
@@ -266,7 +266,7 @@ enum StreamOpFlag {
     // 1, 0x00000004
     // Matches Spliterator.SORTED
     SORTED(1,
-           set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP)),
+            set(Type.SPLITERATOR).set(Type.STREAM).setAndClear(Type.OP)),
 
     /**
      * Characteristic value signifying that an encounter order is
@@ -294,7 +294,7 @@ enum StreamOpFlag {
     // 3, 0x00000040
     // Matches Spliterator.SIZED
     SIZED(3,
-          set(Type.SPLITERATOR).set(Type.STREAM).clear(Type.OP)),
+            set(Type.SPLITERATOR).set(Type.STREAM).clear(Type.OP)),
 
     // The following Spliterator characteristics are not currently used but a
     // gap in the bit set is deliberately retained to enable corresponding
@@ -325,7 +325,7 @@ enum StreamOpFlag {
      */
     // 12, 0x01000000
     SHORT_CIRCUIT(12,
-                  set(Type.OP).set(Type.TERMINAL_OP));
+            set(Type.OP).set(Type.TERMINAL_OP));
 
     // The following 2 flags are currently undefined and a free for any further
     // stream flags if/when required
@@ -484,7 +484,7 @@ enum StreamOpFlag {
      * and injected on combined stream and operation flags.
      *
      * @param flags the stream flags, operation flags, or combined stream and
-     *        operation flags
+     *              operation flags
      * @return true if this flag is known, otherwise false.
      */
     boolean isKnown(int flags) {
@@ -631,8 +631,8 @@ enum StreamOpFlag {
 
     private static int getMask(int flags) {
         return (flags == 0)
-               ? FLAG_MASK
-               : ~(flags | ((FLAG_MASK_IS & flags) << 1) | ((FLAG_MASK_NOT & flags) >> 1));
+                ? FLAG_MASK
+                : ~(flags | ((FLAG_MASK_IS & flags) << 1) | ((FLAG_MASK_NOT & flags) >> 1));
     }
 
     /**
@@ -679,8 +679,8 @@ enum StreamOpFlag {
      * will be preserved on the updated combined stream and operation flags.
      *
      * @param newStreamOrOpFlags the stream or operation flags.
-     * @param prevCombOpFlags previously combined stream and operation flags.
-     *        The value {#link INITIAL_OPS_VALUE} must be used as the seed value.
+     * @param prevCombOpFlags    previously combined stream and operation flags.
+     *                           The value {#link INITIAL_OPS_VALUE} must be used as the seed value.
      * @return the updated combined stream and operation flags.
      */
     static int combineOpFlags(int newStreamOrOpFlags, int prevCombOpFlags) {
@@ -719,15 +719,13 @@ enum StreamOpFlag {
     /**
      * Converts a spliterator characteristic bit set to stream flags.
      *
-     * @implSpec
-     * If the spliterator is naturally {@code SORTED} (the associated
+     * @param spliterator the spliterator from which to obtain characteristic
+     *                    bit set.
+     * @return the stream flags.
+     * @implSpec If the spliterator is naturally {@code SORTED} (the associated
      * {@code Comparator} is {@code null}) then the characteristic is converted
      * to the {@link #SORTED} flag, otherwise the characteristic is not
      * converted.
-     *
-     * @param spliterator the spliterator from which to obtain characteristic
-     *        bit set.
-     * @return the stream flags.
      */
     static int fromCharacteristics(Spliterator<?> spliterator) {
         int characteristics = spliterator.characteristics();
@@ -735,8 +733,7 @@ enum StreamOpFlag {
             // Do not propagate the SORTED characteristic if it does not correspond
             // to a natural sort order
             return characteristics & SPLITERATOR_CHARACTERISTICS_MASK & ~Spliterator.SORTED;
-        }
-        else {
+        } else {
             return characteristics & SPLITERATOR_CHARACTERISTICS_MASK;
         }
     }

@@ -28,12 +28,12 @@ package java.util.prefs;
  * Implementation of  <tt>PreferencesFactory</tt> to return
  * WindowsPreferences objects.
  *
- * @author  Konstantin Kladko
+ * @author Konstantin Kladko
  * @see Preferences
  * @see WindowsPreferences
  * @since 1.4
  */
-class WindowsPreferencesFactory implements PreferencesFactory  {
+class WindowsPreferencesFactory implements PreferencesFactory {
 
     /**
      * Returns WindowsPreferences.userRoot

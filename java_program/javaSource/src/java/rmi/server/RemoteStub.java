@@ -32,9 +32,8 @@ package java.rmi.server;
  * exactly the same set of remote interfaces defined by the actual
  * implementation of the remote object.
  *
- * @author  Ann Wollrath
- * @since   JDK1.1
- *
+ * @author Ann Wollrath
+ * @since JDK1.1
  * @deprecated Statically generated stubs are deprecated, since
  * stubs are generated dynamically. See {@link UnicastRemoteObject}
  * for information about dynamic stub generation.
@@ -42,7 +41,9 @@ package java.rmi.server;
 @Deprecated
 abstract public class RemoteStub extends RemoteObject {
 
-    /** indicate compatibility with JDK 1.1.x version of class */
+    /**
+     * indicate compatibility with JDK 1.1.x version of class
+     */
     private static final long serialVersionUID = -1585587260594494182L;
 
     /**
@@ -67,7 +68,7 @@ abstract public class RemoteStub extends RemoteObject {
      * Throws {@link UnsupportedOperationException}.
      *
      * @param stub the remote stub
-     * @param ref the remote reference
+     * @param ref  the remote reference
      * @throws UnsupportedOperationException always
      * @since JDK1.1
      * @deprecated No replacement.  The {@code setRef} method

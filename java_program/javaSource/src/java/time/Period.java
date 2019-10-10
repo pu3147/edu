@@ -127,9 +127,7 @@ import java.util.regex.Pattern;
  * {@code Period} may have unpredictable results and should be avoided.
  * The {@code equals} method should be used for comparisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class Period
@@ -169,13 +167,14 @@ public final class Period
     private final int days;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains a {@code Period} representing a number of years.
      * <p>
      * The resulting period will have the specified years.
      * The months and days units will be zero.
      *
-     * @param years  the number of years, positive or negative
+     * @param years the number of years, positive or negative
      * @return the period of years, not null
      */
     public static Period ofYears(int years) {
@@ -188,7 +187,7 @@ public final class Period
      * The resulting period will have the specified months.
      * The years and days units will be zero.
      *
-     * @param months  the number of months, positive or negative
+     * @param months the number of months, positive or negative
      * @return the period of months, not null
      */
     public static Period ofMonths(int months) {
@@ -202,7 +201,7 @@ public final class Period
      * equal to the number of weeks multiplied by 7.
      * The years and months units will be zero.
      *
-     * @param weeks  the number of weeks, positive or negative
+     * @param weeks the number of weeks, positive or negative
      * @return the period, with the input weeks converted to days, not null
      */
     public static Period ofWeeks(int weeks) {
@@ -215,7 +214,7 @@ public final class Period
      * The resulting period will have the specified days.
      * The years and months units will be zero.
      *
-     * @param days  the number of days, positive or negative
+     * @param days the number of days, positive or negative
      * @return the period of days, not null
      */
     public static Period ofDays(int days) {
@@ -223,14 +222,15 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains a {@code Period} representing a number of years, months and days.
      * <p>
      * This creates an instance based on years, months and days.
      *
      * @param years  the amount of years, may be negative
-     * @param months  the amount of months, may be negative
-     * @param days  the amount of days, may be negative
+     * @param months the amount of months, may be negative
+     * @param days   the amount of days, may be negative
      * @return the period of years, months and days, not null
      */
     public static Period of(int years, int months, int days) {
@@ -238,6 +238,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code Period} from a temporal amount.
      * <p>
@@ -252,9 +253,9 @@ public final class Period
      * <p>
      * If the amount is a {@code ChronoPeriod} then it must use the ISO chronology.
      *
-     * @param amount  the temporal amount to convert, not null
+     * @param amount the temporal amount to convert, not null
      * @return the equivalent period, not null
-     * @throws DateTimeException if unable to convert to a {@code Period}
+     * @throws DateTimeException   if unable to convert to a {@code Period}
      * @throws ArithmeticException if the amount of years, months or days exceeds an int
      */
     public static Period from(TemporalAmount amount) {
@@ -286,6 +287,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains a {@code Period} from a text string such as {@code PnYnMnD}.
      * <p>
@@ -321,7 +323,7 @@ public final class Period
      *   "-P1Y2M"          -- Period.of(-1, -2, 0)
      * </pre>
      *
-     * @param text  the text to parse, not null
+     * @param text the text to parse, not null
      * @return the parsed period, not null
      * @throws DateTimeParseException if the text cannot be parsed to a period
      */
@@ -363,6 +365,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains a {@code Period} consisting of the number of years, months,
      * and days between two dates.
@@ -377,8 +380,8 @@ public final class Period
      * The result of this method can be a negative period if the end is before the start.
      * The negative sign will be the same in each of year, month and day.
      *
-     * @param startDateInclusive  the start date, inclusive, not null
-     * @param endDateExclusive  the end date, exclusive, not null
+     * @param startDateInclusive the start date, inclusive, not null
+     * @param endDateExclusive   the end date, exclusive, not null
      * @return the period between this date and the end date, not null
      * @see ChronoLocalDate#until(ChronoLocalDate)
      */
@@ -387,12 +390,13 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Creates an instance.
      *
      * @param years  the amount
-     * @param months  the amount
-     * @param days  the amount
+     * @param months the amount
+     * @param days   the amount
      */
     private static Period create(int years, int months, int days) {
         if ((years | months | days) == 0) {
@@ -405,8 +409,8 @@ public final class Period
      * Constructor.
      *
      * @param years  the amount
-     * @param months  the amount
-     * @param days  the amount
+     * @param months the amount
+     * @param days   the amount
      */
     private Period(int years, int months, int days) {
         this.years = years;
@@ -415,6 +419,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the value of the requested unit.
      * <p>
@@ -425,7 +430,7 @@ public final class Period
      *
      * @param unit the {@code TemporalUnit} for which to return the value
      * @return the long value of the unit
-     * @throws DateTimeException if the unit is not supported
+     * @throws DateTimeException                if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
     @Override
@@ -474,6 +479,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if all three units of this period are zero.
      * <p>
@@ -497,6 +503,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the amount of years of this period.
      * <p>
@@ -539,6 +546,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this period with the specified amount of years.
      * <p>
@@ -551,7 +559,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param years  the years to represent, may be negative
+     * @param years the years to represent, may be negative
      * @return a {@code Period} based on this period with the requested years, not null
      */
     public Period withYears(int years) {
@@ -573,7 +581,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param months  the months to represent, may be negative
+     * @param months the months to represent, may be negative
      * @return a {@code Period} based on this period with the requested months, not null
      */
     public Period withMonths(int months) {
@@ -591,7 +599,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param days  the days to represent, may be negative
+     * @param days the days to represent, may be negative
      * @return a {@code Period} based on this period with the requested days, not null
      */
     public Period withDays(int days) {
@@ -602,6 +610,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this period with the specified period added.
      * <p>
@@ -616,10 +625,10 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param amountToAdd  the period to add, not null
+     * @param amountToAdd the period to add, not null
      * @return a {@code Period} based on this period with the requested period added, not null
-     * @throws DateTimeException if the specified amount has a non-ISO chronology or
-     *  contains an invalid unit
+     * @throws DateTimeException   if the specified amount has a non-ISO chronology or
+     *                             contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Period plus(TemporalAmount amountToAdd) {
@@ -639,7 +648,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param yearsToAdd  the years to add, positive or negative
+     * @param yearsToAdd the years to add, positive or negative
      * @return a {@code Period} based on this period with the specified years added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -659,7 +668,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param monthsToAdd  the months to add, positive or negative
+     * @param monthsToAdd the months to add, positive or negative
      * @return a {@code Period} based on this period with the specified months added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -679,7 +688,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param daysToAdd  the days to add, positive or negative
+     * @param daysToAdd the days to add, positive or negative
      * @return a {@code Period} based on this period with the specified days added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -691,6 +700,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this period with the specified period subtracted.
      * <p>
@@ -705,10 +715,10 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param amountToSubtract  the period to subtract, not null
+     * @param amountToSubtract the period to subtract, not null
      * @return a {@code Period} based on this period with the requested period subtracted, not null
-     * @throws DateTimeException if the specified amount has a non-ISO chronology or
-     *  contains an invalid unit
+     * @throws DateTimeException   if the specified amount has a non-ISO chronology or
+     *                             contains an invalid unit
      * @throws ArithmeticException if numeric overflow occurs
      */
     public Period minus(TemporalAmount amountToSubtract) {
@@ -728,7 +738,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param yearsToSubtract  the years to subtract, positive or negative
+     * @param yearsToSubtract the years to subtract, positive or negative
      * @return a {@code Period} based on this period with the specified years subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -745,7 +755,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param monthsToSubtract  the years to subtract, positive or negative
+     * @param monthsToSubtract the years to subtract, positive or negative
      * @return a {@code Period} based on this period with the specified months subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -762,7 +772,7 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param daysToSubtract  the months to subtract, positive or negative
+     * @param daysToSubtract the months to subtract, positive or negative
      * @return a {@code Period} based on this period with the specified days subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -771,6 +781,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a new instance with each element in this period multiplied
      * by the specified scalar.
@@ -781,7 +792,7 @@ public final class Period
      * 3 will return "6 years, -9 months and 12 days".
      * No normalization is performed.
      *
-     * @param scalar  the scalar to multiply by, not null
+     * @param scalar the scalar to multiply by, not null
      * @return a {@code Period} based on this period with the amounts multiplied by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -806,13 +817,14 @@ public final class Period
      *
      * @return a {@code Period} based on this period with the amounts negated, not null
      * @throws ArithmeticException if numeric overflow occurs, which only happens if
-     *  one of the units has the value {@code Long.MIN_VALUE}
+     *                             one of the units has the value {@code Long.MIN_VALUE}
      */
     public Period negated() {
         return multipliedBy(-1);
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this period with the years and months normalized.
      * <p>
@@ -855,6 +867,7 @@ public final class Period
     }
 
     //-------------------------------------------------------------------------
+
     /**
      * Adds this period to the specified temporal object.
      * <p>
@@ -884,9 +897,9 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the temporal object to adjust, not null
+     * @param temporal the temporal object to adjust, not null
      * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to add
+     * @throws DateTimeException   if unable to add
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
@@ -937,9 +950,9 @@ public final class Period
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the temporal object to adjust, not null
+     * @param temporal the temporal object to adjust, not null
      * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to subtract
+     * @throws DateTimeException   if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
@@ -973,6 +986,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this period is equal to another period.
      * <p>
@@ -981,7 +995,7 @@ public final class Period
      * Note that this means that a period of "15 Months" is not equal to a period
      * of "1 Year and 3 Months".
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other period
      */
     @Override
@@ -1009,6 +1023,7 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Outputs this period as a {@code String}, such as {@code P6Y3M1D}.
      * <p>
@@ -1038,18 +1053,18 @@ public final class Period
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Writes the object using a
      * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
+     *
+     * @return the instance of {@code Ser}, not null
+     * @serialData <pre>
      *  out.writeByte(14);  // identifies a Period
      *  out.writeInt(years);
      *  out.writeInt(months);
      *  out.writeInt(days);
      * </pre>
-     *
-     * @return the instance of {@code Ser}, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.PERIOD_TYPE, this);

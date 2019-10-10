@@ -113,15 +113,13 @@ import sun.util.logging.PlatformLogger;
  * <p>
  * See {@link Chronology} for more details.
  *
- * @implSpec
- * This class is separated from the {@code Chronology} interface so that the static methods
+ * @implSpec This class is separated from the {@code Chronology} interface so that the static methods
  * are not inherited. While {@code Chronology} can be implemented directly, it is strongly
  * recommended to extend this abstract class instead.
  * <p>
  * This class must be implemented with care to ensure other classes operate correctly.
  * All implementations that can be instantiated must be final, immutable and thread-safe.
  * Subclasses should be Serializable wherever possible.
- *
  * @since 1.8
  */
 public abstract class AbstractChronology implements Chronology {
@@ -130,20 +128,20 @@ public abstract class AbstractChronology implements Chronology {
      * ChronoLocalDate order constant.
      */
     static final Comparator<ChronoLocalDate> DATE_ORDER =
-        (Comparator<ChronoLocalDate> & Serializable) (date1, date2) -> {
-            return Long.compare(date1.toEpochDay(), date2.toEpochDay());
-        };
+            (Comparator<ChronoLocalDate> & Serializable) (date1, date2) -> {
+                return Long.compare(date1.toEpochDay(), date2.toEpochDay());
+            };
     /**
      * ChronoLocalDateTime order constant.
      */
     static final Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> DATE_TIME_ORDER =
-        (Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> & Serializable) (dateTime1, dateTime2) -> {
-            int cmp = Long.compare(dateTime1.toLocalDate().toEpochDay(), dateTime2.toLocalDate().toEpochDay());
-            if (cmp == 0) {
-                cmp = Long.compare(dateTime1.toLocalTime().toNanoOfDay(), dateTime2.toLocalTime().toNanoOfDay());
-            }
-            return cmp;
-        };
+            (Comparator<ChronoLocalDateTime<? extends ChronoLocalDate>> & Serializable) (dateTime1, dateTime2) -> {
+                int cmp = Long.compare(dateTime1.toLocalDate().toEpochDay(), dateTime2.toLocalDate().toEpochDay());
+                if (cmp == 0) {
+                    cmp = Long.compare(dateTime1.toLocalTime().toNanoOfDay(), dateTime2.toLocalTime().toNanoOfDay());
+                }
+                return cmp;
+            };
     /**
      * ChronoZonedDateTime order constant.
      */
@@ -183,7 +181,7 @@ public abstract class AbstractChronology implements Chronology {
      * Specifically, not in the constructor of Chronology.
      *
      * @param chrono the chronology to register; not null
-     * @param id the ID to register the chronology; not null
+     * @param id     the ID to register the chronology; not null
      * @return the already registered Chronology if any, may be null
      */
     static Chronology registerChrono(Chronology chrono, String id) {
@@ -210,6 +208,7 @@ public abstract class AbstractChronology implements Chronology {
      * Multiple threads may perform the initialization concurrently.
      * Only the first registration of each Chronology is retained by the
      * ConcurrentHashMap.
+     *
      * @return true if the cache was initialized
      */
     private static boolean initCache() {
@@ -224,13 +223,13 @@ public abstract class AbstractChronology implements Chronology {
 
             // Register Chronologies from the ServiceLoader
             @SuppressWarnings("rawtypes")
-            ServiceLoader<AbstractChronology> loader =  ServiceLoader.load(AbstractChronology.class, null);
+            ServiceLoader<AbstractChronology> loader = ServiceLoader.load(AbstractChronology.class, null);
             for (AbstractChronology chrono : loader) {
                 String id = chrono.getId();
                 if (id.equals("ISO") || registerChrono(chrono) != null) {
                     // Log the attempt to replace an existing Chronology
                     PlatformLogger logger = PlatformLogger.getLogger("java.time.chrono");
-                    logger.warning("Ignoring duplicate Chronology, from ServiceLoader configuration "  + id);
+                    logger.warning("Ignoring duplicate Chronology, from ServiceLoader configuration " + id);
                 }
             }
 
@@ -242,12 +241,13 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code Chronology} from a locale.
      * <p>
      * See {@link Chronology#ofLocale(Locale)}.
      *
-     * @param locale  the locale to use to obtain the calendar system, not null
+     * @param locale the locale to use to obtain the calendar system, not null
      * @return the calendar system associated with the locale, not null
      * @throws java.time.DateTimeException if the locale-specified calendar cannot be found
      */
@@ -279,13 +279,14 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code Chronology} from a chronology ID or
      * calendar system type.
      * <p>
      * See {@link Chronology#of(String)}.
      *
-     * @param id  the chronology ID or calendar system type, not null
+     * @param id the chronology ID or calendar system type, not null
      * @return the chronology with the identifier requested, not null
      * @throws java.time.DateTimeException if the chronology cannot be found
      */
@@ -315,7 +316,7 @@ public abstract class AbstractChronology implements Chronology {
      * Obtains an instance of {@code Chronology} from a chronology ID or
      * calendar system type.
      *
-     * @param id  the chronology ID or calendar system type, not null
+     * @param id the chronology ID or calendar system type, not null
      * @return the chronology with the identifier requested, or {@code null} if not found
      */
     private static Chronology of0(String id) {
@@ -350,6 +351,7 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Creates an instance.
      */
@@ -357,6 +359,7 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Resolves parsed {@code ChronoField} values into a date during parsing.
      * <p>
@@ -443,11 +446,11 @@ public abstract class AbstractChronology implements Chronology {
      * has the value 1, that first day-of-year has the value 1, and that the
      * first of the month and year always exists.
      *
-     * @param fieldValues  the map of fields to values, which can be updated, not null
-     * @param resolverStyle  the requested type of resolve, not null
+     * @param fieldValues   the map of fields to values, which can be updated, not null
+     * @param resolverStyle the requested type of resolve, not null
      * @return the resolved date, null if insufficient information to create a date
      * @throws java.time.DateTimeException if the date cannot be resolved, typically
-     *  because of a conflict in the input data
+     *                                     because of a conflict in the input data
      */
     @Override
     public ChronoLocalDate resolveDate(Map<TemporalField, Long> fieldValues, ResolverStyle resolverStyle) {
@@ -652,7 +655,7 @@ public abstract class AbstractChronology implements Chronology {
             date = date.plus((dow - 1) / 7, WEEKS);
             dow = ((dow - 1) % 7) + 1;
         } else if (dow < 1) {
-            date = date.plus(Math.subtractExact(dow,  7) / 7, WEEKS);
+            date = date.plus(Math.subtractExact(dow, 7) / 7, WEEKS);
             dow = ((dow + 6) % 7) + 1;
         }
         return date.with(nextOrSame(DayOfWeek.of((int) dow)));
@@ -666,8 +669,8 @@ public abstract class AbstractChronology implements Chronology {
      * If the field is already present and it has a different value to that specified, then
      * an exception is thrown.
      *
-     * @param field  the field to add, not null
-     * @param value  the value to add, not null
+     * @param field the field to add, not null
+     * @param value the value to add, not null
      * @throws java.time.DateTimeException if the field is already present with a different value
      */
     void addFieldValue(Map<TemporalField, Long> fieldValues, ChronoField field, long value) {
@@ -679,6 +682,7 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Compares this chronology to another chronology.
      * <p>
@@ -686,12 +690,10 @@ public abstract class AbstractChronology implements Chronology {
      * additional information specific to the subclass.
      * It is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @implSpec
-     * This implementation compares the chronology ID.
-     * Subclasses must compare any additional state that they store.
-     *
-     * @param other  the other chronology to compare to, not null
+     * @param other the other chronology to compare to, not null
      * @return the comparator value, negative if less, positive if greater
+     * @implSpec This implementation compares the chronology ID.
+     * Subclasses must compare any additional state that they store.
      */
     @Override
     public int compareTo(Chronology other) {
@@ -703,17 +705,15 @@ public abstract class AbstractChronology implements Chronology {
      * <p>
      * The comparison is based on the entire state of the object.
      *
-     * @implSpec
-     * This implementation checks the type and calls
-     * {@link #compareTo(java.time.chrono.Chronology)}.
-     *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other chronology
+     * @implSpec This implementation checks the type and calls
+     * {@link #compareTo(java.time.chrono.Chronology)}.
      */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
-           return true;
+            return true;
         }
         if (obj instanceof AbstractChronology) {
             return compareTo((AbstractChronology) obj) == 0;
@@ -726,11 +726,9 @@ public abstract class AbstractChronology implements Chronology {
      * <p>
      * The hash code should be based on the entire state of the object.
      *
-     * @implSpec
-     * This implementation is based on the chronology ID and class.
-     * Subclasses should add any additional state that they store.
-     *
      * @return a suitable hash code
+     * @implSpec This implementation is based on the chronology ID and class.
+     * Subclasses should add any additional state that they store.
      */
     @Override
     public int hashCode() {
@@ -738,6 +736,7 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Outputs this chronology as a {@code String}, using the chronology ID.
      *
@@ -749,6 +748,7 @@ public abstract class AbstractChronology implements Chronology {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Writes the Chronology using a
      * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.

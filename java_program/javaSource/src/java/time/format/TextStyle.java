@@ -80,8 +80,7 @@ import java.util.Calendar;
  * For example, the word used for a month when used alone in a date picker is different
  * to the word used for month in association with a day and year in a date.
  *
- * @implSpec
- * This is immutable and thread-safe enum.
+ * @implSpec This is immutable and thread-safe enum.
  */
 public enum TextStyle {
     // ordered from large to small
@@ -128,6 +127,7 @@ public enum TextStyle {
 
     /**
      * Returns true if the Style is a stand-alone style.
+     *
      * @return true if the style is a stand-alone style.
      */
     public boolean isStandalone() {
@@ -136,10 +136,11 @@ public enum TextStyle {
 
     /**
      * Returns the stand-alone style with the same size.
+     *
      * @return the stand-alone style with the same size
      */
     public TextStyle asStandalone() {
-        return TextStyle.values()[ordinal()  | 1];
+        return TextStyle.values()[ordinal() | 1];
     }
 
     /**

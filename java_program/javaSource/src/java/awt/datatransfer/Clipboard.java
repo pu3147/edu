@@ -44,11 +44,10 @@ import sun.awt.EventListenerAggregate;
  * {@link DataFlavor}s available on this clipboard (see
  * {@link #addFlavorListener}).
  *
+ * @author Amy Fowler
+ * @author Alexander Gerasimov
  * @see java.awt.Toolkit#getSystemClipboard
  * @see java.awt.Toolkit#getSystemSelection
- *
- * @author      Amy Fowler
- * @author      Alexander Gerasimov
  */
 public class Clipboard {
 
@@ -112,7 +111,7 @@ public class Clipboard {
      *
      * @param contents the transferable object representing the
      *                 clipboard content
-     * @param owner the object which owns the clipboard content
+     * @param owner    the object which owns the clipboard content
      * @throws IllegalStateException if the clipboard is currently unavailable
      * @see java.awt.Toolkit#getSystemClipboard
      */
@@ -159,10 +158,8 @@ public class Clipboard {
      * array.
      *
      * @return an array of <code>DataFlavor</code>s in which the current
-     *         contents of this clipboard can be provided
-     *
+     * contents of this clipboard can be provided
      * @throws IllegalStateException if this clipboard is currently unavailable
-     *
      * @since 1.5
      */
     public DataFlavor[] getAvailableDataFlavors() {
@@ -178,14 +175,11 @@ public class Clipboard {
      * provided in the specified <code>DataFlavor</code>.
      *
      * @param flavor the requested <code>DataFlavor</code> for the contents
-     *
      * @return <code>true</code> if the current contents of this clipboard
-     *         can be provided in the specified <code>DataFlavor</code>;
-     *         <code>false</code> otherwise
-     *
-     * @throws NullPointerException if <code>flavor</code> is <code>null</code>
+     * can be provided in the specified <code>DataFlavor</code>;
+     * <code>false</code> otherwise
+     * @throws NullPointerException  if <code>flavor</code> is <code>null</code>
      * @throws IllegalStateException if this clipboard is currently unavailable
-     *
      * @since 1.5
      */
     public boolean isDataFlavorAvailable(DataFlavor flavor) {
@@ -207,23 +201,19 @@ public class Clipboard {
      * class of <code>flavor</code>.
      *
      * @param flavor the requested <code>DataFlavor</code> for the contents
-     *
      * @return an object representing the current contents of this clipboard
-     *         in the specified <code>DataFlavor</code>
-     *
-     * @throws NullPointerException if <code>flavor</code> is <code>null</code>
-     * @throws IllegalStateException if this clipboard is currently unavailable
+     * in the specified <code>DataFlavor</code>
+     * @throws NullPointerException       if <code>flavor</code> is <code>null</code>
+     * @throws IllegalStateException      if this clipboard is currently unavailable
      * @throws UnsupportedFlavorException if the requested <code>DataFlavor</code>
-     *         is not available
-     * @throws IOException if the data in the requested <code>DataFlavor</code>
-     *         can not be retrieved
-     *
+     *                                    is not available
+     * @throws IOException                if the data in the requested <code>DataFlavor</code>
+     *                                    can not be retrieved
      * @see DataFlavor#getRepresentationClass
-     *
      * @since 1.5
      */
     public Object getData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException {
+            throws UnsupportedFlavorException, IOException {
         if (flavor == null) {
             throw new NullPointerException("flavor");
         }
@@ -243,7 +233,6 @@ public class Clipboard {
      * is thrown and no action is performed.
      *
      * @param listener the listener to be added
-     *
      * @see #removeFlavorListener
      * @see #getFlavorListeners
      * @see FlavorListener
@@ -271,7 +260,6 @@ public class Clipboard {
      * is thrown and no action is performed.
      *
      * @param listener the listener to be removed
-     *
      * @see #addFlavorListener
      * @see #getFlavorListeners
      * @see FlavorListener
@@ -290,7 +278,7 @@ public class Clipboard {
      * registered on this <code>Clipboard</code>.
      *
      * @return all of this clipboard's <code>FlavorListener</code>s or an empty
-     *         array if no listeners are currently registered
+     * array if no listeners are currently registered
      * @see #addFlavorListener
      * @see #removeFlavorListener
      * @see FlavorListener
@@ -299,7 +287,7 @@ public class Clipboard {
      */
     public synchronized FlavorListener[] getFlavorListeners() {
         return flavorListeners == null ? new FlavorListener[0] :
-                (FlavorListener[])flavorListeners.getListenersCopy();
+                (FlavorListener[]) flavorListeners.getListenersCopy();
     }
 
     /**
@@ -319,7 +307,7 @@ public class Clipboard {
             return;
         }
         FlavorListener[] flavorListenerArray =
-                (FlavorListener[])flavorListeners.getListenersInternal();
+                (FlavorListener[]) flavorListeners.getListenersInternal();
         for (int i = 0; i < flavorListenerArray.length; i++) {
             final FlavorListener listener = flavorListenerArray[i];
             EventQueue.invokeLater(new Runnable() {
@@ -335,8 +323,7 @@ public class Clipboard {
      * on this clipboard.
      *
      * @return a set of <code>DataFlavor</code>s currently available
-     *         on this clipboard
-     *
+     * on this clipboard
      * @since 1.5
      */
     private Set<DataFlavor> getAvailableDataFlavorSet() {

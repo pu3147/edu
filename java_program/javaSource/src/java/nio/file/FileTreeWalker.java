@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Iterator;
+
 import sun.nio.fs.BasicFileAttributesHolder;
 
 /**
@@ -165,21 +166,20 @@ class FileTreeWalker implements Closeable {
     /**
      * Creates a {@code FileTreeWalker}.
      *
-     * @throws  IllegalArgumentException
-     *          if {@code maxDepth} is negative
-     * @throws  ClassCastException
-     *          if (@code options} contains an element that is not a
-     *          {@code FileVisitOption}
-     * @throws  NullPointerException
-     *          if {@code options} is {@ocde null} or the options
-     *          array contains a {@code null} element
+     * @throws IllegalArgumentException if {@code maxDepth} is negative
+     * @throws ClassCastException       if (@code options} contains an element that is not a
+     *                                  {@code FileVisitOption}
+     * @throws NullPointerException     if {@code options} is {@ocde null} or the options
+     *                                  array contains a {@code null} element
      */
     FileTreeWalker(Collection<FileVisitOption> options, int maxDepth) {
         boolean fl = false;
-        for (FileVisitOption option: options) {
+        for (FileVisitOption option : options) {
             // will throw NPE if options contains null
             switch (option) {
-                case FOLLOW_LINKS : fl = true; break;
+                case FOLLOW_LINKS:
+                    fl = true;
+                    break;
                 default:
                     throw new AssertionError("Should not get here");
             }
@@ -189,7 +189,7 @@ class FileTreeWalker implements Closeable {
 
         this.followLinks = fl;
         this.linkOptions = (fl) ? new LinkOption[0] :
-            new LinkOption[] { LinkOption.NOFOLLOW_LINKS };
+                new LinkOption[]{LinkOption.NOFOLLOW_LINKS};
         this.maxDepth = maxDepth;
     }
 
@@ -199,14 +199,12 @@ class FileTreeWalker implements Closeable {
      * argument determines whether this method can use cached attributes.
      */
     private BasicFileAttributes getAttributes(Path file, boolean canUseCached)
-        throws IOException
-    {
+            throws IOException {
         // if attributes are cached then use them if possible
         if (canUseCached &&
-            (file instanceof BasicFileAttributesHolder) &&
-            (System.getSecurityManager() == null))
-        {
-            BasicFileAttributes cached = ((BasicFileAttributesHolder)file).get();
+                (file instanceof BasicFileAttributesHolder) &&
+                (System.getSecurityManager() == null)) {
+            BasicFileAttributes cached = ((BasicFileAttributesHolder) file).get();
             if (cached != null && (!followLinks || !cached.isSymbolicLink())) {
                 return cached;
             }
@@ -223,8 +221,8 @@ class FileTreeWalker implements Closeable {
 
             // attempt to get attrmptes without following links
             attrs = Files.readAttributes(file,
-                                         BasicFileAttributes.class,
-                                         LinkOption.NOFOLLOW_LINKS);
+                    BasicFileAttributes.class,
+                    LinkOption.NOFOLLOW_LINKS);
         }
         return attrs;
     }
@@ -236,7 +234,7 @@ class FileTreeWalker implements Closeable {
     private boolean wouldLoop(Path dir, Object key) {
         // if this directory and ancestor has a file key then we compare
         // them; otherwise we use less efficient isSameFile test.
-        for (DirectoryNode ancestor: stack) {
+        for (DirectoryNode ancestor : stack) {
             Object ancestorKey = ancestor.key();
             if (key != null && ancestorKey != null) {
                 if (key.equals(ancestorKey)) {
@@ -260,12 +258,12 @@ class FileTreeWalker implements Closeable {
     /**
      * Visits the given file, returning the {@code Event} corresponding to that
      * visit.
-     *
+     * <p>
      * The {@code ignoreSecurityException} parameter determines whether
      * any SecurityException should be ignored or not. If a SecurityException
      * is thrown, and is ignored, then this method returns {@code null} to
      * mean that there is no event corresponding to a visit to the file.
-     *
+     * <p>
      * The {@code canUseCached} parameter determines whether cached attributes
      * for the file can be used or not.
      */
@@ -291,7 +289,7 @@ class FileTreeWalker implements Closeable {
         // check for cycles when following links
         if (followLinks && wouldLoop(entry, attrs.fileKey())) {
             return new Event(EventType.ENTRY, entry,
-                             new FileSystemLoopException(entry.toString()));
+                    new FileSystemLoopException(entry.toString()));
         }
 
         // file is a directory, attempt to open it
@@ -320,8 +318,8 @@ class FileTreeWalker implements Closeable {
             throw new IllegalStateException("Closed");
 
         Event ev = visit(file,
-                         false,   // ignoreSecurityException
-                         false);  // canUseCached
+                false,   // ignoreSecurityException
+                false);  // canUseCached
         assert ev != null;
         return ev;
     }
@@ -370,8 +368,8 @@ class FileTreeWalker implements Closeable {
 
             // visit the entry
             ev = visit(entry,
-                       true,   // ignoreSecurityException
-                       true);  // canUseCached
+                    true,   // ignoreSecurityException
+                    true);  // canUseCached
 
         } while (ev == null);
 
@@ -389,7 +387,8 @@ class FileTreeWalker implements Closeable {
             DirectoryNode node = stack.pop();
             try {
                 node.stream().close();
-            } catch (IOException ignore) { }
+            } catch (IOException ignore) {
+            }
         }
     }
 

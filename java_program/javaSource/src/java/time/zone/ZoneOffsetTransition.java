@@ -91,9 +91,7 @@ import java.util.Objects;
  * An example would be when the offset changes from {@code +04:00} to {@code +03:00}.
  * This might be described as 'the clocks will move back one hour tonight at 2am'.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class ZoneOffsetTransition
@@ -117,19 +115,20 @@ public final class ZoneOffsetTransition
     private final ZoneOffset offsetAfter;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance defining a transition between two offsets.
      * <p>
      * Applications should normally obtain an instance from {@link ZoneRules}.
      * This factory is only intended for use when creating {@link ZoneRules}.
      *
-     * @param transition  the transition date-time at the transition, which never
-     *  actually occurs, expressed local to the before offset, not null
-     * @param offsetBefore  the offset before the transition, not null
+     * @param transition   the transition date-time at the transition, which never
+     *                     actually occurs, expressed local to the before offset, not null
+     * @param offsetBefore the offset before the transition, not null
      * @param offsetAfter  the offset at and after the transition, not null
      * @return the transition, not null
      * @throws IllegalArgumentException if {@code offsetBefore} and {@code offsetAfter}
-     *         are equal, or {@code transition.getNano()} returns non-zero value
+     *                                  are equal, or {@code transition.getNano()} returns non-zero value
      */
     public static ZoneOffsetTransition of(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
         Objects.requireNonNull(transition, "transition");
@@ -147,8 +146,8 @@ public final class ZoneOffsetTransition
     /**
      * Creates an instance defining a transition between two offsets.
      *
-     * @param transition  the transition date-time with the offset before the transition, not null
-     * @param offsetBefore  the offset before the transition, not null
+     * @param transition   the transition date-time with the offset before the transition, not null
+     * @param offsetBefore the offset before the transition, not null
      * @param offsetAfter  the offset at and after the transition, not null
      */
     ZoneOffsetTransition(LocalDateTime transition, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
@@ -161,7 +160,7 @@ public final class ZoneOffsetTransition
      * Creates an instance from epoch-second and offsets.
      *
      * @param epochSecond  the transition epoch-second
-     * @param offsetBefore  the offset before the transition, not null
+     * @param offsetBefore the offset before the transition, not null
      * @param offsetAfter  the offset at and after the transition, not null
      */
     ZoneOffsetTransition(long epochSecond, ZoneOffset offsetBefore, ZoneOffset offsetAfter) {
@@ -171,6 +170,7 @@ public final class ZoneOffsetTransition
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Defend against malicious streams.
      *
@@ -184,8 +184,9 @@ public final class ZoneOffsetTransition
     /**
      * Writes the object using a
      * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * Refer to the serialized form of
+     *
+     * @return the replacing object, not null
+     * @serialData Refer to the serialized form of
      * <a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
      * for the encoding of epoch seconds and offsets.
      * <pre style="font-size:1.0em">{@code
@@ -196,7 +197,6 @@ public final class ZoneOffsetTransition
      *   out.writeOffset(offsetAfter);
      * }
      * </pre>
-     * @return the replacing object, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.ZOT, this);
@@ -205,7 +205,7 @@ public final class ZoneOffsetTransition
     /**
      * Writes the state to the stream.
      *
-     * @param out  the output stream, not null
+     * @param out the output stream, not null
      * @throws IOException if an error occurs
      */
     void writeExternal(DataOutput out) throws IOException {
@@ -217,7 +217,7 @@ public final class ZoneOffsetTransition
     /**
      * Reads the state from the stream.
      *
-     * @param in  the input stream, not null
+     * @param in the input stream, not null
      * @return the created object, not null
      * @throws IOException if an error occurs
      */
@@ -232,6 +232,7 @@ public final class ZoneOffsetTransition
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the transition instant.
      * <p>
@@ -257,6 +258,7 @@ public final class ZoneOffsetTransition
     }
 
     //-------------------------------------------------------------------------
+
     /**
      * Gets the local transition date-time, as would be expressed with the 'before' offset.
      * <p>
@@ -364,7 +366,7 @@ public final class ZoneOffsetTransition
      * A gap will always return false.
      * An overlap will return true if the offset is either the before or after offset.
      *
-     * @param offset  the offset to check, null returns false
+     * @param offset the offset to check, null returns false
      * @return true if the offset is valid during the transition
      */
     public boolean isValidOffset(ZoneOffset offset) {
@@ -386,13 +388,14 @@ public final class ZoneOffsetTransition
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Compares this transition to another based on the transition instant.
      * <p>
      * This compares the instants of each transition.
      * The offsets are ignored, making this order inconsistent with equals.
      *
-     * @param transition  the transition to compare to, not null
+     * @param transition the transition to compare to, not null
      * @return the comparator value, negative if less, positive if greater
      */
     @Override
@@ -401,12 +404,13 @@ public final class ZoneOffsetTransition
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this object equals another.
      * <p>
      * The entire state of the object is compared.
      *
-     * @param other  the other object to compare to, null returns false
+     * @param other the other object to compare to, null returns false
      * @return true if equal
      */
     @Override
@@ -417,7 +421,7 @@ public final class ZoneOffsetTransition
         if (other instanceof ZoneOffsetTransition) {
             ZoneOffsetTransition d = (ZoneOffsetTransition) other;
             return transition.equals(d.transition) &&
-                offsetBefore.equals(d.offsetBefore) && offsetAfter.equals(d.offsetAfter);
+                    offsetBefore.equals(d.offsetBefore) && offsetAfter.equals(d.offsetAfter);
         }
         return false;
     }
@@ -433,6 +437,7 @@ public final class ZoneOffsetTransition
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a string describing this object.
      *
@@ -442,13 +447,13 @@ public final class ZoneOffsetTransition
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("Transition[")
-            .append(isGap() ? "Gap" : "Overlap")
-            .append(" at ")
-            .append(transition)
-            .append(offsetBefore)
-            .append(" to ")
-            .append(offsetAfter)
-            .append(']');
+                .append(isGap() ? "Gap" : "Overlap")
+                .append(" at ")
+                .append(transition)
+                .append(offsetBefore)
+                .append(" to ")
+                .append(offsetAfter)
+                .append(']');
         return buf.toString();
     }
 

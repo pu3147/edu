@@ -43,6 +43,7 @@ package java.text;
 import java.lang.ref.SoftReference;
 import java.text.spi.BreakIteratorProvider;
 import java.util.Locale;
+
 import sun.util.locale.provider.LocaleProviderAdapter;
 import sun.util.locale.provider.LocaleServiceProviderPool;
 
@@ -105,7 +106,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * programming language text. It is however possible to define subclasses
  * that tokenize a programming language.
  *
- * <P>
+ * <p>
  * <strong>Examples</strong>:<P>
  * Creating and using text boundaries:
  * <blockquote>
@@ -127,7 +128,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * }
  * </pre>
  * </blockquote>
- *
+ * <p>
  * Print each element in order:
  * <blockquote>
  * <pre>
@@ -141,7 +142,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * }
  * </pre>
  * </blockquote>
- *
+ * <p>
  * Print each element in reverse order:
  * <blockquote>
  * <pre>
@@ -155,7 +156,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * }
  * </pre>
  * </blockquote>
- *
+ * <p>
  * Print first element:
  * <blockquote>
  * <pre>
@@ -166,7 +167,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * }
  * </pre>
  * </blockquote>
- *
+ * <p>
  * Print last element:
  * <blockquote>
  * <pre>
@@ -177,7 +178,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * }
  * </pre>
  * </blockquote>
- *
+ * <p>
  * Print the element at a specified position:
  * <blockquote>
  * <pre>
@@ -188,7 +189,7 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * }
  * </pre>
  * </blockquote>
- *
+ * <p>
  * Find the next word:
  * <blockquote>
  * <pre>{@code
@@ -222,29 +223,25 @@ import sun.util.locale.provider.LocaleServiceProviderPool;
  * </blockquote>
  *
  * @see CharacterIterator
- *
  */
 
-public abstract class BreakIterator implements Cloneable
-{
+public abstract class BreakIterator implements Cloneable {
     /**
      * Constructor. BreakIterator is stateless and has no default behavior.
      */
-    protected BreakIterator()
-    {
+    protected BreakIterator() {
     }
 
     /**
      * Create a copy of this iterator
+     *
      * @return A copy of this
      */
     @Override
-    public Object clone()
-    {
+    public Object clone() {
         try {
             return super.clone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             throw new InternalError(e);
         }
     }
@@ -259,6 +256,7 @@ public abstract class BreakIterator implements Cloneable
     /**
      * Returns the first boundary. The iterator's current position is set
      * to the first text boundary.
+     *
      * @return The character index of the first text boundary.
      */
     public abstract int first();
@@ -266,6 +264,7 @@ public abstract class BreakIterator implements Cloneable
     /**
      * Returns the last boundary. The iterator's current position is set
      * to the last text boundary.
+     *
      * @return The character index of the last text boundary.
      */
     public abstract int last();
@@ -282,9 +281,10 @@ public abstract class BreakIterator implements Cloneable
      * to the (m + 2)th text boundary. A next(4) call would return
      * <code>BreakIterator.DONE</code> and the last text boundary would become the
      * new text position.
+     *
      * @param n which boundary to return.  A value of 0
-     * does nothing.  Negative values move to previous boundaries
-     * and positive values move to later boundaries.
+     *          does nothing.  Negative values move to previous boundaries
+     *          and positive values move to later boundaries.
      * @return The character index of the nth boundary from the current position
      * or <code>BreakIterator.DONE</code> if either first or last text boundary
      * has been reached.
@@ -296,6 +296,7 @@ public abstract class BreakIterator implements Cloneable
      * is the last text boundary, it returns <code>BreakIterator.DONE</code> and
      * the iterator's current position is unchanged. Otherwise, the iterator's
      * current position is set to the boundary following the current boundary.
+     *
      * @return The character index of the next text boundary or
      * <code>BreakIterator.DONE</code> if the current boundary is the last text
      * boundary.
@@ -309,6 +310,7 @@ public abstract class BreakIterator implements Cloneable
      * is the first text boundary, it returns <code>BreakIterator.DONE</code> and
      * the iterator's current position is unchanged. Otherwise, the iterator's
      * current position is set to the boundary preceding the current boundary.
+     *
      * @return The character index of the previous text boundary or
      * <code>BreakIterator.DONE</code> if the current boundary is the first text
      * boundary.
@@ -322,12 +324,13 @@ public abstract class BreakIterator implements Cloneable
      * Otherwise, the iterator's current position is set to the returned boundary.
      * The value returned is always greater than the offset or the value
      * <code>BreakIterator.DONE</code>.
+     *
      * @param offset the character offset to begin scanning.
      * @return The first boundary after the specified offset or
      * <code>BreakIterator.DONE</code> if the last text boundary is passed in
      * as the offset.
-     * @exception  IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * @throws IllegalArgumentException if the specified offset is less than
+     *                                  the first text boundary or greater than the last text boundary.
      */
     public abstract int following(int offset);
 
@@ -338,12 +341,13 @@ public abstract class BreakIterator implements Cloneable
      * Otherwise, the iterator's current position is set to the returned boundary.
      * The value returned is always less than the offset or the value
      * <code>BreakIterator.DONE</code>.
+     *
      * @param offset the character offset to begin scanning.
      * @return The last boundary before the specified offset or
      * <code>BreakIterator.DONE</code> if the first text boundary is passed in
      * as the offset.
-     * @exception   IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * @throws IllegalArgumentException if the specified offset is less than
+     *                                  the first text boundary or greater than the last text boundary.
      * @since 1.2
      */
     public int preceding(int offset) {
@@ -359,11 +363,12 @@ public abstract class BreakIterator implements Cloneable
 
     /**
      * Returns true if the specified character offset is a text boundary.
+     *
      * @param offset the character offset to check.
      * @return <code>true</code> if "offset" is a boundary position,
      * <code>false</code> otherwise.
-     * @exception   IllegalArgumentException if the specified offset is less than
-     * the first text boundary or greater than the last text boundary.
+     * @throws IllegalArgumentException if the specified offset is less than
+     *                                  the first text boundary or greater than the last text boundary.
      * @since 1.2
      */
     public boolean isBoundary(int offset) {
@@ -392,6 +397,7 @@ public abstract class BreakIterator implements Cloneable
      * <code>BreakIterator.DONE</code> because either first or last text boundary
      * has been reached, it returns the first or last text boundary depending on
      * which one is reached.
+     *
      * @return The text boundary returned from the above methods, first or last
      * text boundary.
      * @see #next()
@@ -406,6 +412,7 @@ public abstract class BreakIterator implements Cloneable
 
     /**
      * Get the text being scanned
+     *
      * @return the text being scanned
      */
     public abstract CharacterIterator getText();
@@ -413,16 +420,17 @@ public abstract class BreakIterator implements Cloneable
     /**
      * Set a new text string to be scanned.  The current scan
      * position is reset to first().
+     *
      * @param newText new text to scan.
      */
-    public void setText(String newText)
-    {
+    public void setText(String newText) {
         setText(new StringCharacterIterator(newText));
     }
 
     /**
      * Set a new text for scanning.  The current scan
      * position is reset to first().
+     *
      * @param newText new text to scan.
      */
     public abstract void setText(CharacterIterator newText);
@@ -439,10 +447,10 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#word">word breaks</a>
      * for the {@linkplain Locale#getDefault() default locale}.
+     *
      * @return A break iterator for word breaks
      */
-    public static BreakIterator getWordInstance()
-    {
+    public static BreakIterator getWordInstance() {
         return getWordInstance(Locale.getDefault());
     }
 
@@ -450,12 +458,12 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#word">word breaks</a>
      * for the given locale.
+     *
      * @param locale the desired locale
      * @return A break iterator for word breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * @throws NullPointerException if <code>locale</code> is null
      */
-    public static BreakIterator getWordInstance(Locale locale)
-    {
+    public static BreakIterator getWordInstance(Locale locale) {
         return getBreakInstance(locale, WORD_INDEX);
     }
 
@@ -463,10 +471,10 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#line">line breaks</a>
      * for the {@linkplain Locale#getDefault() default locale}.
+     *
      * @return A break iterator for line breaks
      */
-    public static BreakIterator getLineInstance()
-    {
+    public static BreakIterator getLineInstance() {
         return getLineInstance(Locale.getDefault());
     }
 
@@ -474,12 +482,12 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#line">line breaks</a>
      * for the given locale.
+     *
      * @param locale the desired locale
      * @return A break iterator for line breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * @throws NullPointerException if <code>locale</code> is null
      */
-    public static BreakIterator getLineInstance(Locale locale)
-    {
+    public static BreakIterator getLineInstance(Locale locale) {
         return getBreakInstance(locale, LINE_INDEX);
     }
 
@@ -487,10 +495,10 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#character">character breaks</a>
      * for the {@linkplain Locale#getDefault() default locale}.
+     *
      * @return A break iterator for character breaks
      */
-    public static BreakIterator getCharacterInstance()
-    {
+    public static BreakIterator getCharacterInstance() {
         return getCharacterInstance(Locale.getDefault());
     }
 
@@ -498,12 +506,12 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#character">character breaks</a>
      * for the given locale.
+     *
      * @param locale the desired locale
      * @return A break iterator for character breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * @throws NullPointerException if <code>locale</code> is null
      */
-    public static BreakIterator getCharacterInstance(Locale locale)
-    {
+    public static BreakIterator getCharacterInstance(Locale locale) {
         return getBreakInstance(locale, CHARACTER_INDEX);
     }
 
@@ -511,10 +519,10 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#sentence">sentence breaks</a>
      * for the {@linkplain Locale#getDefault() default locale}.
+     *
      * @return A break iterator for sentence breaks
      */
-    public static BreakIterator getSentenceInstance()
-    {
+    public static BreakIterator getSentenceInstance() {
         return getSentenceInstance(Locale.getDefault());
     }
 
@@ -522,12 +530,12 @@ public abstract class BreakIterator implements Cloneable
      * Returns a new <code>BreakIterator</code> instance
      * for <a href="BreakIterator.html#sentence">sentence breaks</a>
      * for the given locale.
+     *
      * @param locale the desired locale
      * @return A break iterator for sentence breaks
-     * @exception NullPointerException if <code>locale</code> is null
+     * @throws NullPointerException if <code>locale</code> is null
      */
-    public static BreakIterator getSentenceInstance(Locale locale)
-    {
+    public static BreakIterator getSentenceInstance(Locale locale) {
         return getBreakInstance(locale, SENTENCE_INDEX);
     }
 
@@ -561,18 +569,18 @@ public abstract class BreakIterator implements Cloneable
         BreakIteratorProvider breakIteratorProvider = adapter.getBreakIteratorProvider();
         BreakIterator iterator = null;
         switch (type) {
-        case CHARACTER_INDEX:
-            iterator = breakIteratorProvider.getCharacterInstance(locale);
-            break;
-        case WORD_INDEX:
-            iterator = breakIteratorProvider.getWordInstance(locale);
-            break;
-        case LINE_INDEX:
-            iterator = breakIteratorProvider.getLineInstance(locale);
-            break;
-        case SENTENCE_INDEX:
-            iterator = breakIteratorProvider.getSentenceInstance(locale);
-            break;
+            case CHARACTER_INDEX:
+                iterator = breakIteratorProvider.getCharacterInstance(locale);
+                break;
+            case WORD_INDEX:
+                iterator = breakIteratorProvider.getWordInstance(locale);
+                break;
+            case LINE_INDEX:
+                iterator = breakIteratorProvider.getLineInstance(locale);
+                break;
+            case SENTENCE_INDEX:
+                iterator = breakIteratorProvider.getSentenceInstance(locale);
+                break;
         }
         return iterator;
     }
@@ -588,12 +596,11 @@ public abstract class BreakIterator implements Cloneable
      * instance equal to {@link java.util.Locale#US Locale.US}.
      *
      * @return An array of locales for which localized
-     *         <code>BreakIterator</code> instances are available.
+     * <code>BreakIterator</code> instances are available.
      */
-    public static synchronized Locale[] getAvailableLocales()
-    {
+    public static synchronized Locale[] getAvailableLocales() {
         LocaleServiceProviderPool pool =
-            LocaleServiceProviderPool.getPool(BreakIteratorProvider.class);
+                LocaleServiceProviderPool.getPool(BreakIteratorProvider.class);
         return pool.getAvailableLocales();
     }
 

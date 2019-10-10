@@ -30,16 +30,16 @@ package java.lang.annotation;
  * interface that manually extends this one does <i>not</i> define
  * an annotation type.  Also note that this interface does not itself
  * define an annotation type.
- *
+ * <p>
  * More information about annotation types can be found in section 9.6 of
  * <cite>The Java&trade; Language Specification</cite>.
- *
+ * <p>
  * The {@link java.lang.reflect.AnnotatedElement} interface discusses
  * compatibility concerns when evolving an annotation type from being
  * non-repeatable to being repeatable.
  *
- * @author  Josh Bloch
- * @since   1.5
+ * @author Josh Bloch
+ * @since 1.5
  */
 public interface Annotation {
     /**
@@ -76,7 +76,7 @@ public interface Annotation {
      * </ul>
      *
      * @return true if the specified object represents an annotation
-     *     that is logically equivalent to this one, otherwise false
+     * that is logically equivalent to this one, otherwise false
      */
     boolean equals(Object obj);
 
@@ -86,7 +86,7 @@ public interface Annotation {
      * <p>The hash code of an annotation is the sum of the hash codes
      * of its members (including those with default values), as defined
      * below:
-     *
+     * <p>
      * The hash code of an annotation member is (127 times the hash code
      * of the member-name as computed by {@link String#hashCode()}) XOR
      * the hash code of the member-value, as defined below:
@@ -101,7 +101,7 @@ public interface Annotation {
      *     {@link Long}, {@link Short}, or {@link Boolean}).
      *
      * <li>The hash code of a string, enum, class, or annotation member-value
-     I     <tt><i>v</i></tt> is computed as by calling
+     * I     <tt><i>v</i></tt> is computed as by calling
      *     <tt><i>v</i>.hashCode()</tt>.  (In the case of annotation
      *     member values, this is a recursive definition.)
      *
@@ -130,6 +130,7 @@ public interface Annotation {
 
     /**
      * Returns the annotation type of this annotation.
+     *
      * @return the annotation type of this annotation
      */
     Class<? extends Annotation> annotationType();

@@ -52,7 +52,7 @@ import java.rmi.server.UID;
  * instance), and
  * <li> a unique identifier (a {@link java.rmi.server.UID UID}
  * instance) for the object. </ul> <p>
- *
+ * <p>
  * An activation identifier for an object can be obtained by registering
  * an object with the activation system. Registration is accomplished
  * in a few ways: <ul>
@@ -63,9 +63,9 @@ import java.rmi.server.UID;
  * that takes the activation descriptor, object and port as arguments;
  * this method both registers and exports the object. </ul>
  *
- * @author      Ann Wollrath
- * @see         Activatable
- * @since       1.2
+ * @author Ann Wollrath
+ * @see Activatable
+ * @since 1.2
  */
 public class ActivationID implements Serializable {
     /**
@@ -78,7 +78,9 @@ public class ActivationID implements Serializable {
      */
     private transient UID uid = new UID();
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
+    /**
+     * indicate compatibility with the Java 2 SDK v1.2 version of class
+     */
     private static final long serialVersionUID = -4608673054848209235L;
 
     /**
@@ -89,9 +91,9 @@ public class ActivationID implements Serializable {
      * unique.
      *
      * @param activator reference to the activator responsible for
-     * activating the object
+     *                  activating the object
      * @throws UnsupportedOperationException if and only if activation is
-     *         not supported by this implementation
+     *                                       not supported by this implementation
      * @since 1.2
      */
     public ActivationID(Activator activator) {
@@ -102,20 +104,19 @@ public class ActivationID implements Serializable {
      * Activate the object for this id.
      *
      * @param force if true, forces the activator to contact the group
-     * when activating the object (instead of returning a cached reference);
-     * if false, returning a cached value is acceptable.
+     *              when activating the object (instead of returning a cached reference);
+     *              if false, returning a cached value is acceptable.
      * @return the reference to the active remote object
-     * @exception ActivationException if activation fails
-     * @exception UnknownObjectException if the object is unknown
-     * @exception RemoteException if remote call fails
+     * @throws ActivationException    if activation fails
+     * @throws UnknownObjectException if the object is unknown
+     * @throws RemoteException        if remote call fails
      * @since 1.2
      */
     public Remote activate(boolean force)
-        throws ActivationException, UnknownObjectException, RemoteException
-    {
+            throws ActivationException, UnknownObjectException, RemoteException {
         try {
             MarshalledObject<? extends Remote> mobj =
-                activator.activate(this, force);
+                    activator.activate(this, force);
             return mobj.get();
         } catch (RemoteException e) {
             throw e;
@@ -143,11 +144,11 @@ public class ActivationID implements Serializable {
      * Returns true if both of the following conditions are true:
      * 1) the unique identifiers equivalent (by content), and
      * 2) the activator specified in each identifier
-     *    refers to the same remote object.
+     * refers to the same remote object.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
+     * @param obj the Object to compare with
+     * @return true if these Objects are equal; false otherwise.
+     * @see java.util.Hashtable
      * @since 1.2
      */
     public boolean equals(Object obj) {
@@ -205,8 +206,7 @@ public class ActivationID implements Serializable {
      * specification.
      **/
     private void writeObject(ObjectOutputStream out)
-        throws IOException, ClassNotFoundException
-    {
+            throws IOException, ClassNotFoundException {
         out.writeObject(uid);
 
         RemoteRef ref;
@@ -216,7 +216,7 @@ public class ActivationID implements Serializable {
             InvocationHandler handler = Proxy.getInvocationHandler(activator);
             if (!(handler instanceof RemoteObjectInvocationHandler)) {
                 throw new InvalidObjectException(
-                    "unexpected invocation handler");
+                        "unexpected invocation handler");
             }
             ref = ((RemoteObjectInvocationHandler) handler).getRef();
 
@@ -264,29 +264,28 @@ public class ActivationID implements Serializable {
      * that implementation-specific class.
      */
     private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException
-    {
-        uid = (UID)in.readObject();
+            throws IOException, ClassNotFoundException {
+        uid = (UID) in.readObject();
 
         try {
             Class<? extends RemoteRef> refClass =
-                Class.forName(RemoteRef.packagePrefix + "." + in.readUTF())
-                .asSubclass(RemoteRef.class);
+                    Class.forName(RemoteRef.packagePrefix + "." + in.readUTF())
+                            .asSubclass(RemoteRef.class);
             RemoteRef ref = refClass.newInstance();
             ref.readExternal(in);
             activator = (Activator)
-                Proxy.newProxyInstance(null,
-                                       new Class<?>[] { Activator.class },
-                                       new RemoteObjectInvocationHandler(ref));
+                    Proxy.newProxyInstance(null,
+                            new Class<?>[]{Activator.class},
+                            new RemoteObjectInvocationHandler(ref));
 
         } catch (InstantiationException e) {
             throw (IOException)
-                new InvalidObjectException(
-                    "Unable to create remote reference").initCause(e);
+                    new InvalidObjectException(
+                            "Unable to create remote reference").initCause(e);
         } catch (IllegalAccessException e) {
             throw (IOException)
-                new InvalidObjectException(
-                    "Unable to create remote reference").initCause(e);
+                    new InvalidObjectException(
+                            "Unable to create remote reference").initCause(e);
         }
     }
 }

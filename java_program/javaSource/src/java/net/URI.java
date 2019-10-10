@@ -38,6 +38,7 @@ import java.nio.charset.CoderResult;
 import java.nio.charset.CodingErrorAction;
 import java.nio.charset.CharacterCodingException;
 import java.text.Normalizer;
+
 import sun.nio.cs.ThreadLocalCoders;
 
 import java.lang.Character;             // for javadoc
@@ -62,14 +63,14 @@ import java.lang.NullPointerException;  // for javadoc
  *
  *
  * <h3> URI syntax and components </h3>
- *
+ * <p>
  * At the highest level a URI reference (hereinafter simply "URI") in string
  * form has the syntax
  *
  * <blockquote>
  * [<i>scheme</i><b>{@code :}</b>]<i>scheme-specific-part</i>[<b>{@code #}</b><i>fragment</i>]
  * </blockquote>
- *
+ * <p>
  * where square brackets [...] delineate optional components and the characters
  * <b>{@code :}</b> and <b>{@code #}</b> stand for themselves.
  *
@@ -104,7 +105,7 @@ import java.lang.NullPointerException;  // for javadoc
  * <blockquote>
  * [<i>scheme</i><b>{@code :}</b>][<b>{@code //}</b><i>authority</i>][<i>path</i>][<b>{@code ?}</b><i>query</i>][<b>{@code #}</b><i>fragment</i>]
  * </blockquote>
- *
+ * <p>
  * where the characters <b>{@code :}</b>, <b>{@code /}</b>,
  * <b>{@code ?}</b>, and <b>{@code #}</b> stand for themselves.  The
  * scheme-specific part of a hierarchical URI consists of the characters
@@ -117,7 +118,7 @@ import java.lang.NullPointerException;  // for javadoc
  * <blockquote>
  * [<i>user-info</i><b>{@code @}</b>]<i>host</i>[<b>{@code :}</b><i>port</i>]
  * </blockquote>
- *
+ * <p>
  * where the characters <b>{@code @}</b> and <b>{@code :}</b> stand for
  * themselves.  Nearly all URI schemes currently in use are server-based.  An
  * authority component that does not parse in this way is considered to be
@@ -142,7 +143,7 @@ import java.lang.NullPointerException;  // for javadoc
  * <tr><td>query</td><td>{@code String}</td></tr>
  * <tr><td>fragment</td><td>{@code String}</td></tr>
  * </table></blockquote>
- *
+ * <p>
  * In a given instance any particular component is either <i>undefined</i> or
  * <i>defined</i> with a distinct value.  Undefined string components are
  * represented by {@code null}, while undefined integer components are
@@ -161,7 +162,7 @@ import java.lang.NullPointerException;  // for javadoc
  *
  *
  * <h4> Operations on URI instances </h4>
- *
+ * <p>
  * The key operations supported by this class are those of
  * <i>normalization</i>, <i>resolution</i>, and <i>relativization</i>.
  *
@@ -183,26 +184,26 @@ import java.lang.NullPointerException;  // for javadoc
  * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  * &nbsp;&nbsp;&nbsp;&nbsp;(1)
  * </blockquote>
- *
+ * <p>
  * against the base URI {@code http://java.sun.com/j2se/1.3/} is the result
  * URI
  *
  * <blockquote>
  * {@code https://docs.oracle.com/javase/1.3/docs/guide/collections/designfaq.html#28}
  * </blockquote>
- *
+ * <p>
  * Resolving the relative URI
  *
  * <blockquote>
  * {@code ../../../demo/jfc/SwingSet2/src/SwingSet2.java}&nbsp;&nbsp;&nbsp;&nbsp;(2)
  * </blockquote>
- *
+ * <p>
  * against this result yields, in turn,
  *
  * <blockquote>
  * {@code http://java.sun.com/j2se/1.3/demo/jfc/SwingSet2/src/SwingSet2.java}
  * </blockquote>
- *
+ * <p>
  * Resolution of both absolute and relative URIs, and of both absolute and
  * relative paths in the case of hierarchical URIs, is supported.  Resolving
  * the URI {@code file:///~calendar} against any other URI simply yields the
@@ -218,10 +219,10 @@ import java.lang.NullPointerException;  // for javadoc
  * two normalized URIs <i>u</i> and&nbsp;<i>v</i>,
  *
  * <blockquote>
- *   <i>u</i>{@code .relativize(}<i>u</i>{@code .resolve(}<i>v</i>{@code )).equals(}<i>v</i>{@code )}&nbsp;&nbsp;and<br>
- *   <i>u</i>{@code .resolve(}<i>u</i>{@code .relativize(}<i>v</i>{@code )).equals(}<i>v</i>{@code )}&nbsp;&nbsp;.<br>
+ * <i>u</i>{@code .relativize(}<i>u</i>{@code .resolve(}<i>v</i>{@code )).equals(}<i>v</i>{@code )}&nbsp;&nbsp;and<br>
+ * <i>u</i>{@code .resolve(}<i>u</i>{@code .relativize(}<i>v</i>{@code )).equals(}<i>v</i>{@code )}&nbsp;&nbsp;.<br>
  * </blockquote>
- *
+ * <p>
  * This operation is often useful when constructing a document containing URIs
  * that must be made relative to the base URI of the document wherever
  * possible.  For example, relativizing the URI
@@ -229,54 +230,54 @@ import java.lang.NullPointerException;  // for javadoc
  * <blockquote>
  * {@code https://docs.oracle.com/javase/1.3/docs/guide/index.html}
  * </blockquote>
- *
+ * <p>
  * against the base URI
  *
  * <blockquote>
  * {@code http://java.sun.com/j2se/1.3}
  * </blockquote>
- *
+ * <p>
  * yields the relative URI {@code docs/guide/index.html}.
  *
  *
  * <h4> Character categories </h4>
- *
+ * <p>
  * RFC&nbsp;2396 specifies precisely which characters are permitted in the
  * various components of a URI reference.  The following categories, most of
  * which are taken from that specification, are used below to describe these
  * constraints:
  *
  * <blockquote><table cellspacing=2 summary="Describes categories alpha,digit,alphanum,unreserved,punct,reserved,escaped,and other">
- *   <tr><th valign=top><i>alpha</i></th>
- *       <td>The US-ASCII alphabetic characters,
- *        {@code 'A'}&nbsp;through&nbsp;{@code 'Z'}
- *        and {@code 'a'}&nbsp;through&nbsp;{@code 'z'}</td></tr>
- *   <tr><th valign=top><i>digit</i></th>
- *       <td>The US-ASCII decimal digit characters,
- *       {@code '0'}&nbsp;through&nbsp;{@code '9'}</td></tr>
- *   <tr><th valign=top><i>alphanum</i></th>
- *       <td>All <i>alpha</i> and <i>digit</i> characters</td></tr>
- *   <tr><th valign=top><i>unreserved</i>&nbsp;&nbsp;&nbsp;&nbsp;</th>
- *       <td>All <i>alphanum</i> characters together with those in the string
- *        {@code "_-!.~'()*"}</td></tr>
- *   <tr><th valign=top><i>punct</i></th>
- *       <td>The characters in the string {@code ",;:$&+="}</td></tr>
- *   <tr><th valign=top><i>reserved</i></th>
- *       <td>All <i>punct</i> characters together with those in the string
- *        {@code "?/[]@"}</td></tr>
- *   <tr><th valign=top><i>escaped</i></th>
- *       <td>Escaped octets, that is, triplets consisting of the percent
- *           character ({@code '%'}) followed by two hexadecimal digits
- *           ({@code '0'}-{@code '9'}, {@code 'A'}-{@code 'F'}, and
- *           {@code 'a'}-{@code 'f'})</td></tr>
- *   <tr><th valign=top><i>other</i></th>
- *       <td>The Unicode characters that are not in the US-ASCII character set,
- *           are not control characters (according to the {@link
- *           java.lang.Character#isISOControl(char) Character.isISOControl}
- *           method), and are not space characters (according to the {@link
- *           java.lang.Character#isSpaceChar(char) Character.isSpaceChar}
- *           method)&nbsp;&nbsp;<i>(<b>Deviation from RFC 2396</b>, which is
- *           limited to US-ASCII)</i></td></tr>
+ * <tr><th valign=top><i>alpha</i></th>
+ * <td>The US-ASCII alphabetic characters,
+ * {@code 'A'}&nbsp;through&nbsp;{@code 'Z'}
+ * and {@code 'a'}&nbsp;through&nbsp;{@code 'z'}</td></tr>
+ * <tr><th valign=top><i>digit</i></th>
+ * <td>The US-ASCII decimal digit characters,
+ * {@code '0'}&nbsp;through&nbsp;{@code '9'}</td></tr>
+ * <tr><th valign=top><i>alphanum</i></th>
+ * <td>All <i>alpha</i> and <i>digit</i> characters</td></tr>
+ * <tr><th valign=top><i>unreserved</i>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+ * <td>All <i>alphanum</i> characters together with those in the string
+ * {@code "_-!.~'()*"}</td></tr>
+ * <tr><th valign=top><i>punct</i></th>
+ * <td>The characters in the string {@code ",;:$&+="}</td></tr>
+ * <tr><th valign=top><i>reserved</i></th>
+ * <td>All <i>punct</i> characters together with those in the string
+ * {@code "?/[]@"}</td></tr>
+ * <tr><th valign=top><i>escaped</i></th>
+ * <td>Escaped octets, that is, triplets consisting of the percent
+ * character ({@code '%'}) followed by two hexadecimal digits
+ * ({@code '0'}-{@code '9'}, {@code 'A'}-{@code 'F'}, and
+ * {@code 'a'}-{@code 'f'})</td></tr>
+ * <tr><th valign=top><i>other</i></th>
+ * <td>The Unicode characters that are not in the US-ASCII character set,
+ * are not control characters (according to the {@link
+ * java.lang.Character#isISOControl(char) Character.isISOControl}
+ * method), and are not space characters (according to the {@link
+ * java.lang.Character#isSpaceChar(char) Character.isSpaceChar}
+ * method)&nbsp;&nbsp;<i>(<b>Deviation from RFC 2396</b>, which is
+ * limited to US-ASCII)</i></td></tr>
  * </table></blockquote>
  *
  * <p><a name="legal-chars"></a> The set of all legal URI characters consists of
@@ -285,7 +286,7 @@ import java.lang.NullPointerException;  // for javadoc
  *
  *
  * <h4> Escaped octets, quotation, encoding, and decoding </h4>
- *
+ * <p>
  * RFC 2396 allows escaped octets to appear in the user-info, path, query, and
  * fragment components.  Escaping serves two purposes in URIs:
  *
@@ -301,7 +302,7 @@ import java.lang.NullPointerException;  // for javadoc
  *   </p></li>
  *
  * </ul>
- *
+ * <p>
  * These purposes are served in this class by three related operations:
  *
  * <ul>
@@ -330,7 +331,7 @@ import java.lang.NullPointerException;  // for javadoc
  *   {@code '\u005CuFFFD'}, the Unicode replacement character.  </p></li>
  *
  * </ul>
- *
+ * <p>
  * These operations are exposed in the constructors and methods of this class
  * as follows:
  *
@@ -342,7 +343,7 @@ import java.lang.NullPointerException;  // for javadoc
  *   are present.  </p></li>
  *
  *   <li><p> The {@linkplain
- *   #URI(java.lang.String,java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,java.lang.String)
+ *   #URI(java.lang.String, java.lang.String, java.lang.String, int, java.lang.String, java.lang.String, java.lang.String)
  *   multi-argument constructors} quote illegal characters as
  *   required by the components in which they appear.  The percent character
  *   ({@code '%'}) is always quoted by these constructors.  Any <i>other</i>
@@ -377,13 +378,13 @@ import java.lang.NullPointerException;  // for javadoc
  *
  *
  * <h4> Identities </h4>
- *
+ * <p>
  * For any URI <i>u</i>, it is always the case that
  *
  * <blockquote>
  * {@code new URI(}<i>u</i>{@code .toString()).equals(}<i>u</i>{@code )}&nbsp;.
  * </blockquote>
- *
+ * <p>
  * For any URI <i>u</i> that does not contain redundant syntax such as two
  * slashes before an empty authority (as in {@code file:///tmp/}&nbsp;) or a
  * colon following a host name but no port (as in
@@ -413,7 +414,7 @@ import java.lang.NullPointerException;  // for javadoc
  *
  *
  * <h4> URIs, URLs, and URNs </h4>
- *
+ * <p>
  * A URI is a uniform resource <i>identifier</i> while a URL is a uniform
  * resource <i>locator</i>.  Hence every URL is a URI, abstractly speaking, but
  * not every URI is a URL.  This is because there is another subcategory of
@@ -446,10 +447,7 @@ import java.lang.NullPointerException;  // for javadoc
  * resolution as well as the network I/O operations of looking up the host and
  * opening a connection to the specified resource.
  *
- *
  * @author Mark Reinhold
- * @since 1.4
- *
  * @see <a href="http://www.ietf.org/rfc/rfc2279.txt"><i>RFC&nbsp;2279: UTF-8, a
  * transformation format of ISO 10646</i></a>, <br><a
  * href="http://www.ietf.org/rfc/rfc2373.txt"><i>RFC&nbsp;2373: IPv6 Addressing
@@ -459,11 +457,11 @@ import java.lang.NullPointerException;  // for javadoc
  * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Format for
  * Literal IPv6 Addresses in URLs</i></a>, <br><a
  * href="URISyntaxException.html">URISyntaxException</a>
+ * @since 1.4
  */
 
 public final class URI
-    implements Comparable<URI>, Serializable
-{
+        implements Comparable<URI>, Serializable {
 
     // Note: Comments containing the word "ASSERT" indicate places where a
     // throw of an InternalError should be replaced by an appropriate assertion
@@ -510,10 +508,10 @@ public final class URI
     private volatile String string;             // The only serializable field
 
 
-
     // -- Constructors and factories --
 
-    private URI() { }                           // Used internally
+    private URI() {
+    }                           // Used internally
 
     /**
      * Constructs a URI by parsing the given string.
@@ -575,14 +573,10 @@ public final class URI
      *
      * </ul>
      *
-     * @param  str   The string to be parsed into a URI
-     *
-     * @throws  NullPointerException
-     *          If {@code str} is {@code null}
-     *
-     * @throws  URISyntaxException
-     *          If the given string violates RFC&nbsp;2396, as augmented
-     *          by the above deviations
+     * @param str The string to be parsed into a URI
+     * @throws NullPointerException If {@code str} is {@code null}
+     * @throws URISyntaxException   If the given string violates RFC&nbsp;2396, as augmented
+     *                              by the above deviations
      */
     public URI(String str) throws URISyntaxException {
         new Parser(str).parse(false);
@@ -647,28 +641,25 @@ public final class URI
      * #parseServerAuthority()} method upon the result; this may cause a {@link
      * URISyntaxException} to be thrown.  </p>
      *
-     * @param   scheme    Scheme name
-     * @param   userInfo  User name and authorization information
-     * @param   host      Host name
-     * @param   port      Port number
-     * @param   path      Path
-     * @param   query     Query
-     * @param   fragment  Fragment
-     *
-     * @throws URISyntaxException
-     *         If both a scheme and a path are given but the path is relative,
-     *         if the URI string constructed from the given components violates
-     *         RFC&nbsp;2396, or if the authority component of the string is
-     *         present but cannot be parsed as a server-based authority
+     * @param scheme   Scheme name
+     * @param userInfo User name and authorization information
+     * @param host     Host name
+     * @param port     Port number
+     * @param path     Path
+     * @param query    Query
+     * @param fragment Fragment
+     * @throws URISyntaxException If both a scheme and a path are given but the path is relative,
+     *                            if the URI string constructed from the given components violates
+     *                            RFC&nbsp;2396, or if the authority component of the string is
+     *                            present but cannot be parsed as a server-based authority
      */
     public URI(String scheme,
                String userInfo, String host, int port,
                String path, String query, String fragment)
-        throws URISyntaxException
-    {
+            throws URISyntaxException {
         String s = toString(scheme, null,
-                            null, userInfo, host, port,
-                            path, query, fragment);
+                null, userInfo, host, port,
+                path, query, fragment);
         checkPath(s, scheme, path);
         new Parser(s).parse(true);
     }
@@ -722,26 +713,23 @@ public final class URI
      * #parseServerAuthority()} method upon the result; this may cause a {@link
      * URISyntaxException} to be thrown.  </p>
      *
-     * @param   scheme     Scheme name
-     * @param   authority  Authority
-     * @param   path       Path
-     * @param   query      Query
-     * @param   fragment   Fragment
-     *
-     * @throws URISyntaxException
-     *         If both a scheme and a path are given but the path is relative,
-     *         if the URI string constructed from the given components violates
-     *         RFC&nbsp;2396, or if the authority component of the string is
-     *         present but cannot be parsed as a server-based authority
+     * @param scheme    Scheme name
+     * @param authority Authority
+     * @param path      Path
+     * @param query     Query
+     * @param fragment  Fragment
+     * @throws URISyntaxException If both a scheme and a path are given but the path is relative,
+     *                            if the URI string constructed from the given components violates
+     *                            RFC&nbsp;2396, or if the authority component of the string is
+     *                            present but cannot be parsed as a server-based authority
      */
     public URI(String scheme,
                String authority,
                String path, String query, String fragment)
-        throws URISyntaxException
-    {
+            throws URISyntaxException {
         String s = toString(scheme, null,
-                            authority, null, null, -1,
-                            path, query, fragment);
+                authority, null, null, -1,
+                path, query, fragment);
         checkPath(s, scheme, path);
         new Parser(s).parse(false);
     }
@@ -759,18 +747,15 @@ public final class URI
      * URI}{@code (scheme, null, host, -1, path, null, fragment);}
      * </blockquote>
      *
-     * @param   scheme    Scheme name
-     * @param   host      Host name
-     * @param   path      Path
-     * @param   fragment  Fragment
-     *
-     * @throws  URISyntaxException
-     *          If the URI string constructed from the given components
-     *          violates RFC&nbsp;2396
+     * @param scheme   Scheme name
+     * @param host     Host name
+     * @param path     Path
+     * @param fragment Fragment
+     * @throws URISyntaxException If the URI string constructed from the given components
+     *                            violates RFC&nbsp;2396
      */
     public URI(String scheme, String host, String path, String fragment)
-        throws URISyntaxException
-    {
+            throws URISyntaxException {
         this(scheme, null, host, -1, path, null, fragment);
     }
 
@@ -803,21 +788,18 @@ public final class URI
      * URI instance as if by invoking the {@link #URI(String)} constructor;
      * this may cause a {@link URISyntaxException} to be thrown.  </p>
      *
-     * @param   scheme    Scheme name
-     * @param   ssp       Scheme-specific part
-     * @param   fragment  Fragment
-     *
-     * @throws  URISyntaxException
-     *          If the URI string constructed from the given components
-     *          violates RFC&nbsp;2396
+     * @param scheme   Scheme name
+     * @param ssp      Scheme-specific part
+     * @param fragment Fragment
+     * @throws URISyntaxException If the URI string constructed from the given components
+     *                            violates RFC&nbsp;2396
      */
     public URI(String scheme, String ssp, String fragment)
-        throws URISyntaxException
-    {
+            throws URISyntaxException {
         new Parser(toString(scheme, ssp,
-                            null, null, null, -1,
-                            null, null, fragment))
-            .parse(false);
+                null, null, null, -1,
+                null, null, fragment))
+                .parse(false);
     }
 
     /**
@@ -836,14 +818,10 @@ public final class URI
      * URI is being constructed from user input or from some other source that
      * may be prone to errors.  </p>
      *
-     * @param  str   The string to be parsed into a URI
+     * @param str The string to be parsed into a URI
      * @return The new URI
-     *
-     * @throws  NullPointerException
-     *          If {@code str} is {@code null}
-     *
-     * @throws  IllegalArgumentException
-     *          If the given string violates RFC&nbsp;2396
+     * @throws NullPointerException     If {@code str} is {@code null}
+     * @throws IllegalArgumentException If the given string violates RFC&nbsp;2396
      */
     public static URI create(String str) {
         try {
@@ -895,17 +873,14 @@ public final class URI
      * appropriate diagnostic message can be issued based upon the exception
      * that is thrown. </p>
      *
-     * @return  A URI whose authority field has been parsed
-     *          as a server-based authority
-     *
-     * @throws  URISyntaxException
-     *          If the authority component of this URI is defined
-     *          but cannot be parsed as a server-based authority
-     *          according to RFC&nbsp;2396
+     * @return A URI whose authority field has been parsed
+     * as a server-based authority
+     * @throws URISyntaxException If the authority component of this URI is defined
+     *                            but cannot be parsed as a server-based authority
+     *                            according to RFC&nbsp;2396
      */
     public URI parseServerAuthority()
-        throws URISyntaxException
-    {
+            throws URISyntaxException {
         // We could be clever and cache the error message and index from the
         // exception thrown during the original parse, but that would require
         // either more fields or a more-obscure representation.
@@ -950,8 +925,8 @@ public final class URI
      * segment if one was inserted by step 3 above.  Otherwise, a normalized
      * path will not contain any {@code "."} or {@code ".."} segments. </p>
      *
-     * @return  A URI equivalent to this URI,
-     *          but whose path is in normal form
+     * @return A URI equivalent to this URI,
+     * but whose path is in normal form
      */
     public URI normalize() {
         return normalize(this);
@@ -1005,11 +980,9 @@ public final class URI
      * <p> The result of this method is absolute if, and only if, either this
      * URI is absolute or the given URI is absolute.  </p>
      *
-     * @param  uri  The URI to be resolved against this URI
+     * @param uri The URI to be resolved against this URI
      * @return The resulting URI
-     *
-     * @throws  NullPointerException
-     *          If {@code uri} is {@code null}
+     * @throws NullPointerException If {@code uri} is {@code null}
      */
     public URI resolve(URI uri) {
         return resolve(this, uri);
@@ -1023,14 +996,10 @@ public final class URI
      * evaluating the expression {@link #resolve(java.net.URI)
      * resolve}{@code (URI.}{@link #create(String) create}{@code (str))}. </p>
      *
-     * @param  str   The string to be parsed into a URI
+     * @param str The string to be parsed into a URI
      * @return The resulting URI
-     *
-     * @throws  NullPointerException
-     *          If {@code str} is {@code null}
-     *
-     * @throws  IllegalArgumentException
-     *          If the given string violates RFC&nbsp;2396
+     * @throws NullPointerException     If {@code str} is {@code null}
+     * @throws IllegalArgumentException If the given string violates RFC&nbsp;2396
      */
     public URI resolve(String str) {
         return resolve(URI.create(str));
@@ -1056,11 +1025,9 @@ public final class URI
      *
      * </ol>
      *
-     * @param  uri  The URI to be relativized against this URI
+     * @param uri The URI to be relativized against this URI
      * @return The resulting URI
-     *
-     * @throws  NullPointerException
-     *          If {@code uri} is {@code null}
+     * @throws NullPointerException If {@code uri} is {@code null}
      */
     public URI relativize(URI uri) {
         return relativize(this, uri);
@@ -1073,17 +1040,13 @@ public final class URI
      * evaluating the expression {@code new URL(this.toString())} after
      * first checking that this URI is absolute. </p>
      *
-     * @return  A URL constructed from this URI
-     *
-     * @throws  IllegalArgumentException
-     *          If this URL is not absolute
-     *
-     * @throws  MalformedURLException
-     *          If a protocol handler for the URL could not be found,
-     *          or if some other error occurred while constructing the URL
+     * @return A URL constructed from this URI
+     * @throws IllegalArgumentException If this URL is not absolute
+     * @throws MalformedURLException    If a protocol handler for the URL could not be found,
+     *                                  or if some other error occurred while constructing the URL
      */
     public URL toURL()
-        throws MalformedURLException {
+            throws MalformedURLException {
         if (!isAbsolute())
             throw new IllegalArgumentException("URI is not absolute");
         return new URL(toString());
@@ -1097,12 +1060,12 @@ public final class URI
      * <p> The scheme component of a URI, if defined, only contains characters
      * in the <i>alphanum</i> category and in the string {@code "-.+"}.  A
      * scheme always starts with an <i>alpha</i> character. <p>
-     *
+     * <p>
      * The scheme component of a URI cannot contain escaped octets, hence this
      * method does not perform any decoding.
      *
-     * @return  The scheme component of this URI,
-     *          or {@code null} if the scheme is undefined
+     * @return The scheme component of this URI,
+     * or {@code null} if the scheme is undefined
      */
     public String getScheme() {
         return scheme;
@@ -1113,7 +1076,7 @@ public final class URI
      *
      * <p> A URI is absolute if, and only if, it has a scheme component. </p>
      *
-     * @return  {@code true} if, and only if, this URI is absolute
+     * @return {@code true} if, and only if, this URI is absolute
      */
     public boolean isAbsolute() {
         return scheme != null;
@@ -1127,7 +1090,7 @@ public final class URI
      * An opaque URI has a scheme, a scheme-specific part, and possibly
      * a fragment; all other components are undefined. </p>
      *
-     * @return  {@code true} if, and only if, this URI is opaque
+     * @return {@code true} if, and only if, this URI is opaque
      */
     public boolean isOpaque() {
         return path == null;
@@ -1140,8 +1103,8 @@ public final class URI
      * <p> The scheme-specific part of a URI only contains legal URI
      * characters. </p>
      *
-     * @return  The raw scheme-specific part of this URI
-     *          (never {@code null})
+     * @return The raw scheme-specific part of this URI
+     * (never {@code null})
      */
     public String getRawSchemeSpecificPart() {
         defineSchemeSpecificPart();
@@ -1156,8 +1119,8 @@ public final class URI
      * except that all sequences of escaped octets are <a
      * href="#decode">decoded</a>.  </p>
      *
-     * @return  The decoded scheme-specific part of this URI
-     *          (never {@code null})
+     * @return The decoded scheme-specific part of this URI
+     * (never {@code null})
      */
     public String getSchemeSpecificPart() {
         if (decodedSchemeSpecificPart == null)
@@ -1175,8 +1138,8 @@ public final class URI
      * constrained to have valid user-information, host, and port
      * components. </p>
      *
-     * @return  The raw authority component of this URI,
-     *          or {@code null} if the authority is undefined
+     * @return The raw authority component of this URI,
+     * or {@code null} if the authority is undefined
      */
     public String getRawAuthority() {
         return authority;
@@ -1189,8 +1152,8 @@ public final class URI
      * {@link #getRawAuthority() getRawAuthority} method except that all
      * sequences of escaped octets are <a href="#decode">decoded</a>.  </p>
      *
-     * @return  The decoded authority component of this URI,
-     *          or {@code null} if the authority is undefined
+     * @return The decoded authority component of this URI,
+     * or {@code null} if the authority is undefined
      */
     public String getAuthority() {
         if (decodedAuthority == null)
@@ -1205,8 +1168,8 @@ public final class URI
      * characters in the <i>unreserved</i>, <i>punct</i>, <i>escaped</i>, and
      * <i>other</i> categories. </p>
      *
-     * @return  The raw user-information component of this URI,
-     *          or {@code null} if the user information is undefined
+     * @return The raw user-information component of this URI,
+     * or {@code null} if the user information is undefined
      */
     public String getRawUserInfo() {
         return userInfo;
@@ -1219,8 +1182,8 @@ public final class URI
      * {@link #getRawUserInfo() getRawUserInfo} method except that all
      * sequences of escaped octets are <a href="#decode">decoded</a>.  </p>
      *
-     * @return  The decoded user-information component of this URI,
-     *          or {@code null} if the user information is undefined
+     * @return The decoded user-information component of this URI,
+     * or {@code null} if the user information is undefined
      */
     public String getUserInfo() {
         if ((decodedUserInfo == null) && (userInfo != null))
@@ -1257,12 +1220,12 @@ public final class URI
      *   Addressing Architecture</i></a>.  </p></li>
      *
      * </ul>
-     *
+     * <p>
      * The host component of a URI cannot contain escaped octets, hence this
      * method does not perform any decoding.
      *
-     * @return  The host component of this URI,
-     *          or {@code null} if the host is undefined
+     * @return The host component of this URI,
+     * or {@code null} if the host is undefined
      */
     public String getHost() {
         return host;
@@ -1274,8 +1237,8 @@ public final class URI
      * <p> The port component of a URI, if defined, is a non-negative
      * integer. </p>
      *
-     * @return  The port component of this URI,
-     *          or {@code -1} if the port is undefined
+     * @return The port component of this URI,
+     * or {@code -1} if the port is undefined
      */
     public int getPort() {
         return port;
@@ -1289,8 +1252,8 @@ public final class URI
      * and characters in the <i>unreserved</i>, <i>punct</i>, <i>escaped</i>,
      * and <i>other</i> categories. </p>
      *
-     * @return  The path component of this URI,
-     *          or {@code null} if the path is undefined
+     * @return The path component of this URI,
+     * or {@code null} if the path is undefined
      */
     public String getRawPath() {
         return path;
@@ -1303,8 +1266,8 @@ public final class URI
      * {@link #getRawPath() getRawPath} method except that all sequences of
      * escaped octets are <a href="#decode">decoded</a>.  </p>
      *
-     * @return  The decoded path component of this URI,
-     *          or {@code null} if the path is undefined
+     * @return The decoded path component of this URI,
+     * or {@code null} if the path is undefined
      */
     public String getPath() {
         if ((decodedPath == null) && (path != null))
@@ -1318,8 +1281,8 @@ public final class URI
      * <p> The query component of a URI, if defined, only contains legal URI
      * characters. </p>
      *
-     * @return  The raw query component of this URI,
-     *          or {@code null} if the query is undefined
+     * @return The raw query component of this URI,
+     * or {@code null} if the query is undefined
      */
     public String getRawQuery() {
         return query;
@@ -1332,8 +1295,8 @@ public final class URI
      * {@link #getRawQuery() getRawQuery} method except that all sequences of
      * escaped octets are <a href="#decode">decoded</a>.  </p>
      *
-     * @return  The decoded query component of this URI,
-     *          or {@code null} if the query is undefined
+     * @return The decoded query component of this URI,
+     * or {@code null} if the query is undefined
      */
     public String getQuery() {
         if ((decodedQuery == null) && (query != null))
@@ -1347,8 +1310,8 @@ public final class URI
      * <p> The fragment component of a URI, if defined, only contains legal URI
      * characters. </p>
      *
-     * @return  The raw fragment component of this URI,
-     *          or {@code null} if the fragment is undefined
+     * @return The raw fragment component of this URI,
+     * or {@code null} if the fragment is undefined
      */
     public String getRawFragment() {
         return fragment;
@@ -1361,8 +1324,8 @@ public final class URI
      * {@link #getRawFragment() getRawFragment} method except that all
      * sequences of escaped octets are <a href="#decode">decoded</a>.  </p>
      *
-     * @return  The decoded fragment component of this URI,
-     *          or {@code null} if the fragment is undefined
+     * @return The decoded fragment component of this URI,
+     * or {@code null} if the fragment is undefined
      */
     public String getFragment() {
         if ((decodedFragment == null) && (fragment != null))
@@ -1405,17 +1368,16 @@ public final class URI
      * <p> This method satisfies the general contract of the {@link
      * java.lang.Object#equals(Object) Object.equals} method. </p>
      *
-     * @param   ob   The object to which this object is to be compared
-     *
-     * @return  {@code true} if, and only if, the given object is a URI that
-     *          is identical to this URI
+     * @param ob The object to which this object is to be compared
+     * @return {@code true} if, and only if, the given object is a URI that
+     * is identical to this URI
      */
     public boolean equals(Object ob) {
         if (ob == this)
             return true;
         if (!(ob instanceof URI))
             return false;
-        URI that = (URI)ob;
+        URI that = (URI) ob;
         if (this.isOpaque() != that.isOpaque()) return false;
         if (!equalIgnoringCase(this.scheme, that.scheme)) return false;
         if (!equal(this.fragment, that.fragment)) return false;
@@ -1450,7 +1412,7 @@ public final class URI
      * of the URI's components, and satisfies the general contract of the
      * {@link java.lang.Object#hashCode() Object.hashCode} method.
      *
-     * @return  A hash-code value for this URI
+     * @return A hash-code value for this URI
      */
     public int hashCode() {
         if (hash != 0)
@@ -1533,14 +1495,10 @@ public final class URI
      * java.lang.Comparable#compareTo(Object) Comparable.compareTo}
      * method. </p>
      *
-     * @param   that
-     *          The object to which this URI is to be compared
-     *
-     * @return  A negative integer, zero, or a positive integer as this URI is
-     *          less than, equal to, or greater than the given URI
-     *
-     * @throws  ClassCastException
-     *          If the given object is not a URI
+     * @param that The object to which this URI is to be compared
+     * @return A negative integer, zero, or a positive integer as this URI is
+     * less than, equal to, or greater than the given URI
+     * @throws ClassCastException If the given object is not a URI
      */
     public int compareTo(URI that) {
         int c;
@@ -1552,7 +1510,7 @@ public final class URI
             if (that.isOpaque()) {
                 // Both opaque
                 if ((c = compare(this.schemeSpecificPart,
-                                 that.schemeSpecificPart)) != 0)
+                        that.schemeSpecificPart)) != 0)
                     return c;
                 return compare(this.fragment, that.fragment);
             }
@@ -1597,7 +1555,7 @@ public final class URI
      * href="http://www.ietf.org/rfc/rfc2396.txt">RFC&nbsp;2396</a>,
      * section&nbsp;5.2, step&nbsp;7. </p>
      *
-     * @return  The string form of this URI
+     * @return The string form of this URI
      */
     public String toString() {
         defineString();
@@ -1613,9 +1571,9 @@ public final class URI
      * this method works as if by invoking that method and then <a
      * href="#encode">encoding</a> the result.  </p>
      *
-     * @return  The string form of this URI, encoded as needed
-     *          so that it only contains characters in the US-ASCII
-     *          charset
+     * @return The string form of this URI, encoded as needed
+     * so that it only contains characters in the US-ASCII
+     * charset
      */
     public String toASCIIString() {
         defineString();
@@ -1633,12 +1591,11 @@ public final class URI
      * and then the {@link java.io.ObjectOutputStream#defaultWriteObject()}
      * method of the given object-output stream is invoked. </p>
      *
-     * @param  os  The object-output stream to which this object
-     *             is to be written
+     * @param os The object-output stream to which this object
+     *           is to be written
      */
     private void writeObject(ObjectOutputStream os)
-        throws IOException
-    {
+            throws IOException {
         defineString();
         os.defaultWriteObject();        // Writes the string field only
     }
@@ -1650,12 +1607,11 @@ public final class URI
      * invoked to read the value of the {@code string} field.  The result is
      * then parsed in the usual way.
      *
-     * @param  is  The object-input stream from which this object
-     *             is being read
+     * @param is The object-input stream from which this object
+     *           is being read
      */
     private void readObject(ObjectInputStream is)
-        throws ClassNotFoundException, IOException
-    {
+            throws ClassNotFoundException, IOException {
         port = -1;                      // Argh
         is.defaultReadObject();
         try {
@@ -1702,7 +1658,7 @@ public final class URI
             if (s.indexOf('%') < 0)
                 return s.equals(t);
             int n = s.length();
-            for (int i = 0; i < n;) {
+            for (int i = 0; i < n; ) {
                 char c = s.charAt(i);
                 char d = t.charAt(i);
                 if (c != '%') {
@@ -1745,7 +1701,7 @@ public final class URI
     private static int hash(int hash, String s) {
         if (s == null) return hash;
         return s.indexOf('%') < 0 ? hash * 127 + s.hashCode()
-                                  : normalizedHash(hash, s);
+                : normalizedHash(hash, s);
     }
 
 
@@ -1815,13 +1771,12 @@ public final class URI
     // If a scheme is given then the path, if given, must be absolute
     //
     private static void checkPath(String s, String scheme, String path)
-        throws URISyntaxException
-    {
+            throws URISyntaxException {
         if (scheme != null) {
             if ((path != null)
-                && ((path.length() > 0) && (path.charAt(0) != '/')))
+                    && ((path.length() > 0) && (path.charAt(0) != '/')))
                 throw new URISyntaxException(s,
-                                             "Relative path in absolute URI");
+                        "Relative path in absolute URI");
         }
     }
 
@@ -1829,8 +1784,7 @@ public final class URI
                                  String authority,
                                  String userInfo,
                                  String host,
-                                 int port)
-    {
+                                 int port) {
         if (host != null) {
             sb.append("//");
             if (userInfo != null) {
@@ -1838,8 +1792,8 @@ public final class URI
                 sb.append('@');
             }
             boolean needBrackets = ((host.indexOf(':') >= 0)
-                                    && !host.startsWith("[")
-                                    && !host.endsWith("]"));
+                    && !host.startsWith("[")
+                    && !host.endsWith("]"));
             if (needBrackets) sb.append('[');
             sb.append(host);
             if (needBrackets) sb.append(']');
@@ -1859,18 +1813,18 @@ public final class URI
                         dontquote = authority;
                         doquote = "";
                     } else {
-                        dontquote = authority.substring(0 , end + 1);
+                        dontquote = authority.substring(0, end + 1);
                         doquote = authority.substring(end + 1);
                     }
                 }
                 sb.append(dontquote);
                 sb.append(quote(doquote,
-                            L_REG_NAME | L_SERVER,
-                            H_REG_NAME | H_SERVER));
+                        L_REG_NAME | L_SERVER,
+                        H_REG_NAME | H_SERVER));
             } else {
                 sb.append(quote(authority,
-                            L_REG_NAME | L_SERVER,
-                            H_REG_NAME | H_SERVER));
+                        L_REG_NAME | L_SERVER,
+                        H_REG_NAME | H_SERVER));
             }
         }
     }
@@ -1882,24 +1836,23 @@ public final class URI
                                           String host,
                                           int port,
                                           String path,
-                                          String query)
-    {
+                                          String query) {
         if (opaquePart != null) {
             /* check if SSP begins with an IPv6 address
              * because we must not quote a literal IPv6 address
              */
             if (opaquePart.startsWith("//[")) {
-                int end =  opaquePart.indexOf("]");
-                if (end != -1 && opaquePart.indexOf(":")!=-1) {
+                int end = opaquePart.indexOf("]");
+                if (end != -1 && opaquePart.indexOf(":") != -1) {
                     String doquote, dontquote;
                     if (end == opaquePart.length()) {
                         dontquote = opaquePart;
                         doquote = "";
                     } else {
-                        dontquote = opaquePart.substring(0,end+1);
-                        doquote = opaquePart.substring(end+1);
+                        dontquote = opaquePart.substring(0, end + 1);
+                        doquote = opaquePart.substring(end + 1);
                     }
-                    sb.append (dontquote);
+                    sb.append(dontquote);
                     sb.append(quote(doquote, L_URIC, H_URIC));
                 }
             } else {
@@ -1931,16 +1884,15 @@ public final class URI
                             int port,
                             String path,
                             String query,
-                            String fragment)
-    {
+                            String fragment) {
         StringBuffer sb = new StringBuffer();
         if (scheme != null) {
             sb.append(scheme);
             sb.append(':');
         }
         appendSchemeSpecificPart(sb, opaquePart,
-                                 authority, userInfo, host, port,
-                                 path, query);
+                authority, userInfo, host, port,
+                path, query);
         appendFragment(sb, fragment);
         return sb.toString();
     }
@@ -1949,7 +1901,7 @@ public final class URI
         if (schemeSpecificPart != null) return;
         StringBuffer sb = new StringBuffer();
         appendSchemeSpecificPart(sb, null, getAuthority(), getUserInfo(),
-                                 host, port, getPath(), getQuery());
+                host, port, getPath(), getQuery());
         if (sb.length() == 0) return;
         schemeSpecificPart = sb.toString();
     }
@@ -1972,8 +1924,8 @@ public final class URI
                     sb.append('@');
                 }
                 boolean needBrackets = ((host.indexOf(':') >= 0)
-                                    && !host.startsWith("[")
-                                    && !host.endsWith("]"));
+                        && !host.startsWith("[")
+                        && !host.endsWith("]"));
                 if (needBrackets) sb.append('[');
                 sb.append(host);
                 if (needBrackets) sb.append(']');
@@ -2004,8 +1956,7 @@ public final class URI
 
     // RFC2396 5.2 (6)
     private static String resolvePath(String base, String child,
-                                      boolean absolute)
-    {
+                                      boolean absolute) {
         int i = base.lastIndexOf('/');
         int cn = child.length();
         String path = "";
@@ -2042,10 +1993,10 @@ public final class URI
 
         // 5.2 (2): Reference to current document (lone fragment)
         if ((child.scheme == null) && (child.authority == null)
-            && child.path.equals("") && (child.fragment != null)
-            && (child.query == null)) {
+                && child.path.equals("") && (child.fragment != null)
+                && (child.query == null)) {
             if ((base.fragment != null)
-                && child.fragment.equals(base.fragment)) {
+                    && child.fragment.equals(base.fragment)) {
                 return base;
             }
             URI ru = new URI();
@@ -2131,7 +2082,7 @@ public final class URI
         if (child.isOpaque() || base.isOpaque())
             return child;
         if (!equalIgnoringCase(base.scheme, child.scheme)
-            || !equal(base.authority, child.authority))
+                || !equal(base.authority, child.authority))
             return child;
 
         String bp = normalize(base.path);
@@ -2149,7 +2100,6 @@ public final class URI
         v.fragment = child.fragment;
         return v;
     }
-
 
 
     // -- Path normalization --
@@ -2193,11 +2143,11 @@ public final class URI
 
             // Looking at "." or ".." ?
             if ((path.charAt(p) == '.')
-                && ((p == end)
+                    && ((p == end)
                     || ((path.charAt(p + 1) == '/')
-                        || ((path.charAt(p + 1) == '.')
-                            && ((p + 1 == end)
-                                || (path.charAt(p + 2) == '/')))))) {
+                    || ((path.charAt(p + 1) == '.')
+                    && ((p + 1 == end)
+                    || (path.charAt(p + 2) == '/')))))) {
                 normal = false;
             }
             ns++;
@@ -2342,8 +2292,8 @@ public final class URI
                         dots = 1;
                         break;
                     } else if ((path[p + 1] == '.')
-                               && ((p + 1 == end)
-                                   || (path[p + 2] == '\0'))) {
+                            && ((p + 1 == end)
+                            || (path[p + 2] == '\0'))) {
                         dots = 2;
                         break;
                     }
@@ -2367,8 +2317,8 @@ public final class URI
                 if (j >= 0) {
                     int q = segs[j];
                     if (!((path[q] == '.')
-                          && (path[q + 1] == '.')
-                          && (path[q + 2] == '\0'))) {
+                            && (path[q + 1] == '.')
+                            && (path[q + 2] == '\0'))) {
                         segs[i] = -1;
                         segs[j] = -1;
                     }
@@ -2447,7 +2397,6 @@ public final class URI
         }
         return s;
     }
-
 
 
     // -- Character classes for parsing --
@@ -2581,9 +2530,9 @@ public final class URI
     // pchar         = unreserved | escaped |
     //                 ":" | "@" | "&" | "=" | "+" | "$" | ","
     private static final long L_PCHAR
-        = L_UNRESERVED | L_ESCAPED | lowMask(":@&=+$,");
+            = L_UNRESERVED | L_ESCAPED | lowMask(":@&=+$,");
     private static final long H_PCHAR
-        = H_UNRESERVED | H_ESCAPED | highMask(":@&=+$,");
+            = H_UNRESERVED | H_ESCAPED | highMask(":@&=+$,");
 
     // All valid path characters
     private static final long L_PATH = L_PCHAR | lowMask(";/");
@@ -2600,29 +2549,29 @@ public final class URI
     // userinfo      = *( unreserved | escaped |
     //                    ";" | ":" | "&" | "=" | "+" | "$" | "," )
     private static final long L_USERINFO
-        = L_UNRESERVED | L_ESCAPED | lowMask(";:&=+$,");
+            = L_UNRESERVED | L_ESCAPED | lowMask(";:&=+$,");
     private static final long H_USERINFO
-        = H_UNRESERVED | H_ESCAPED | highMask(";:&=+$,");
+            = H_UNRESERVED | H_ESCAPED | highMask(";:&=+$,");
 
     // reg_name      = 1*( unreserved | escaped | "$" | "," |
     //                     ";" | ":" | "@" | "&" | "=" | "+" )
     private static final long L_REG_NAME
-        = L_UNRESERVED | L_ESCAPED | lowMask("$,;:@&=+");
+            = L_UNRESERVED | L_ESCAPED | lowMask("$,;:@&=+");
     private static final long H_REG_NAME
-        = H_UNRESERVED | H_ESCAPED | highMask("$,;:@&=+");
+            = H_UNRESERVED | H_ESCAPED | highMask("$,;:@&=+");
 
     // All valid characters for server-based authorities
     private static final long L_SERVER
-        = L_USERINFO | L_ALPHANUM | L_DASH | lowMask(".:@[]");
+            = L_USERINFO | L_ALPHANUM | L_DASH | lowMask(".:@[]");
     private static final long H_SERVER
-        = H_USERINFO | H_ALPHANUM | H_DASH | highMask(".:@[]");
+            = H_USERINFO | H_ALPHANUM | H_DASH | highMask(".:@[]");
 
     // Special case of server authority that represents an IPv6 address
     // In this case, a % does not signify an escape sequence
     private static final long L_SERVER_PERCENT
-        = L_SERVER | lowMask("%");
+            = L_SERVER | lowMask("%");
     private static final long H_SERVER_PERCENT
-        = H_SERVER | highMask("%");
+            = H_SERVER | highMask("%");
     private static final long L_LEFT_BRACKET = lowMask("[");
     private static final long H_LEFT_BRACKET = highMask("[");
 
@@ -2633,16 +2582,16 @@ public final class URI
     // uric_no_slash = unreserved | escaped | ";" | "?" | ":" | "@" |
     //                 "&" | "=" | "+" | "$" | ","
     private static final long L_URIC_NO_SLASH
-        = L_UNRESERVED | L_ESCAPED | lowMask(";?:@&=+$,");
+            = L_UNRESERVED | L_ESCAPED | lowMask(";?:@&=+$,");
     private static final long H_URIC_NO_SLASH
-        = H_UNRESERVED | H_ESCAPED | highMask(";?:@&=+$,");
+            = H_UNRESERVED | H_ESCAPED | highMask(";?:@&=+$,");
 
 
     // -- Escaping and encoding --
 
     private final static char[] hexDigits = {
-        '0', '1', '2', '3', '4', '5', '6', '7',
-        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+            '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
 
     private static void appendEscape(StringBuffer sb, byte b) {
@@ -2655,16 +2604,16 @@ public final class URI
         ByteBuffer bb = null;
         try {
             bb = ThreadLocalCoders.encoderFor("UTF-8")
-                .encode(CharBuffer.wrap("" + c));
+                    .encode(CharBuffer.wrap("" + c));
         } catch (CharacterCodingException x) {
             assert false;
         }
         while (bb.hasRemaining()) {
             int b = bb.get() & 0xff;
             if (b >= 0x80)
-                appendEscape(sb, (byte)b);
+                appendEscape(sb, (byte) b);
             else
-                sb.append((char)b);
+                sb.append((char) b);
         }
     }
 
@@ -2683,14 +2632,14 @@ public final class URI
                         sb = new StringBuffer();
                         sb.append(s.substring(0, i));
                     }
-                    appendEscape(sb, (byte)c);
+                    appendEscape(sb, (byte) c);
                 } else {
                     if (sb != null)
                         sb.append(c);
                 }
             } else if (allowNonASCII
-                       && (Character.isSpaceChar(c)
-                           || Character.isISOControl(c))) {
+                    && (Character.isSpaceChar(c)
+                    || Character.isISOControl(c))) {
                 if (sb == null) {
                     sb = new StringBuffer();
                     sb.append(s.substring(0, i));
@@ -2713,7 +2662,7 @@ public final class URI
             return s;
 
         // First check whether we actually need to encode
-        for (int i = 0;;) {
+        for (int i = 0; ; ) {
             if (s.charAt(i) >= '\u0080')
                 break;
             if (++i >= n)
@@ -2724,7 +2673,7 @@ public final class URI
         ByteBuffer bb = null;
         try {
             bb = ThreadLocalCoders.encoderFor("UTF-8")
-                .encode(CharBuffer.wrap(ns));
+                    .encode(CharBuffer.wrap(ns));
         } catch (CharacterCodingException x) {
             assert false;
         }
@@ -2733,9 +2682,9 @@ public final class URI
         while (bb.hasRemaining()) {
             int b = bb.get() & 0xff;
             if (b >= 0x80)
-                appendEscape(sb, (byte)b);
+                appendEscape(sb, (byte) b);
             else
-                sb.append((char)b);
+                sb.append((char) b);
         }
         return sb.toString();
     }
@@ -2752,8 +2701,8 @@ public final class URI
     }
 
     private static byte decode(char c1, char c2) {
-        return (byte)(  ((decode(c1) & 0xf) << 4)
-                      | ((decode(c2) & 0xf) << 0));
+        return (byte) (((decode(c1) & 0xf) << 4)
+                | ((decode(c2) & 0xf) << 0));
     }
 
     // Evaluates all escapes in s, applying UTF-8 decoding if needed.  Assumes
@@ -2776,14 +2725,14 @@ public final class URI
         ByteBuffer bb = ByteBuffer.allocate(n);
         CharBuffer cb = CharBuffer.allocate(n);
         CharsetDecoder dec = ThreadLocalCoders.decoderFor("UTF-8")
-            .onMalformedInput(CodingErrorAction.REPLACE)
-            .onUnmappableCharacter(CodingErrorAction.REPLACE);
+                .onMalformedInput(CodingErrorAction.REPLACE)
+                .onUnmappableCharacter(CodingErrorAction.REPLACE);
 
         // This is not horribly efficient, but it will do for now
         char c = s.charAt(0);
         boolean betweenBrackets = false;
 
-        for (int i = 0; i < n;) {
+        for (int i = 0; i < n; ) {
             assert c == s.charAt(i);    // Loop invariant
             if (c == '[') {
                 betweenBrackets = true;
@@ -2799,7 +2748,7 @@ public final class URI
             }
             bb.clear();
             int ui = i;
-            for (;;) {
+            for (; ; ) {
                 assert (n - i >= 2);
                 bb.put(decode(s.charAt(++i), s.charAt(++i)));
                 if (++i >= n)
@@ -2849,14 +2798,12 @@ public final class URI
         }
 
         private void failExpecting(String expected, int p)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             fail("Expected " + expected, p);
         }
 
         private void failExpecting(String expected, String prior, int p)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             fail("Expected " + expected + " following " + prior, p);
         }
 
@@ -2964,21 +2911,20 @@ public final class URI
         // non-US-ASCII chars are also allowed.
         //
         private int scanEscape(int start, int n, char first)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             char c = first;
             if (c == '%') {
                 // Process escape pair
                 if ((p + 3 <= n)
-                    && match(charAt(p + 1), L_HEX, H_HEX)
-                    && match(charAt(p + 2), L_HEX, H_HEX)) {
+                        && match(charAt(p + 1), L_HEX, H_HEX)
+                        && match(charAt(p + 2), L_HEX, H_HEX)) {
                     return p + 3;
                 }
                 fail("Malformed escape pair", p);
             } else if ((c > 128)
-                       && !Character.isSpaceChar(c)
-                       && !Character.isISOControl(c)) {
+                    && !Character.isSpaceChar(c)
+                    && !Character.isISOControl(c)) {
                 // Allow unescaped but visible non-US-ASCII chars
                 return p + 1;
             }
@@ -2988,8 +2934,7 @@ public final class URI
         // Scan chars that match the given mask pair
         //
         private int scan(int start, int n, long lowMask, long highMask)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             while (p < n) {
                 char c = charAt(p);
@@ -3014,8 +2959,7 @@ public final class URI
         private void checkChars(int start, int end,
                                 long lowMask, long highMask,
                                 String what)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = scan(start, end, lowMask, highMask);
             if (p < end)
                 fail("Illegal character in " + what, p);
@@ -3026,8 +2970,7 @@ public final class URI
         private void checkChar(int p,
                                long lowMask, long highMask,
                                String what)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             checkChars(p, p + 1, lowMask, highMask, what);
         }
 
@@ -3087,8 +3030,7 @@ public final class URI
         // relative URI with an empty path.
         //
         private int parseHierarchical(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             if (at(p, n, '/') && at(p + 1, n, '/')) {
                 p += 2;
@@ -3124,8 +3066,7 @@ public final class URI
         // parse as a server then we try to parse it as a registry name.
         //
         private int parseAuthority(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q = p;
             URISyntaxException ex = null;
@@ -3194,8 +3135,7 @@ public final class URI
         // [<userinfo>@]<host>[:<port>]
         //
         private int parseServer(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q;
 
@@ -3214,18 +3154,18 @@ public final class URI
                 q = scan(p, n, "/?#", "]");
                 if ((q > p) && at(q, n, ']')) {
                     // look for a "%" scope id
-                    int r = scan (p, q, "", "%");
+                    int r = scan(p, q, "", "%");
                     if (r > p) {
                         parseIPv6Reference(p, r);
-                        if (r+1 == q) {
-                            fail ("scope id expected");
+                        if (r + 1 == q) {
+                            fail("scope id expected");
                         }
-                        checkChars (r+1, q, L_ALPHANUM, H_ALPHANUM,
-                                                "scope id");
+                        checkChars(r + 1, q, L_ALPHANUM, H_ALPHANUM,
+                                "scope id");
                     } else {
                         parseIPv6Reference(p, q);
                     }
-                    host = substring(p-1, q+1);
+                    host = substring(p - 1, q + 1);
                     p = q + 1;
                 } else {
                     failExpecting("closing bracket for IPv6 address", q);
@@ -3260,8 +3200,7 @@ public final class URI
         // Scan a string of decimal digits whose value fits in a byte
         //
         private int scanByte(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q = scan(p, n, L_DIGIT, H_DIGIT);
             if (q <= p) return q;
@@ -3285,23 +3224,29 @@ public final class URI
         // assumption here allows more meaningful exceptions to be thrown.
         //
         private int scanIPv4Address(int start, int n, boolean strict)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q;
             int m = scan(p, n, L_DIGIT | L_DOT, H_DIGIT | H_DOT);
             if ((m <= p) || (strict && (m != n)))
                 return -1;
-            for (;;) {
+            for (; ; ) {
                 // Per RFC2732: At most three digits per byte
                 // Further constraint: Each element fits in a byte
-                if ((q = scanByte(p, m)) <= p) break;   p = q;
-                if ((q = scan(p, m, '.')) <= p) break;  p = q;
-                if ((q = scanByte(p, m)) <= p) break;   p = q;
-                if ((q = scan(p, m, '.')) <= p) break;  p = q;
-                if ((q = scanByte(p, m)) <= p) break;   p = q;
-                if ((q = scan(p, m, '.')) <= p) break;  p = q;
-                if ((q = scanByte(p, m)) <= p) break;   p = q;
+                if ((q = scanByte(p, m)) <= p) break;
+                p = q;
+                if ((q = scan(p, m, '.')) <= p) break;
+                p = q;
+                if ((q = scanByte(p, m)) <= p) break;
+                p = q;
+                if ((q = scan(p, m, '.')) <= p) break;
+                p = q;
+                if ((q = scanByte(p, m)) <= p) break;
+                p = q;
+                if ((q = scan(p, m, '.')) <= p) break;
+                p = q;
+                if ((q = scanByte(p, m)) <= p) break;
+                p = q;
                 if (q < m) break;
                 return q;
             }
@@ -3313,8 +3258,7 @@ public final class URI
         // contains anything except an IPv4 address
         //
         private int takeIPv4Address(int start, int n, String expected)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = scanIPv4Address(start, n, true);
             if (p <= start)
                 failExpecting(expected, start);
@@ -3356,8 +3300,7 @@ public final class URI
         // toplabel      = alpha | alpha *( alphanum | "-" ) alphanum
         //
         private int parseHostname(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q;
             int l = -1;                 // Start of last parsed label
@@ -3444,8 +3387,7 @@ public final class URI
         private int ipv6byteCount = 0;
 
         private int parseIPv6Reference(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q;
             boolean compressedZeros = false;
@@ -3458,7 +3400,7 @@ public final class URI
                     compressedZeros = true;
                     p = scanHexPost(p + 2, n);
                 } else if (at(p, n, ':')) {
-                    p = takeIPv4Address(p + 1,  n, "IPv4 address");
+                    p = takeIPv4Address(p + 1, n, "IPv4 address");
                     ipv6byteCount += 4;
                 }
             } else if (at(p, n, "::")) {
@@ -3478,8 +3420,7 @@ public final class URI
         }
 
         private int scanHexPost(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q;
 
@@ -3504,8 +3445,7 @@ public final class URI
         // Scan a hex sequence; return -1 if one could not be scanned
         //
         private int scanHexSeq(int start, int n)
-            throws URISyntaxException
-        {
+                throws URISyntaxException {
             int p = start;
             int q;
 

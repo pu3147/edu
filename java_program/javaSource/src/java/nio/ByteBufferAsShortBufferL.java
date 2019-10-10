@@ -29,21 +29,18 @@ package java.nio;
 
 
 class ByteBufferAsShortBufferL                  // package-private
-    extends ShortBuffer
-{
-
+        extends ShortBuffer {
 
 
     protected final ByteBuffer bb;
     protected final int offset;
 
 
-
     ByteBufferAsShortBufferL(ByteBuffer bb) {   // package-private
 
         super(-1, 0,
-              bb.remaining() >> 1,
-              bb.remaining() >> 1);
+                bb.remaining() >> 1,
+                bb.remaining() >> 1);
         this.bb = bb;
         // enforce limit == capacity
         int cap = this.capacity();
@@ -53,18 +50,15 @@ class ByteBufferAsShortBufferL                  // package-private
         offset = pos;
 
 
-
     }
 
     ByteBufferAsShortBufferL(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
+                             int mark, int pos, int lim, int cap,
+                             int off) {
 
         super(mark, pos, lim, cap);
         this.bb = bb;
         offset = off;
-
 
 
     }
@@ -81,26 +75,24 @@ class ByteBufferAsShortBufferL                  // package-private
 
     public ShortBuffer duplicate() {
         return new ByteBufferAsShortBufferL(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public ShortBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsShortBufferRL(bb,
-                                                 this.markValue(),
-                                                 this.position(),
-                                                 this.limit(),
-                                                 this.capacity(),
-                                                 offset);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
 
 
     }
-
 
 
     protected int ix(int i) {
@@ -116,18 +108,10 @@ class ByteBufferAsShortBufferL                  // package-private
     }
 
 
-
-
-
-
-
-
-
     public ShortBuffer put(short x) {
 
         Bits.putShortL(bb, ix(nextPutIndex()), x);
         return this;
-
 
 
     }
@@ -136,7 +120,6 @@ class ByteBufferAsShortBufferL                  // package-private
 
         Bits.putShortL(bb, ix(checkIndex(i)), x);
         return this;
-
 
 
     }
@@ -160,7 +143,6 @@ class ByteBufferAsShortBufferL                  // package-private
         return this;
 
 
-
     }
 
     public boolean isDirect() {
@@ -172,50 +154,7 @@ class ByteBufferAsShortBufferL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
 
 
         return ByteOrder.LITTLE_ENDIAN;

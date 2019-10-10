@@ -97,9 +97,7 @@ import java.time.DateTimeException;
  * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code IsoEra}.
  * Use {@code getValue()} instead.</b>
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
- *
+ * @implSpec This is an immutable and thread-safe enum.
  * @since 1.8
  */
 public enum IsoEra implements Era {
@@ -116,13 +114,14 @@ public enum IsoEra implements Era {
     CE;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code IsoEra} from an {@code int} value.
      * <p>
      * {@code IsoEra} is an enum representing the ISO eras of BCE/CE.
      * This factory allows the enum to be obtained from the {@code int} value.
      *
-     * @param isoEra  the BCE/CE value to represent, from 0 (BCE) to 1 (CE)
+     * @param isoEra the BCE/CE value to represent, from 0 (BCE) to 1 (CE)
      * @return the era singleton, not null
      * @throws DateTimeException if the value is invalid
      */
@@ -138,6 +137,7 @@ public enum IsoEra implements Era {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the numeric era {@code int} value.
      * <p>

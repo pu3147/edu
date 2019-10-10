@@ -84,7 +84,7 @@ public class VetoableChangeSupport implements Serializable {
     /**
      * Constructs a <code>VetoableChangeSupport</code> object.
      *
-     * @param sourceBean  The bean to be given as the source for any events.
+     * @param sourceBean The bean to be given as the source for any events.
      */
     public VetoableChangeSupport(Object sourceBean) {
         if (sourceBean == null) {
@@ -101,7 +101,7 @@ public class VetoableChangeSupport implements Serializable {
      * If <code>listener</code> is null, no exception is thrown and no action
      * is taken.
      *
-     * @param listener  The VetoableChangeListener to be added
+     * @param listener The VetoableChangeListener to be added
      */
     public void addVetoableChangeListener(VetoableChangeListener listener) {
         if (listener == null) {
@@ -109,10 +109,10 @@ public class VetoableChangeSupport implements Serializable {
         }
         if (listener instanceof VetoableChangeListenerProxy) {
             VetoableChangeListenerProxy proxy =
-                    (VetoableChangeListenerProxy)listener;
+                    (VetoableChangeListenerProxy) listener;
             // Call two argument add method.
             addVetoableChangeListener(proxy.getPropertyName(),
-                                      proxy.getListener());
+                    proxy.getListener());
         } else {
             this.map.add(null, listener);
         }
@@ -127,7 +127,7 @@ public class VetoableChangeSupport implements Serializable {
      * If <code>listener</code> is null, or was never added, no exception is
      * thrown and no action is taken.
      *
-     * @param listener  The VetoableChangeListener to be removed
+     * @param listener The VetoableChangeListener to be removed
      */
     public void removeVetoableChangeListener(VetoableChangeListener listener) {
         if (listener == null) {
@@ -135,10 +135,10 @@ public class VetoableChangeSupport implements Serializable {
         }
         if (listener instanceof VetoableChangeListenerProxy) {
             VetoableChangeListenerProxy proxy =
-                    (VetoableChangeListenerProxy)listener;
+                    (VetoableChangeListenerProxy) listener;
             // Call two argument remove method.
             removeVetoableChangeListener(proxy.getPropertyName(),
-                                         proxy.getListener());
+                    proxy.getListener());
         } else {
             this.map.remove(null, listener);
         }
@@ -170,12 +170,12 @@ public class VetoableChangeSupport implements Serializable {
      * }
      * }</pre>
      *
-     * @see VetoableChangeListenerProxy
      * @return all of the <code>VetoableChangeListeners</code> added or an
-     *         empty array if no listeners have been added
+     * empty array if no listeners have been added
+     * @see VetoableChangeListenerProxy
      * @since 1.4
      */
-    public VetoableChangeListener[] getVetoableChangeListeners(){
+    public VetoableChangeListener[] getVetoableChangeListeners() {
         return this.map.getListeners();
     }
 
@@ -189,12 +189,12 @@ public class VetoableChangeSupport implements Serializable {
      * If <code>propertyName</code> or <code>listener</code> is null, no
      * exception is thrown and no action is taken.
      *
-     * @param propertyName  The name of the property to listen on.
-     * @param listener  The VetoableChangeListener to be added
+     * @param propertyName The name of the property to listen on.
+     * @param listener     The VetoableChangeListener to be added
      */
     public void addVetoableChangeListener(
-                                String propertyName,
-                VetoableChangeListener listener) {
+            String propertyName,
+            VetoableChangeListener listener) {
         if (listener == null || propertyName == null) {
             return;
         }
@@ -214,12 +214,12 @@ public class VetoableChangeSupport implements Serializable {
      * If <code>listener</code> is null, or was never added for the specified
      * property, no exception is thrown and no action is taken.
      *
-     * @param propertyName  The name of the property that was listened on.
-     * @param listener  The VetoableChangeListener to be removed
+     * @param propertyName The name of the property that was listened on.
+     * @param listener     The VetoableChangeListener to be removed
      */
     public void removeVetoableChangeListener(
-                                String propertyName,
-                VetoableChangeListener listener) {
+            String propertyName,
+            VetoableChangeListener listener) {
         if (listener == null || propertyName == null) {
             return;
         }
@@ -233,11 +233,11 @@ public class VetoableChangeSupport implements Serializable {
      * Returns an array of all the listeners which have been associated
      * with the named property.
      *
-     * @param propertyName  The name of the property being listened to
+     * @param propertyName The name of the property being listened to
      * @return all the <code>VetoableChangeListeners</code> associated with
-     *         the named property.  If no such listeners have been added,
-     *         or if <code>propertyName</code> is null, an empty array is
-     *         returned.
+     * the named property.  If no such listeners have been added,
+     * or if <code>propertyName</code> is null, an empty array is
+     * returned.
      * @since 1.4
      */
     public VetoableChangeListener[] getVetoableChangeListeners(String propertyName) {
@@ -260,9 +260,9 @@ public class VetoableChangeSupport implements Serializable {
      * This is merely a convenience wrapper around the more general
      * {@link #fireVetoableChange(PropertyChangeEvent)} method.
      *
-     * @param propertyName  the programmatic name of the property that is about to change
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @param propertyName the programmatic name of the property that is about to change
+     * @param oldValue     the old value of the property
+     * @param newValue     the new value of the property
      * @throws PropertyVetoException if one of listeners vetoes the property update
      */
     public void fireVetoableChange(String propertyName, Object oldValue, Object newValue)
@@ -288,9 +288,9 @@ public class VetoableChangeSupport implements Serializable {
      * This is merely a convenience wrapper around the more general
      * {@link #fireVetoableChange(String, Object, Object)} method.
      *
-     * @param propertyName  the programmatic name of the property that is about to change
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @param propertyName the programmatic name of the property that is about to change
+     * @param oldValue     the old value of the property
+     * @param newValue     the new value of the property
      * @throws PropertyVetoException if one of listeners vetoes the property update
      */
     public void fireVetoableChange(String propertyName, int oldValue, int newValue)
@@ -316,9 +316,9 @@ public class VetoableChangeSupport implements Serializable {
      * This is merely a convenience wrapper around the more general
      * {@link #fireVetoableChange(String, Object, Object)} method.
      *
-     * @param propertyName  the programmatic name of the property that is about to change
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
+     * @param propertyName the programmatic name of the property that is about to change
+     * @param oldValue     the old value of the property
+     * @param newValue     the new value of the property
      * @throws PropertyVetoException if one of listeners vetoes the property update
      */
     public void fireVetoableChange(String propertyName, boolean oldValue, boolean newValue)
@@ -341,7 +341,7 @@ public class VetoableChangeSupport implements Serializable {
      * <p>
      * No event is fired if the given event's old and new values are equal and non-null.
      *
-     * @param event  the {@code PropertyChangeEvent} to be fired
+     * @param event the {@code PropertyChangeEvent} to be fired
      * @throws PropertyVetoException if one of listeners vetoes the property update
      */
     public void fireVetoableChange(PropertyChangeEvent event)
@@ -353,17 +353,15 @@ public class VetoableChangeSupport implements Serializable {
 
             VetoableChangeListener[] common = this.map.get(null);
             VetoableChangeListener[] named = (name != null)
-                        ? this.map.get(name)
-                        : null;
+                    ? this.map.get(name)
+                    : null;
 
             VetoableChangeListener[] listeners;
             if (common == null) {
                 listeners = named;
-            }
-            else if (named == null) {
+            } else if (named == null) {
                 listeners = common;
-            }
-            else {
+            } else {
                 listeners = new VetoableChangeListener[common.length + named.length];
                 System.arraycopy(common, 0, listeners, 0, common.length);
                 System.arraycopy(named, 0, listeners, common.length, named.length);
@@ -375,14 +373,12 @@ public class VetoableChangeSupport implements Serializable {
                         listeners[current].vetoableChange(event);
                         current++;
                     }
-                }
-                catch (PropertyVetoException veto) {
+                } catch (PropertyVetoException veto) {
                     event = new PropertyChangeEvent(this.source, name, newValue, oldValue);
                     for (int i = 0; i < current; i++) {
                         try {
                             listeners[i].vetoableChange(event);
-                        }
-                        catch (PropertyVetoException exception) {
+                        } catch (PropertyVetoException exception) {
                             // ignore exceptions that occur during rolling back
                         }
                     }
@@ -397,7 +393,7 @@ public class VetoableChangeSupport implements Serializable {
      * those registered on all properties.  If <code>propertyName</code>
      * is null, only check for listeners registered on all properties.
      *
-     * @param propertyName  the property name.
+     * @param propertyName the property name.
      * @return true if there are one or more listeners for the given property
      */
     public boolean hasListeners(String propertyName) {
@@ -450,13 +446,13 @@ public class VetoableChangeSupport implements Serializable {
         ObjectInputStream.GetField fields = s.readFields();
 
         @SuppressWarnings("unchecked")
-        Hashtable<String, VetoableChangeSupport> children = (Hashtable<String, VetoableChangeSupport>)fields.get("children", null);
+        Hashtable<String, VetoableChangeSupport> children = (Hashtable<String, VetoableChangeSupport>) fields.get("children", null);
         this.source = fields.get("source", null);
         fields.get("vetoableChangeSupportSerializedDataVersion", 2);
 
         Object listenerOrNull;
         while (null != (listenerOrNull = s.readObject())) {
-            this.map.add(null, (VetoableChangeListener)listenerOrNull);
+            this.map.add(null, (VetoableChangeListener) listenerOrNull);
         }
         if (children != null) {
             for (Entry<String, VetoableChangeSupport> entry : children.entrySet()) {
@@ -500,8 +496,8 @@ public class VetoableChangeSupport implements Serializable {
          * This method uses the same instance of the empty array
          * when {@code length} equals {@code 0}.
          *
-         * @param length  the array length
-         * @return        an array with specified length
+         * @param length the array length
+         * @return an array with specified length
          */
         @Override
         protected VetoableChangeListener[] newArray(int length) {
@@ -514,9 +510,9 @@ public class VetoableChangeSupport implements Serializable {
          * Creates a {@link VetoableChangeListenerProxy VetoableChangeListenerProxy}
          * object for the specified property.
          *
-         * @param name      the name of the property to listen on
-         * @param listener  the listener to process events
-         * @return          a {@code VetoableChangeListenerProxy} object
+         * @param name     the name of the property to listen on
+         * @param listener the listener to process events
+         * @return a {@code VetoableChangeListenerProxy} object
          */
         @Override
         protected VetoableChangeListener newProxy(String name, VetoableChangeListener listener) {

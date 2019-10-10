@@ -28,6 +28,7 @@ package java.sql;
  * <P>Defines the constants that are used to identify generic
  * SQL types, called JDBC types.
  * <p>
+ *
  * @see SQLType
  * @since 1.8
  */
@@ -211,6 +212,7 @@ public enum JDBCType implements SQLType {
     /**
      * Constructor to specify the data type value from {@code Types) for
      * this data type.
+     *
      * @param type The value from {@code Types) for this data type
      */
     JDBCType(final Integer type) {
@@ -218,15 +220,18 @@ public enum JDBCType implements SQLType {
     }
 
     /**
-     *{@inheritDoc }
+     * {@inheritDoc }
+     *
      * @return The name of this {@code SQLType}.
      */
     public String getName() {
         return name();
     }
+
     /**
      * Returns the name of the vendor that supports this data type.
-     * @return  The name of the vendor for this data type which is
+     *
+     * @return The name of the vendor for this data type which is
      * {@literal java.sql} for JDBCType.
      */
     public String getVendor() {
@@ -235,24 +240,27 @@ public enum JDBCType implements SQLType {
 
     /**
      * Returns the vendor specific type number for the data type.
-     * @return  An Integer representing the data type. For {@code JDBCType},
+     *
+     * @return An Integer representing the data type. For {@code JDBCType},
      * the value will be the same value as in {@code Types} for the data type.
      */
     public Integer getVendorTypeNumber() {
         return type;
     }
+
     /**
      * Returns the {@code JDBCType} that corresponds to the specified
      * {@code Types} value
+     *
      * @param type {@code Types} value
      * @return The {@code JDBCType} constant
      * @throws IllegalArgumentException if this enum type has no constant with
-     * the specified {@code Types} value
+     *                                  the specified {@code Types} value
      * @see Types
      */
     public static JDBCType valueOf(int type) {
-        for( JDBCType sqlType : JDBCType.class.getEnumConstants()) {
-            if(type == sqlType.type)
+        for (JDBCType sqlType : JDBCType.class.getEnumConstants()) {
+            if (type == sqlType.type)
                 return sqlType;
         }
         throw new IllegalArgumentException("Type:" + type + " is not a valid "

@@ -30,6 +30,7 @@ import jdk.internal.org.objectweb.asm.Opcodes;
 import jdk.internal.org.objectweb.asm.Type;
 import sun.invoke.util.BytecodeDescriptor;
 import sun.invoke.util.Wrapper;
+
 import static sun.invoke.util.Wrapper.*;
 
 class TypeConvertingMethodAdapter extends MethodVisitor {
@@ -69,10 +70,10 @@ class TypeConvertingMethodAdapter extends MethodVisitor {
             }
         }
 
-        initWidening(LONG,   Opcodes.I2L, BYTE, SHORT, INT, CHAR);
-        initWidening(LONG,   Opcodes.F2L, FLOAT);
-        initWidening(FLOAT,  Opcodes.I2F, BYTE, SHORT, INT, CHAR);
-        initWidening(FLOAT,  Opcodes.L2F, LONG);
+        initWidening(LONG, Opcodes.I2L, BYTE, SHORT, INT, CHAR);
+        initWidening(LONG, Opcodes.F2L, FLOAT);
+        initWidening(FLOAT, Opcodes.I2F, BYTE, SHORT, INT, CHAR);
+        initWidening(FLOAT, Opcodes.L2F, LONG);
         initWidening(DOUBLE, Opcodes.I2D, BYTE, SHORT, INT, CHAR);
         initWidening(DOUBLE, Opcodes.F2D, FLOAT);
         initWidening(DOUBLE, Opcodes.L2D, LONG);
@@ -95,6 +96,7 @@ class TypeConvertingMethodAdapter extends MethodVisitor {
 
     /**
      * Class name to Wrapper hash, derived from Wrapper.hashWrap()
+     *
      * @param xn
      * @return The hash code 0-15
      */
@@ -163,8 +165,9 @@ class TypeConvertingMethodAdapter extends MethodVisitor {
 
     /**
      * Convert types by unboxing. The source type is known to be a primitive wrapper.
+     *
      * @param sname A primitive wrapper corresponding to wrapped reference source type
-     * @param wt A primitive wrapper being converted to
+     * @param wt    A primitive wrapper being converted to
      */
     void unbox(String sname, Wrapper wt) {
         visitMethodInsn(Opcodes.INVOKEVIRTUAL,
@@ -207,6 +210,7 @@ class TypeConvertingMethodAdapter extends MethodVisitor {
     /**
      * Convert an argument of type 'arg' to be passed to 'target' assuring that it is 'functional'.
      * Insert the needed conversion instructions in the method code.
+     *
      * @param arg
      * @param target
      * @param functional

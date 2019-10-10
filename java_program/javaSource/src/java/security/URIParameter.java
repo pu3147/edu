@@ -42,8 +42,7 @@ public class URIParameter implements
      * data intended for an SPI implementation.
      *
      * @param uri the URI pointing to the data.
-     *
-     * @exception NullPointerException if the specified URI is null.
+     * @throws NullPointerException if the specified URI is null.
      */
     public URIParameter(java.net.URI uri) {
         if (uri == null) {

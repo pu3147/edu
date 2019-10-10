@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Collections;
 import java.util.Comparator;
 import java.io.IOException;
+
 import sun.util.logging.PlatformLogger;
 
 /**
@@ -110,12 +111,11 @@ import sun.util.logging.PlatformLogger;
  *
  * <p>The implementation conforms to <a href="http://www.ietf.org/rfc/rfc2965.txt">RFC 2965</a>, section 3.3.
  *
- * @see CookiePolicy
  * @author Edward Wang
+ * @see CookiePolicy
  * @since 1.6
  */
-public class CookieManager extends CookieHandler
-{
+public class CookieManager extends CookieHandler {
     /* ---------------- Fields -------------- */
 
     private CookiePolicy policyCallback;
@@ -141,20 +141,19 @@ public class CookieManager extends CookieHandler
     /**
      * Create a new cookie manager with specified cookie store and cookie policy.
      *
-     * @param store     a {@code CookieStore} to be used by cookie manager.
-     *                  if {@code null}, cookie manager will use a default one,
-     *                  which is an in-memory CookieStore implementation.
-     * @param cookiePolicy      a {@code CookiePolicy} instance
-     *                          to be used by cookie manager as policy callback.
-     *                          if {@code null}, ACCEPT_ORIGINAL_SERVER will
-     *                          be used.
+     * @param store        a {@code CookieStore} to be used by cookie manager.
+     *                     if {@code null}, cookie manager will use a default one,
+     *                     which is an in-memory CookieStore implementation.
+     * @param cookiePolicy a {@code CookiePolicy} instance
+     *                     to be used by cookie manager as policy callback.
+     *                     if {@code null}, ACCEPT_ORIGINAL_SERVER will
+     *                     be used.
      */
     public CookieManager(CookieStore store,
-                         CookiePolicy cookiePolicy)
-    {
+                         CookiePolicy cookiePolicy) {
         // use default cookie policy if not specify one
         policyCallback = (cookiePolicy == null) ? CookiePolicy.ACCEPT_ORIGINAL_SERVER
-                                                : cookiePolicy;
+                : cookiePolicy;
 
         // if not specify CookieStore to use, use default one
         if (store == null) {
@@ -174,8 +173,8 @@ public class CookieManager extends CookieHandler
      * cookie policy ACCEPT_ORIGINAL_SERVER by default. Users always
      * can call this method to set another cookie policy.
      *
-     * @param cookiePolicy      the cookie policy. Can be {@code null}, which
-     *                          has no effects on current cookie policy.
+     * @param cookiePolicy the cookie policy. Can be {@code null}, which
+     *                     has no effects on current cookie policy.
      */
     public void setCookiePolicy(CookiePolicy cookiePolicy) {
         if (cookiePolicy != null) policyCallback = cookiePolicy;
@@ -185,7 +184,7 @@ public class CookieManager extends CookieHandler
     /**
      * To retrieve current cookie store.
      *
-     * @return  the cookie store currently used by cookie manager.
+     * @return the cookie store currently used by cookie manager.
      */
     public CookieStore getCookieStore() {
         return cookieJar;
@@ -193,16 +192,15 @@ public class CookieManager extends CookieHandler
 
 
     public Map<String, List<String>>
-        get(URI uri, Map<String, List<String>> requestHeaders)
-        throws IOException
-    {
+    get(URI uri, Map<String, List<String>> requestHeaders)
+            throws IOException {
         // pre-condition check
         if (uri == null || requestHeaders == null) {
             throw new IllegalArgumentException("Argument is null");
         }
 
         Map<String, List<String>> cookieMap =
-                        new java.util.HashMap<String, List<String>>();
+                new java.util.HashMap<String, List<String>>();
         // if there's no default CookieStore, no way for us to get any cookie
         if (cookieJar == null)
             return Collections.unmodifiableMap(cookieMap);
@@ -250,9 +248,8 @@ public class CookieManager extends CookieHandler
     }
 
     public void
-        put(URI uri, Map<String, List<String>> responseHeaders)
-        throws IOException
-    {
+    put(URI uri, Map<String, List<String>> responseHeaders)
+            throws IOException {
         // pre-condition check
         if (uri == null || responseHeaders == null) {
             throw new IllegalArgumentException("Argument is null");
@@ -263,16 +260,15 @@ public class CookieManager extends CookieHandler
         if (cookieJar == null)
             return;
 
-    PlatformLogger logger = PlatformLogger.getLogger("java.net.CookieManager");
+        PlatformLogger logger = PlatformLogger.getLogger("java.net.CookieManager");
         for (String headerKey : responseHeaders.keySet()) {
             // RFC 2965 3.2.2, key must be 'Set-Cookie2'
             // we also accept 'Set-Cookie' here for backward compatibility
             if (headerKey == null
-                || !(headerKey.equalsIgnoreCase("Set-Cookie2")
-                     || headerKey.equalsIgnoreCase("Set-Cookie")
-                    )
-                )
-            {
+                    || !(headerKey.equalsIgnoreCase("Set-Cookie2")
+                    || headerKey.equalsIgnoreCase("Set-Cookie")
+            )
+            ) {
                 continue;
             }
 
@@ -323,7 +319,7 @@ public class CookieManager extends CookieHandler
                             if (ports.isEmpty()) {
                                 // Empty port list means this should be restricted
                                 // to the incoming URI port
-                                cookie.setPortlist("" + port );
+                                cookie.setPortlist("" + port);
                                 if (shouldAcceptInternal(uri, cookie)) {
                                     cookieJar.add(uri, cookie);
                                 }
@@ -374,7 +370,7 @@ public class CookieManager extends CookieHandler
                 }
             } catch (NumberFormatException numberFormatException) {
             }
-            lst = lst.substring(i+1);
+            lst = lst.substring(i + 1);
             i = lst.indexOf(",");
         }
         if (!lst.isEmpty()) {

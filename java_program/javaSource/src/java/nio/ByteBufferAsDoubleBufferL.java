@@ -29,21 +29,18 @@ package java.nio;
 
 
 class ByteBufferAsDoubleBufferL                  // package-private
-    extends DoubleBuffer
-{
-
+        extends DoubleBuffer {
 
 
     protected final ByteBuffer bb;
     protected final int offset;
 
 
-
     ByteBufferAsDoubleBufferL(ByteBuffer bb) {   // package-private
 
         super(-1, 0,
-              bb.remaining() >> 3,
-              bb.remaining() >> 3);
+                bb.remaining() >> 3,
+                bb.remaining() >> 3);
         this.bb = bb;
         // enforce limit == capacity
         int cap = this.capacity();
@@ -53,18 +50,15 @@ class ByteBufferAsDoubleBufferL                  // package-private
         offset = pos;
 
 
-
     }
 
     ByteBufferAsDoubleBufferL(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
+                              int mark, int pos, int lim, int cap,
+                              int off) {
 
         super(mark, pos, lim, cap);
         this.bb = bb;
         offset = off;
-
 
 
     }
@@ -81,26 +75,24 @@ class ByteBufferAsDoubleBufferL                  // package-private
 
     public DoubleBuffer duplicate() {
         return new ByteBufferAsDoubleBufferL(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public DoubleBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsDoubleBufferRL(bb,
-                                                 this.markValue(),
-                                                 this.position(),
-                                                 this.limit(),
-                                                 this.capacity(),
-                                                 offset);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
 
 
     }
-
 
 
     protected int ix(int i) {
@@ -116,18 +108,10 @@ class ByteBufferAsDoubleBufferL                  // package-private
     }
 
 
-
-
-
-
-
-
-
     public DoubleBuffer put(double x) {
 
         Bits.putDoubleL(bb, ix(nextPutIndex()), x);
         return this;
-
 
 
     }
@@ -136,7 +120,6 @@ class ByteBufferAsDoubleBufferL                  // package-private
 
         Bits.putDoubleL(bb, ix(checkIndex(i)), x);
         return this;
-
 
 
     }
@@ -160,7 +143,6 @@ class ByteBufferAsDoubleBufferL                  // package-private
         return this;
 
 
-
     }
 
     public boolean isDirect() {
@@ -172,50 +154,7 @@ class ByteBufferAsDoubleBufferL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
 
 
         return ByteOrder.LITTLE_ENDIAN;

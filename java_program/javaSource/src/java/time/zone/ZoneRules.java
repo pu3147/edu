@@ -102,9 +102,7 @@ import java.util.concurrent.ConcurrentMap;
  * Applications should treat the data provided as representing the best information
  * available to the implementation of this rule.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class ZoneRules implements Serializable {
@@ -148,7 +146,7 @@ public final class ZoneRules implements Serializable {
      * The map of recent transitions.
      */
     private final transient ConcurrentMap<Integer, ZoneOffsetTransition[]> lastRulesCache =
-                new ConcurrentHashMap<Integer, ZoneOffsetTransition[]>();
+            new ConcurrentHashMap<Integer, ZoneOffsetTransition[]>();
     /**
      * The zero-length long array.
      */
@@ -157,7 +155,7 @@ public final class ZoneRules implements Serializable {
      * The zero-length lastrules array.
      */
     private static final ZoneOffsetTransitionRule[] EMPTY_LASTRULES =
-        new ZoneOffsetTransitionRule[0];
+            new ZoneOffsetTransitionRule[0];
     /**
      * The zero-length ldt array.
      */
@@ -166,11 +164,11 @@ public final class ZoneRules implements Serializable {
     /**
      * Obtains an instance of a ZoneRules.
      *
-     * @param baseStandardOffset  the standard offset to use before legal rules were set, not null
-     * @param baseWallOffset  the wall offset to use before legal rules were set, not null
-     * @param standardOffsetTransitionList  the list of changes to the standard offset, not null
-     * @param transitionList  the list of transitions, not null
-     * @param lastRules  the recurring last rules, size 16 or less, not null
+     * @param baseStandardOffset           the standard offset to use before legal rules were set, not null
+     * @param baseWallOffset               the wall offset to use before legal rules were set, not null
+     * @param standardOffsetTransitionList the list of changes to the standard offset, not null
+     * @param transitionList               the list of transitions, not null
+     * @param lastRules                    the recurring last rules, size 16 or less, not null
      * @return the zone rules, not null
      */
     public static ZoneRules of(ZoneOffset baseStandardOffset,
@@ -184,13 +182,13 @@ public final class ZoneRules implements Serializable {
         Objects.requireNonNull(transitionList, "transitionList");
         Objects.requireNonNull(lastRules, "lastRules");
         return new ZoneRules(baseStandardOffset, baseWallOffset,
-                             standardOffsetTransitionList, transitionList, lastRules);
+                standardOffsetTransitionList, transitionList, lastRules);
     }
 
     /**
      * Obtains an instance of ZoneRules that has fixed zone rules.
      *
-     * @param offset  the offset this fixed zone rules is based on, not null
+     * @param offset the offset this fixed zone rules is based on, not null
      * @return the zone rules, not null
      * @see #isFixedOffset()
      */
@@ -202,11 +200,11 @@ public final class ZoneRules implements Serializable {
     /**
      * Creates an instance.
      *
-     * @param baseStandardOffset  the standard offset to use before legal rules were set, not null
-     * @param baseWallOffset  the wall offset to use before legal rules were set, not null
-     * @param standardOffsetTransitionList  the list of changes to the standard offset, not null
-     * @param transitionList  the list of transitions, not null
-     * @param lastRules  the recurring last rules, size 16 or less, not null
+     * @param baseStandardOffset           the standard offset to use before legal rules were set, not null
+     * @param baseWallOffset               the wall offset to use before legal rules were set, not null
+     * @param standardOffsetTransitionList the list of changes to the standard offset, not null
+     * @param transitionList               the list of transitions, not null
+     * @param lastRules                    the recurring last rules, size 16 or less, not null
      */
     ZoneRules(ZoneOffset baseStandardOffset,
               ZoneOffset baseWallOffset,
@@ -259,11 +257,11 @@ public final class ZoneRules implements Serializable {
     /**
      * Constructor.
      *
-     * @param standardTransitions  the standard transitions, not null
-     * @param standardOffsets  the standard offsets, not null
-     * @param savingsInstantTransitions  the standard transitions, not null
-     * @param wallOffsets  the wall offsets, not null
-     * @param lastRules  the recurring last rules, size 15 or less, not null
+     * @param standardTransitions       the standard transitions, not null
+     * @param standardOffsets           the standard offsets, not null
+     * @param savingsInstantTransitions the standard transitions, not null
+     * @param wallOffsets               the wall offsets, not null
+     * @param lastRules                 the recurring last rules, size 15 or less, not null
      */
     private ZoneRules(long[] standardTransitions,
                       ZoneOffset[] standardOffsets,
@@ -293,7 +291,7 @@ public final class ZoneRules implements Serializable {
                 } else {
                     localTransitionList.add(trans.getDateTimeAfter());
                     localTransitionList.add(trans.getDateTimeBefore());
-               }
+                }
             }
             this.savingsLocalTransitions = localTransitionList.toArray(new LocalDateTime[localTransitionList.size()]);
         }
@@ -302,7 +300,7 @@ public final class ZoneRules implements Serializable {
     /**
      * Creates an instance of ZoneRules that has fixed zone rules.
      *
-     * @param offset  the offset this fixed zone rules is based on, not null
+     * @param offset the offset this fixed zone rules is based on, not null
      * @return the zone rules, not null
      * @see #isFixedOffset()
      */
@@ -329,8 +327,9 @@ public final class ZoneRules implements Serializable {
     /**
      * Writes the object using a
      * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre style="font-size:1.0em">{@code
+     *
+     * @return the replacing object, not null
+     * @serialData <pre style="font-size:1.0em">{@code
      *
      *   out.writeByte(1);  // identifies a ZoneRules
      *   out.writeInt(standardTransitions.length);
@@ -384,9 +383,8 @@ public final class ZoneRules implements Serializable {
      *         out.writeInt(offsetSecs);
      *     }
      * }
-     *}
+     * }
      * </pre>
-     * @return the replacing object, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.ZRULES, this);
@@ -395,7 +393,7 @@ public final class ZoneRules implements Serializable {
     /**
      * Writes the state to the stream.
      *
-     * @param out  the output stream, not null
+     * @param out the output stream, not null
      * @throws IOException if an error occurs
      */
     void writeExternal(DataOutput out) throws IOException {
@@ -422,14 +420,14 @@ public final class ZoneRules implements Serializable {
     /**
      * Reads the state from the stream.
      *
-     * @param in  the input stream, not null
+     * @param in the input stream, not null
      * @return the created object, not null
      * @throws IOException if an error occurs
      */
     static ZoneRules readExternal(DataInput in) throws IOException, ClassNotFoundException {
         int stdSize = in.readInt();
         long[] stdTrans = (stdSize == 0) ? EMPTY_LONG_ARRAY
-                                         : new long[stdSize];
+                : new long[stdSize];
         for (int i = 0; i < stdSize; i++) {
             stdTrans[i] = Ser.readEpochSec(in);
         }
@@ -439,7 +437,7 @@ public final class ZoneRules implements Serializable {
         }
         int savSize = in.readInt();
         long[] savTrans = (savSize == 0) ? EMPTY_LONG_ARRAY
-                                         : new long[savSize];
+                : new long[savSize];
         for (int i = 0; i < savSize; i++) {
             savTrans[i] = Ser.readEpochSec(in);
         }
@@ -449,7 +447,7 @@ public final class ZoneRules implements Serializable {
         }
         int ruleSize = in.readByte();
         ZoneOffsetTransitionRule[] rules = (ruleSize == 0) ?
-            EMPTY_LASTRULES : new ZoneOffsetTransitionRule[ruleSize];
+                EMPTY_LASTRULES : new ZoneOffsetTransitionRule[ruleSize];
         for (int i = 0; i < ruleSize; i++) {
             rules[i] = ZoneOffsetTransitionRule.readExternal(in);
         }
@@ -472,8 +470,8 @@ public final class ZoneRules implements Serializable {
      * one valid offset for each instant.
      * This method returns that offset.
      *
-     * @param instant  the instant to find the offset for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param instant the instant to find the offset for, not null, but null
+     *                may be ignored if the rules have a single offset for all instants
      * @return the offset, not null
      */
     public ZoneOffset getOffset(Instant instant) {
@@ -497,7 +495,7 @@ public final class ZoneRules implements Serializable {
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
+        int index = Arrays.binarySearch(savingsInstantTransitions, epochSec);
         if (index < 0) {
             // switch negative insert position to start of matched range
             index = -index - 2;
@@ -529,8 +527,8 @@ public final class ZoneRules implements Serializable {
      * about the correct offset should use a combination of this method,
      * {@link #getValidOffsets(LocalDateTime)} and {@link #getTransition(LocalDateTime)}.
      *
-     * @param localDateTime  the local date-time to query, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param localDateTime the local date-time to query, not null, but null
+     *                      may be ignored if the rules have a single offset for all instants
      * @return the best available offset for the local date-time, not null
      */
     public ZoneOffset getOffset(LocalDateTime localDateTime) {
@@ -579,8 +577,8 @@ public final class ZoneRules implements Serializable {
      * This has never happened in the history of time-zones and thus has no special handling.
      * However, if it were to happen, then the list would return more than 2 entries.
      *
-     * @param localDateTime  the local date-time to query for valid offsets, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param localDateTime the local date-time to query for valid offsets, not null, but null
+     *                      may be ignored if the rules have a single offset for all instants
      * @return the list of valid offsets, may be immutable, not null
      */
     public List<ZoneOffset> getValidOffsets(LocalDateTime localDateTime) {
@@ -622,8 +620,8 @@ public final class ZoneRules implements Serializable {
      *  }
      * </pre>
      *
-     * @param localDateTime  the local date-time to query for offset transition, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param localDateTime the local date-time to query for offset transition, not null, but null
+     *                      may be ignored if the rules have a single offset for all instants
      * @return the offset transition, null if the local date-time is not in transition
      */
     public ZoneOffsetTransition getTransition(LocalDateTime localDateTime) {
@@ -650,7 +648,7 @@ public final class ZoneRules implements Serializable {
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsLocalTransitions, dt);
+        int index = Arrays.binarySearch(savingsLocalTransitions, dt);
         if (index == -1) {
             // before first transition
             return wallOffsets[0];
@@ -685,8 +683,8 @@ public final class ZoneRules implements Serializable {
     /**
      * Finds the offset info for a local date-time and transition.
      *
-     * @param dt  the date-time, not null
-     * @param trans  the transition, not null
+     * @param dt    the date-time, not null
+     * @param trans the transition, not null
      * @return the offset info, not null
      */
     private Object findOffsetInfo(LocalDateTime dt, ZoneOffsetTransition trans) {
@@ -715,7 +713,7 @@ public final class ZoneRules implements Serializable {
     /**
      * Finds the appropriate transition array for the given year.
      *
-     * @param year  the year, not null
+     * @param year the year, not null
      * @return the transition array, not null
      */
     private ZoneOffsetTransition[] findTransitionArray(int year) {
@@ -725,7 +723,7 @@ public final class ZoneRules implements Serializable {
             return transArray;
         }
         ZoneOffsetTransitionRule[] ruleArray = lastRules;
-        transArray  = new ZoneOffsetTransition[ruleArray.length];
+        transArray = new ZoneOffsetTransition[ruleArray.length];
         for (int i = 0; i < ruleArray.length; i++) {
             transArray[i] = ruleArray[i].createTransition(year);
         }
@@ -743,8 +741,8 @@ public final class ZoneRules implements Serializable {
      * The standard offset is the offset before any daylight saving time is applied.
      * This is typically the offset applicable during winter.
      *
-     * @param instant  the instant to find the offset information for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param instant the instant to find the offset information for, not null, but null
+     *                may be ignored if the rules have a single offset for all instants
      * @return the standard offset, not null
      */
     public ZoneOffset getStandardOffset(Instant instant) {
@@ -752,7 +750,7 @@ public final class ZoneRules implements Serializable {
             return standardOffsets[0];
         }
         long epochSec = instant.getEpochSecond();
-        int index  = Arrays.binarySearch(standardTransitions, epochSec);
+        int index = Arrays.binarySearch(standardTransitions, epochSec);
         if (index < 0) {
             // switch negative insert position to start of matched range
             index = -index - 2;
@@ -773,8 +771,8 @@ public final class ZoneRules implements Serializable {
      * {@link #getOffset(java.time.Instant) actual} and
      * {@link #getStandardOffset(java.time.Instant) standard} offsets.
      *
-     * @param instant  the instant to find the daylight savings for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param instant the instant to find the daylight savings for, not null, but null
+     *                may be ignored if the rules have a single offset for all instants
      * @return the difference between the standard and actual offset, not null
      */
     public Duration getDaylightSavings(Instant instant) {
@@ -796,8 +794,8 @@ public final class ZoneRules implements Serializable {
      * This default implementation compares the {@link #getOffset(java.time.Instant) actual}
      * and {@link #getStandardOffset(java.time.Instant) standard} offsets.
      *
-     * @param instant  the instant to find the offset information for, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param instant the instant to find the offset information for, not null, but null
+     *                may be ignored if the rules have a single offset for all instants
      * @return the standard offset, not null
      */
     public boolean isDaylightSavings(Instant instant) {
@@ -813,9 +811,9 @@ public final class ZoneRules implements Serializable {
      * This default implementation checks if {@link #getValidOffsets(java.time.LocalDateTime)}
      * contains the specified offset.
      *
-     * @param localDateTime  the date-time to check, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
-     * @param offset  the offset to check, null returns false
+     * @param localDateTime the date-time to check, not null, but null
+     *                      may be ignored if the rules have a single offset for all instants
+     * @param offset        the offset to check, null returns false
      * @return true if the offset date-time is valid for these rules
      */
     public boolean isValidOffset(LocalDateTime localDateTime, ZoneOffset offset) {
@@ -829,8 +827,8 @@ public final class ZoneRules implements Serializable {
      * For example, if the instant represents a point where "Summer" daylight savings time
      * applies, then the method will return the transition to the next "Winter" time.
      *
-     * @param instant  the instant to get the next transition after, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param instant the instant to get the next transition after, not null, but null
+     *                may be ignored if the rules have a single offset for all instants
      * @return the next transition after the specified instant, null if this is after the last transition
      */
     public ZoneOffsetTransition nextTransition(Instant instant) {
@@ -860,7 +858,7 @@ public final class ZoneRules implements Serializable {
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
+        int index = Arrays.binarySearch(savingsInstantTransitions, epochSec);
         if (index < 0) {
             index = -index - 1;  // switched value is the next transition
         } else {
@@ -876,8 +874,8 @@ public final class ZoneRules implements Serializable {
      * For example, if the instant represents a point where "summer" daylight saving time
      * applies, then the method will return the transition from the previous "winter" time.
      *
-     * @param instant  the instant to get the previous transition after, not null, but null
-     *  may be ignored if the rules have a single offset for all instants
+     * @param instant the instant to get the previous transition after, not null, but null
+     *                may be ignored if the rules have a single offset for all instants
      * @return the previous transition after the specified instant, null if this is before the first transition
      */
     public ZoneOffsetTransition previousTransition(Instant instant) {
@@ -911,7 +909,7 @@ public final class ZoneRules implements Serializable {
         }
 
         // using historic rules
-        int index  = Arrays.binarySearch(savingsInstantTransitions, epochSec);
+        int index = Arrays.binarySearch(savingsInstantTransitions, epochSec);
         if (index < 0) {
             index = -index - 1;
         }
@@ -982,13 +980,13 @@ public final class ZoneRules implements Serializable {
      * <p>
      * This definition should result in implementations comparing their entire state.
      *
-     * @param otherRules  the other rules, null returns false
+     * @param otherRules the other rules, null returns false
      * @return true if this rules is the same as that specified
      */
     @Override
     public boolean equals(Object otherRules) {
         if (this == otherRules) {
-           return true;
+            return true;
         }
         if (otherRules instanceof ZoneRules) {
             ZoneRules other = (ZoneRules) otherRules;

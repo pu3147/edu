@@ -40,14 +40,14 @@ class PropertyVetoException extends Exception {
      * detailed message.
      *
      * @param mess Descriptive message
-     * @param evt A PropertyChangeEvent describing the vetoed change.
+     * @param evt  A PropertyChangeEvent describing the vetoed change.
      */
     public PropertyVetoException(String mess, PropertyChangeEvent evt) {
         super(mess);
         this.evt = evt;
     }
 
-     /**
+    /**
      * Gets the vetoed <code>PropertyChangeEvent</code>.
      *
      * @return A PropertyChangeEvent describing the vetoed change.
@@ -58,6 +58,7 @@ class PropertyVetoException extends Exception {
 
     /**
      * A PropertyChangeEvent describing the vetoed change.
+     *
      * @serial
      */
     private PropertyChangeEvent evt;

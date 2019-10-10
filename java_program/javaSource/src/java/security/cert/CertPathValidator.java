@@ -32,6 +32,7 @@ import java.security.NoSuchProviderException;
 import java.security.PrivilegedAction;
 import java.security.Provider;
 import java.security.Security;
+
 import sun.security.util.Debug;
 
 import sun.security.jca.*;
@@ -94,10 +95,9 @@ import sun.security.jca.GetInstance.Instance;
  * threads each manipulating a different {@code CertPathValidator}
  * instance need not synchronize.
  *
+ * @author Yassir Elley
  * @see CertPath
- *
- * @since       1.4
- * @author      Yassir Elley
+ * @since 1.4
  */
 public class CertPathValidator {
 
@@ -119,12 +119,11 @@ public class CertPathValidator {
      * and encapsulates the given provider implementation (SPI object) in it.
      *
      * @param validatorSpi the provider implementation
-     * @param provider the provider
-     * @param algorithm the algorithm name
+     * @param provider     the provider
+     * @param algorithm    the algorithm name
      */
     protected CertPathValidator(CertPathValidatorSpi validatorSpi,
-        Provider provider, String algorithm)
-    {
+                                Provider provider, String algorithm) {
         this.validatorSpi = validatorSpi;
         this.provider = provider;
         this.algorithm = algorithm;
@@ -144,26 +143,23 @@ public class CertPathValidator {
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
      * @param algorithm the name of the requested {@code CertPathValidator}
-     *  algorithm. See the CertPathValidator section in the <a href=
-     *  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathValidator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
-     *
+     *                  algorithm. See the CertPathValidator section in the <a href=
+     *                  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathValidator">
+     *                  Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                  for information about standard algorithm names.
      * @return a {@code CertPathValidator} object that implements the
-     *          specified algorithm.
-     *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          CertPathValidatorSpi implementation for the
-     *          specified algorithm.
-     *
+     * specified algorithm.
+     * @throws NoSuchAlgorithmException if no Provider supports a
+     *                                  CertPathValidatorSpi implementation for the
+     *                                  specified algorithm.
      * @see java.security.Provider
      */
     public static CertPathValidator getInstance(String algorithm)
             throws NoSuchAlgorithmException {
         Instance instance = GetInstance.getInstance("CertPathValidator",
-            CertPathValidatorSpi.class, algorithm);
-        return new CertPathValidator((CertPathValidatorSpi)instance.impl,
-            instance.provider, algorithm);
+                CertPathValidatorSpi.class, algorithm);
+        return new CertPathValidator((CertPathValidatorSpi) instance.impl,
+                instance.provider, algorithm);
     }
 
     /**
@@ -179,35 +175,29 @@ public class CertPathValidator {
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
      * @param algorithm the name of the requested {@code CertPathValidator}
-     *  algorithm. See the CertPathValidator section in the <a href=
-     *  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathValidator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
-     *
-     * @param provider the name of the provider.
-     *
+     *                  algorithm. See the CertPathValidator section in the <a href=
+     *                  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathValidator">
+     *                  Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                  for information about standard algorithm names.
+     * @param provider  the name of the provider.
      * @return a {@code CertPathValidator} object that implements the
-     *          specified algorithm.
-     *
-     * @exception NoSuchAlgorithmException if a CertPathValidatorSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
-     *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
-     *
-     * @exception IllegalArgumentException if the {@code provider} is
-     *          null or empty.
-     *
+     * specified algorithm.
+     * @throws NoSuchAlgorithmException if a CertPathValidatorSpi
+     *                                  implementation for the specified algorithm is not
+     *                                  available from the specified provider.
+     * @throws NoSuchProviderException  if the specified provider is not
+     *                                  registered in the security provider list.
+     * @throws IllegalArgumentException if the {@code provider} is
+     *                                  null or empty.
      * @see java.security.Provider
      */
     public static CertPathValidator getInstance(String algorithm,
-            String provider) throws NoSuchAlgorithmException,
+                                                String provider) throws NoSuchAlgorithmException,
             NoSuchProviderException {
         Instance instance = GetInstance.getInstance("CertPathValidator",
-            CertPathValidatorSpi.class, algorithm, provider);
-        return new CertPathValidator((CertPathValidatorSpi)instance.impl,
-            instance.provider, algorithm);
+                CertPathValidatorSpi.class, algorithm, provider);
+        return new CertPathValidator((CertPathValidatorSpi) instance.impl,
+                instance.provider, algorithm);
     }
 
     /**
@@ -220,31 +210,26 @@ public class CertPathValidator {
      * does not have to be registered in the provider list.
      *
      * @param algorithm the name of the requested {@code CertPathValidator}
-     * algorithm. See the CertPathValidator section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathValidator">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
-     *
-     * @param provider the provider.
-     *
+     *                  algorithm. See the CertPathValidator section in the <a href=
+     *                  "{@docRoot}/../technotes/guides/security/StandardNames.html#CertPathValidator">
+     *                  Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                  for information about standard algorithm names.
+     * @param provider  the provider.
      * @return a {@code CertPathValidator} object that implements the
-     *          specified algorithm.
-     *
-     * @exception NoSuchAlgorithmException if a CertPathValidatorSpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
-     *
-     * @exception IllegalArgumentException if the {@code provider} is
-     *          null.
-     *
+     * specified algorithm.
+     * @throws NoSuchAlgorithmException if a CertPathValidatorSpi
+     *                                  implementation for the specified algorithm is not available
+     *                                  from the specified Provider object.
+     * @throws IllegalArgumentException if the {@code provider} is
+     *                                  null.
      * @see java.security.Provider
      */
     public static CertPathValidator getInstance(String algorithm,
-            Provider provider) throws NoSuchAlgorithmException {
+                                                Provider provider) throws NoSuchAlgorithmException {
         Instance instance = GetInstance.getInstance("CertPathValidator",
-            CertPathValidatorSpi.class, algorithm, provider);
-        return new CertPathValidator((CertPathValidatorSpi)instance.impl,
-            instance.provider, algorithm);
+                CertPathValidatorSpi.class, algorithm, provider);
+        return new CertPathValidator((CertPathValidatorSpi) instance.impl,
+                instance.provider, algorithm);
     }
 
     /**
@@ -277,18 +262,17 @@ public class CertPathValidator {
      * algorithm validates {@code CertPath} objects of type X.509.
      *
      * @param certPath the {@code CertPath} to be validated
-     * @param params the algorithm parameters
+     * @param params   the algorithm parameters
      * @return the result of the validation algorithm
-     * @exception CertPathValidatorException if the {@code CertPath}
-     * does not validate
-     * @exception InvalidAlgorithmParameterException if the specified
-     * parameters or the type of the specified {@code CertPath} are
-     * inappropriate for this {@code CertPathValidator}
+     * @throws CertPathValidatorException         if the {@code CertPath}
+     *                                            does not validate
+     * @throws InvalidAlgorithmParameterException if the specified
+     *                                            parameters or the type of the specified {@code CertPath} are
+     *                                            inappropriate for this {@code CertPathValidator}
      */
     public final CertPathValidatorResult validate(CertPath certPath,
-        CertPathParameters params)
-        throws CertPathValidatorException, InvalidAlgorithmParameterException
-    {
+                                                  CertPathParameters params)
+            throws CertPathValidatorException, InvalidAlgorithmParameterException {
         return validatorSpi.engineValidate(certPath, params);
     }
 
@@ -306,18 +290,18 @@ public class CertPathValidator {
      * setting the value of the {@code certpathvalidator.type} security
      * property to the desired type.
      *
-     * @see java.security.Security security properties
      * @return the default {@code CertPathValidator} type as specified
      * by the {@code certpathvalidator.type} security property, or the string
      * {@literal "PKIX"} if no such property exists.
+     * @see java.security.Security security properties
      */
     public final static String getDefaultType() {
         String cpvtype =
-            AccessController.doPrivileged(new PrivilegedAction<String>() {
-                public String run() {
-                    return Security.getProperty(CPV_TYPE);
-                }
-            });
+                AccessController.doPrivileged(new PrivilegedAction<String>() {
+                    public String run() {
+                        return Security.getProperty(CPV_TYPE);
+                    }
+                });
         return (cpvtype == null) ? "PKIX" : cpvtype;
     }
 
@@ -334,7 +318,7 @@ public class CertPathValidator {
      *
      * @return a {@code CertPathChecker}
      * @throws UnsupportedOperationException if the service provider does not
-     *         support this method
+     *                                       support this method
      * @since 1.8
      */
     public final CertPathChecker getRevocationChecker() {

@@ -99,9 +99,7 @@ import java.time.DateTimeException;
  * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code ThaiBuddhistEra}.
  * Use {@code getValue()} instead.</b>
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
- *
+ * @implSpec This is an immutable and thread-safe enum.
  * @since 1.8
  */
 public enum ThaiBuddhistEra implements Era {
@@ -118,13 +116,14 @@ public enum ThaiBuddhistEra implements Era {
     BE;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ThaiBuddhistEra} from an {@code int} value.
      * <p>
      * {@code ThaiBuddhistEra} is an enum representing the Thai Buddhist eras of BEFORE_BE/BE.
      * This factory allows the enum to be obtained from the {@code int} value.
      *
-     * @param thaiBuddhistEra  the era to represent, from 0 to 1
+     * @param thaiBuddhistEra the era to represent, from 0 to 1
      * @return the BuddhistEra singleton, never null
      * @throws DateTimeException if the era is invalid
      */
@@ -140,6 +139,7 @@ public enum ThaiBuddhistEra implements Era {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the numeric era {@code int} value.
      * <p>

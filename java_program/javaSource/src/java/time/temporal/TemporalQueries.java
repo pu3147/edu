@@ -246,6 +246,7 @@ public final class TemporalQueries {
 
     //-----------------------------------------------------------------------
     // non-special constants are standard queries that derive information from other information
+
     /**
      * A lenient query for the {@code ZoneId}, falling back to the {@code ZoneOffset}.
      * <p>
@@ -342,19 +343,19 @@ public final class TemporalQueries {
      * A strict query for the {@code ZoneId}.
      */
     static final TemporalQuery<ZoneId> ZONE_ID = (temporal) ->
-        temporal.query(TemporalQueries.ZONE_ID);
+            temporal.query(TemporalQueries.ZONE_ID);
 
     /**
      * A query for the {@code Chronology}.
      */
     static final TemporalQuery<Chronology> CHRONO = (temporal) ->
-        temporal.query(TemporalQueries.CHRONO);
+            temporal.query(TemporalQueries.CHRONO);
 
     /**
      * A query for the smallest supported unit.
      */
     static final TemporalQuery<TemporalUnit> PRECISION = (temporal) ->
-        temporal.query(TemporalQueries.PRECISION);
+            temporal.query(TemporalQueries.PRECISION);
 
     //-----------------------------------------------------------------------
     /**

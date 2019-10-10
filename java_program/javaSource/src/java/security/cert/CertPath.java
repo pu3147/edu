@@ -111,11 +111,10 @@ import java.util.List;
  * generally not difficult, since the {@code CertPath} and
  * {@code List} objects in question are immutable.
  *
+ * @author Yassir Elley
  * @see CertificateFactory
  * @see CertPathBuilder
- *
- * @author      Yassir Elley
- * @since       1.4
+ * @since 1.4
  */
 public abstract class CertPath implements Serializable {
 
@@ -130,7 +129,7 @@ public abstract class CertPath implements Serializable {
      * {@code CertificateFactory} to create {@code CertPath}s.
      *
      * @param type the standard name of the type of
-     * {@code Certificate}s in this path
+     *             {@code Certificate}s in this path
      */
     protected CertPath(String type) {
         this.type = type;
@@ -156,7 +155,7 @@ public abstract class CertPath implements Serializable {
      * {@code UnsupportedOperationException}.
      *
      * @return an {@code Iterator} over the names of the supported
-     *         encodings (as Strings)
+     * encodings (as Strings)
      */
     public abstract Iterator<String> getEncodings();
 
@@ -179,16 +178,16 @@ public abstract class CertPath implements Serializable {
         if (this == other)
             return true;
 
-        if (! (other instanceof CertPath))
+        if (!(other instanceof CertPath))
             return false;
 
         CertPath otherCP = (CertPath) other;
-        if (! otherCP.getType().equals(type))
+        if (!otherCP.getType().equals(type))
             return false;
 
         List<? extends Certificate> thisCertList = this.getCertificates();
         List<? extends Certificate> otherCertList = otherCP.getCertificates();
-        return(thisCertList.equals(otherCertList));
+        return (thisCertList.equals(otherCertList));
     }
 
     /**
@@ -208,7 +207,7 @@ public abstract class CertPath implements Serializable {
      */
     public int hashCode() {
         int hashCode = type.hashCode();
-        hashCode = 31*hashCode + getCertificates().hashCode();
+        hashCode = 31 * hashCode + getCertificates().hashCode();
         return hashCode;
     }
 
@@ -222,19 +221,19 @@ public abstract class CertPath implements Serializable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         Iterator<? extends Certificate> stringIterator =
-                                        getCertificates().iterator();
+                getCertificates().iterator();
 
         sb.append("\n" + type + " Cert Path: length = "
-            + getCertificates().size() + ".\n");
+                + getCertificates().size() + ".\n");
         sb.append("[\n");
         int i = 1;
         while (stringIterator.hasNext()) {
             sb.append("=========================================="
-                + "===============Certificate " + i + " start.\n");
+                    + "===============Certificate " + i + " start.\n");
             Certificate stringCert = stringIterator.next();
             sb.append(stringCert.toString());
             sb.append("\n========================================"
-                + "=================Certificate " + i + " end.\n\n\n");
+                    + "=================Certificate " + i + " end.\n\n\n");
             i++;
         }
 
@@ -247,10 +246,10 @@ public abstract class CertPath implements Serializable {
      * encoding.
      *
      * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs
+     * @throws CertificateEncodingException if an encoding error occurs
      */
     public abstract byte[] getEncoded()
-        throws CertificateEncodingException;
+            throws CertificateEncodingException;
 
     /**
      * Returns the encoded form of this certification path, using the
@@ -258,18 +257,18 @@ public abstract class CertPath implements Serializable {
      *
      * @param encoding the name of the encoding to use
      * @return the encoded bytes
-     * @exception CertificateEncodingException if an encoding error occurs or
-     *   the encoding requested is not supported
+     * @throws CertificateEncodingException if an encoding error occurs or
+     *                                      the encoding requested is not supported
      */
     public abstract byte[] getEncoded(String encoding)
-        throws CertificateEncodingException;
+            throws CertificateEncodingException;
 
     /**
      * Returns the list of certificates in this certification path.
      * The {@code List} returned must be immutable and thread-safe.
      *
      * @return an immutable {@code List} of {@code Certificate}s
-     *         (may be empty, but not null)
+     * (may be empty, but not null)
      */
     public abstract List<? extends Certificate> getCertificates();
 
@@ -278,17 +277,16 @@ public abstract class CertPath implements Serializable {
      * {@code CertPathRep} object.
      *
      * @return the {@code CertPathRep} to be serialized
-     *
      * @throws ObjectStreamException if a {@code CertPathRep} object
-     * representing this certification path could not be created
+     *                               representing this certification path could not be created
      */
     protected Object writeReplace() throws ObjectStreamException {
         try {
             return new CertPathRep(type, getEncoded());
         } catch (CertificateException ce) {
             NotSerializableException nse =
-                new NotSerializableException
-                    ("java.security.cert.CertPath: " + type);
+                    new NotSerializableException
+                            ("java.security.cert.CertPath: " + type);
             nse.initCause(ce);
             throw nse;
         }
@@ -296,15 +294,20 @@ public abstract class CertPath implements Serializable {
 
     /**
      * Alternate {@code CertPath} class for serialization.
+     *
      * @since 1.4
      */
     protected static class CertPathRep implements Serializable {
 
         private static final long serialVersionUID = 3015633072427920915L;
 
-        /** The Certificate type */
+        /**
+         * The Certificate type
+         */
         private String type;
-        /** The encoded form of the cert path */
+        /**
+         * The encoded form of the cert path
+         */
         private byte[] data;
 
         /**
@@ -323,9 +326,8 @@ public abstract class CertPath implements Serializable {
          * Returns a {@code CertPath} constructed from the type and data.
          *
          * @return the resolved {@code CertPath} object
-         *
          * @throws ObjectStreamException if a {@code CertPath} could not
-         * be constructed
+         *                               be constructed
          */
         protected Object readResolve() throws ObjectStreamException {
             try {
@@ -333,8 +335,8 @@ public abstract class CertPath implements Serializable {
                 return cf.generateCertPath(new ByteArrayInputStream(data));
             } catch (CertificateException ce) {
                 NotSerializableException nse =
-                    new NotSerializableException
-                        ("java.security.cert.CertPath: " + type);
+                        new NotSerializableException
+                                ("java.security.cert.CertPath: " + type);
                 nse.initCause(ce);
                 throw nse;
             }

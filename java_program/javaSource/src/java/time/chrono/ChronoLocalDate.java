@@ -227,14 +227,12 @@ import java.util.Objects;
  * Use {@link TemporalAccessor} if read-only access is required, or use {@link Temporal}
  * if read-write access is required.
  *
- * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
+ * @implSpec This interface must be implemented with care to ensure other classes operate correctly.
  * All implementations that can be instantiated must be final, immutable and thread-safe.
  * Subclasses should be Serializable wherever possible.
  * <p>
  * Additional calendar systems may be added to the system.
  * See {@link Chronology} for more details.
- *
  * @since 1.8
  */
 public interface ChronoLocalDate
@@ -249,8 +247,8 @@ public interface ChronoLocalDate
      * This allows dates in different calendar systems to be compared based
      * on the position of the date on the local time-line.
      * The underlying comparison is equivalent to comparing the epoch-day.
-     * @return a comparator that compares in time-line order ignoring the chronology
      *
+     * @return a comparator that compares in time-line order ignoring the chronology
      * @see #isAfter
      * @see #isBefore
      * @see #isEqual
@@ -260,6 +258,7 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ChronoLocalDate} from a temporal object.
      * <p>
@@ -276,7 +275,7 @@ public interface ChronoLocalDate
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ChronoLocalDate::from}.
      *
-     * @param temporal  the temporal object to convert, not null
+     * @param temporal the temporal object to convert, not null
      * @return the date, not null
      * @throws DateTimeException if unable to convert to a {@code ChronoLocalDate}
      * @see Chronology#date(TemporalAccessor)
@@ -294,6 +293,7 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the chronology of this date.
      * <p>
@@ -376,7 +376,7 @@ public interface ChronoLocalDate
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
+     * @param field the field to check, null returns false
      * @return true if the field can be queried, false if not
      */
     @Override
@@ -402,7 +402,7 @@ public interface ChronoLocalDate
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
+     * @param unit the unit to check, null returns false
      * @return true if the unit can be added/subtracted, false if not
      */
     @Override
@@ -415,9 +415,11 @@ public interface ChronoLocalDate
 
     //-----------------------------------------------------------------------
     // override for covariant return type
+
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -427,9 +429,10 @@ public interface ChronoLocalDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException                {@inheritDoc}
      * @throws UnsupportedTemporalTypeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * @throws ArithmeticException              {@inheritDoc}
      */
     @Override
     default ChronoLocalDate with(TemporalField field, long newValue) {
@@ -441,7 +444,8 @@ public interface ChronoLocalDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -451,7 +455,8 @@ public interface ChronoLocalDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -464,7 +469,8 @@ public interface ChronoLocalDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -474,9 +480,10 @@ public interface ChronoLocalDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException                {@inheritDoc}
      * @throws UnsupportedTemporalTypeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * @throws ArithmeticException              {@inheritDoc}
      */
     @Override
     default ChronoLocalDate minus(long amountToSubtract, TemporalUnit unit) {
@@ -484,6 +491,7 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Queries this date using the specified query.
      * <p>
@@ -496,10 +504,10 @@ public interface ChronoLocalDate
      * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
      * specified query passing {@code this} as the argument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
+     * @param <R>   the type of the result
+     * @param query the query to invoke, not null
      * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @throws DateTimeException   if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
     @SuppressWarnings("unchecked")
@@ -538,9 +546,9 @@ public interface ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the target object to be adjusted, not null
+     * @param temporal the target object to be adjusted, not null
      * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @throws DateTimeException   if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
@@ -585,16 +593,17 @@ public interface ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param endExclusive  the end date, exclusive, which is converted to a
-     *  {@code ChronoLocalDate} in the same chronology, not null
-     * @param unit  the unit to measure the amount in, not null
+     * @param endExclusive the end date, exclusive, which is converted to a
+     *                     {@code ChronoLocalDate} in the same chronology, not null
+     * @param unit         the unit to measure the amount in, not null
      * @return the amount of time between this date and the end date
-     * @throws DateTimeException if the amount cannot be calculated, or the end
-     *  temporal cannot be converted to a {@code ChronoLocalDate}
+     * @throws DateTimeException                if the amount cannot be calculated, or the end
+     *                                          temporal cannot be converted to a {@code ChronoLocalDate}
      * @throws UnsupportedTemporalTypeException if the unit is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @throws ArithmeticException              if numeric overflow occurs
      */
-    @Override  // override for Javadoc
+    @Override
+    // override for Javadoc
     long until(Temporal endExclusive, TemporalUnit unit);
 
     /**
@@ -613,9 +622,9 @@ public interface ChronoLocalDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param endDateExclusive  the end date, exclusive, which may be in any chronology, not null
+     * @param endDateExclusive the end date, exclusive, which may be in any chronology, not null
      * @return the period between this date and the end date, not null
-     * @throws DateTimeException if the period cannot be calculated
+     * @throws DateTimeException   if the period cannot be calculated
      * @throws ArithmeticException if numeric overflow occurs
      */
     ChronoPeriod until(ChronoLocalDate endDateExclusive);
@@ -630,7 +639,7 @@ public interface ChronoLocalDate
      *  return formatter.format(this);
      * </pre>
      *
-     * @param formatter  the formatter to use, not null
+     * @param formatter the formatter to use, not null
      * @return the formatted date string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -640,13 +649,14 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Combines this date with a time to create a {@code ChronoLocalDateTime}.
      * <p>
      * This returns a {@code ChronoLocalDateTime} formed from this date at the specified time.
      * All possible combinations of date and time are valid.
      *
-     * @param localTime  the local time to use, not null
+     * @param localTime the local time to use, not null
      * @return the local date-time formed from this date and the specified time, not null
      */
     @SuppressWarnings("unchecked")
@@ -655,6 +665,7 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Converts this date to the Epoch Day.
      * <p>
@@ -671,6 +682,7 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Compares this date to another date, including the chronology.
      * <p>
@@ -696,7 +708,7 @@ public interface ChronoLocalDate
      * <p>
      * This default implementation performs the comparison defined above.
      *
-     * @param other  the other date to compare to, not null
+     * @param other the other date to compare to, not null
      * @return the comparator value, negative if less, positive if greater
      */
     @Override
@@ -719,7 +731,7 @@ public interface ChronoLocalDate
      * <p>
      * This default implementation performs the comparison based on the epoch-day.
      *
-     * @param other  the other date to compare to, not null
+     * @param other the other date to compare to, not null
      * @return true if this is after the specified date
      */
     default boolean isAfter(ChronoLocalDate other) {
@@ -737,7 +749,7 @@ public interface ChronoLocalDate
      * <p>
      * This default implementation performs the comparison based on the epoch-day.
      *
-     * @param other  the other date to compare to, not null
+     * @param other the other date to compare to, not null
      * @return true if this is before the specified date
      */
     default boolean isBefore(ChronoLocalDate other) {
@@ -755,7 +767,7 @@ public interface ChronoLocalDate
      * <p>
      * This default implementation performs the comparison based on the epoch-day.
      *
-     * @param other  the other date to compare to, not null
+     * @param other the other date to compare to, not null
      * @return true if the underlying date is equal to the specified date
      */
     default boolean isEqual(ChronoLocalDate other) {
@@ -763,6 +775,7 @@ public interface ChronoLocalDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this date is equal to another date, including the chronology.
      * <p>
@@ -771,7 +784,7 @@ public interface ChronoLocalDate
      * To compare the dates of two {@code TemporalAccessor} instances, including dates
      * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
     @Override
@@ -786,6 +799,7 @@ public interface ChronoLocalDate
     int hashCode();
 
     //-----------------------------------------------------------------------
+
     /**
      * Outputs this date as a {@code String}.
      * <p>

@@ -35,7 +35,6 @@ import java.util.Objects;
  * whose functional method is {@link #accept(Object)}.
  *
  * @param <T> the type of the input to the operation
- *
  * @since 1.8
  */
 @FunctionalInterface
@@ -62,6 +61,9 @@ public interface Consumer<T> {
      */
     default Consumer<T> andThen(Consumer<? super T> after) {
         Objects.requireNonNull(after);
-        return (T t) -> { accept(t); after.accept(t); };
+        return (T t) -> {
+            accept(t);
+            after.accept(t);
+        };
     }
 }

@@ -27,7 +27,7 @@ package java.lang.reflect;
 
 /**
  * The Permission class for reflective operations.
- * <P>
+ * <p>
  * The following table
  * provides a summary description of what the permission allows,
  * and discusses the risks of granting code the permission.
@@ -68,7 +68,6 @@ package java.lang.reflect;
  * @see Method#invoke
  * @see Constructor#newInstance
  * @see Proxy#newProxyInstance
- *
  * @since 1.2
  */
 public final
@@ -80,8 +79,7 @@ class ReflectPermission extends java.security.BasicPermission {
      * Constructs a ReflectPermission with the specified name.
      *
      * @param name the name of the ReflectPermission
-     *
-     * @throws NullPointerException if {@code name} is {@code null}.
+     * @throws NullPointerException     if {@code name} is {@code null}.
      * @throws IllegalArgumentException if {@code name} is empty.
      */
     public ReflectPermission(String name) {
@@ -92,11 +90,9 @@ class ReflectPermission extends java.security.BasicPermission {
      * Constructs a ReflectPermission with the specified name and actions.
      * The actions should be null; they are ignored.
      *
-     * @param name the name of the ReflectPermission
-     *
+     * @param name    the name of the ReflectPermission
      * @param actions should be null
-     *
-     * @throws NullPointerException if {@code name} is {@code null}.
+     * @throws NullPointerException     if {@code name} is {@code null}.
      * @throws IllegalArgumentException if {@code name} is empty.
      */
     public ReflectPermission(String name, String actions) {

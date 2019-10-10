@@ -43,8 +43,8 @@ public class BeanDescriptor extends FeatureDescriptor {
     /**
      * Create a BeanDescriptor for a bean that doesn't have a customizer.
      *
-     * @param beanClass  The Class object of the Java class that implements
-     *          the bean.  For example sun.beans.OurButton.class.
+     * @param beanClass The Class object of the Java class that implements
+     *                  the bean.  For example sun.beans.OurButton.class.
      */
     public BeanDescriptor(Class<?> beanClass) {
         this(beanClass, null);
@@ -53,10 +53,10 @@ public class BeanDescriptor extends FeatureDescriptor {
     /**
      * Create a BeanDescriptor for a bean that has a customizer.
      *
-     * @param beanClass  The Class object of the Java class that implements
-     *          the bean.  For example sun.beans.OurButton.class.
-     * @param customizerClass  The Class object of the Java class that implements
-     *          the bean's Customizer.  For example sun.beans.OurButtonCustomizer.class.
+     * @param beanClass       The Class object of the Java class that implements
+     *                        the bean.  For example sun.beans.OurButton.class.
+     * @param customizerClass The Class object of the Java class that implements
+     *                        the bean's Customizer.  For example sun.beans.OurButtonCustomizer.class.
      */
     public BeanDescriptor(Class<?> beanClass, Class<?> customizerClass) {
         this.beanClassRef = getWeakReference(beanClass);
@@ -64,7 +64,7 @@ public class BeanDescriptor extends FeatureDescriptor {
 
         String name = beanClass.getName();
         while (name.indexOf('.') >= 0) {
-            name = name.substring(name.indexOf('.')+1);
+            name = name.substring(name.indexOf('.') + 1);
         }
         setName(name);
     }

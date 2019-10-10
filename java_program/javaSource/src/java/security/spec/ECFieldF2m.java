@@ -31,10 +31,8 @@ import java.util.Arrays;
  * This immutable class defines an elliptic curve (EC)
  * characteristic 2 finite field.
  *
- * @see ECField
- *
  * @author Valerie Peng
- *
+ * @see ECField
  * @since 1.5
  */
 public class ECFieldF2m implements ECField {
@@ -46,9 +44,10 @@ public class ECFieldF2m implements ECField {
     /**
      * Creates an elliptic curve characteristic 2 finite
      * field which has 2^{@code m} elements with normal basis.
+     *
      * @param m with 2^{@code m} being the number of elements.
-     * @exception IllegalArgumentException if {@code m}
-     * is not positive.
+     * @throws IllegalArgumentException if {@code m}
+     *                                  is not positive.
      */
     public ECFieldF2m(int m) {
         if (m <= 0) {
@@ -73,13 +72,14 @@ public class ECFieldF2m implements ECField {
      * + X^{@code k2} + X^{@code k1} + 1 with
      * {@code m} &gt; {@code k3} &gt; {@code k2}
      * &gt; {@code k1} &gt;= 1).
-     * @param m with 2^{@code m} being the number of elements.
+     *
+     * @param m  with 2^{@code m} being the number of elements.
      * @param rp the BigInteger whose i-th bit corresponds to
-     * the i-th coefficient of the reduction polynomial.
-     * @exception NullPointerException if {@code rp} is null.
-     * @exception IllegalArgumentException if {@code m}
-     * is not positive, or {@code rp} does not represent
-     * a valid reduction polynomial.
+     *           the i-th coefficient of the reduction polynomial.
+     * @throws NullPointerException     if {@code rp} is null.
+     * @throws IllegalArgumentException if {@code m}
+     *                                  is not positive, or {@code rp} does not represent
+     *                                  a valid reduction polynomial.
      */
     public ECFieldF2m(int m, BigInteger rp) {
         // check m and rp
@@ -90,14 +90,14 @@ public class ECFieldF2m implements ECField {
         }
         int bitCount = this.rp.bitCount();
         if (!this.rp.testBit(0) || !this.rp.testBit(m) ||
-            ((bitCount != 3) && (bitCount != 5))) {
+                ((bitCount != 3) && (bitCount != 5))) {
             throw new IllegalArgumentException
-                ("rp does not represent a valid reduction polynomial");
+                    ("rp does not represent a valid reduction polynomial");
         }
         // convert rp into ks
         BigInteger temp = this.rp.clearBit(0).clearBit(m);
-        this.ks = new int[bitCount-2];
-        for (int i = this.ks.length-1; i >= 0; i--) {
+        this.ks = new int[bitCount - 2];
+        for (int i = this.ks.length - 1; i >= 0; i--) {
             int index = temp.getLowestSetBit();
             this.ks[i] = index;
             temp = temp.clearBit(index);
@@ -119,16 +119,17 @@ public class ECFieldF2m implements ECField {
      * {@code m} &gt; {@code k3} &gt; {@code k2}
      * &gt; {@code k1} &gt;= 1), so {@code ks} should
      * have length 1 or 3.
-     * @param m with 2^{@code m} being the number of elements.
+     *
+     * @param m  with 2^{@code m} being the number of elements.
      * @param ks the order of the middle term(s) of the
-     * reduction polynomial. Contents of this array are copied
-     * to protect against subsequent modification.
-     * @exception NullPointerException if {@code ks} is null.
-     * @exception IllegalArgumentException if{@code m}
-     * is not positive, or the length of {@code ks}
-     * is neither 1 nor 3, or values in {@code ks}
-     * are not between {@code m}-1 and 1 (inclusive)
-     * and in descending order.
+     *           reduction polynomial. Contents of this array are copied
+     *           to protect against subsequent modification.
+     * @throws NullPointerException     if {@code ks} is null.
+     * @throws IllegalArgumentException if{@code m}
+     *                                  is not positive, or the length of {@code ks}
+     *                                  is neither 1 nor 3, or values in {@code ks}
+     *                                  are not between {@code m}-1 and 1 (inclusive)
+     *                                  and in descending order.
      */
     public ECFieldF2m(int m, int[] ks) {
         // check m and ks
@@ -139,16 +140,16 @@ public class ECFieldF2m implements ECField {
         }
         if ((this.ks.length != 1) && (this.ks.length != 3)) {
             throw new IllegalArgumentException
-                ("length of ks is neither 1 nor 3");
+                    ("length of ks is neither 1 nor 3");
         }
         for (int i = 0; i < this.ks.length; i++) {
-            if ((this.ks[i] < 1) || (this.ks[i] > m-1)) {
+            if ((this.ks[i] < 1) || (this.ks[i] > m - 1)) {
                 throw new IllegalArgumentException
-                    ("ks["+ i + "] is out of range");
+                        ("ks[" + i + "] is out of range");
             }
-            if ((i != 0) && (this.ks[i] >= this.ks[i-1])) {
+            if ((i != 0) && (this.ks[i] >= this.ks[i - 1])) {
                 throw new IllegalArgumentException
-                    ("values in ks are not in descending order");
+                        ("values in ks are not in descending order");
             }
         }
         // convert ks into rp
@@ -162,6 +163,7 @@ public class ECFieldF2m implements ECField {
     /**
      * Returns the field size in bits which is {@code m}
      * for this characteristic 2 finite field.
+     *
      * @return the field size in bits.
      */
     public int getFieldSize() {
@@ -171,6 +173,7 @@ public class ECFieldF2m implements ECField {
     /**
      * Returns the value {@code m} of this characteristic
      * 2 finite field.
+     *
      * @return {@code m} with 2^{@code m} being the
      * number of elements.
      */
@@ -182,6 +185,7 @@ public class ECFieldF2m implements ECField {
      * Returns a BigInteger whose i-th bit corresponds to the
      * i-th coefficient of the reduction polynomial for polynomial
      * basis or null for normal basis.
+     *
      * @return a BigInteger whose i-th bit corresponds to the
      * i-th coefficient of the reduction polynomial for polynomial
      * basis or null for normal basis.
@@ -194,6 +198,7 @@ public class ECFieldF2m implements ECField {
      * Returns an integer array which contains the order of the
      * middle term(s) of the reduction polynomial for polynomial
      * basis or null for normal basis.
+     *
      * @return an integer array which contains the order of the
      * middle term(s) of the reduction polynomial for polynomial
      * basis or null for normal basis. A new array is returned
@@ -210,6 +215,7 @@ public class ECFieldF2m implements ECField {
     /**
      * Compares this finite field for equality with the
      * specified object.
+     *
      * @param obj the object to be compared.
      * @return true if {@code obj} is an instance
      * of ECFieldF2m and both {@code m} and the reduction
@@ -220,7 +226,7 @@ public class ECFieldF2m implements ECField {
         if (obj instanceof ECFieldF2m) {
             // no need to compare rp here since ks and rp
             // should be equivalent
-            return ((m == ((ECFieldF2m)obj).m) &&
+            return ((m == ((ECFieldF2m) obj).m) &&
                     (Arrays.equals(ks, ((ECFieldF2m) obj).ks)));
         }
         return false;
@@ -229,11 +235,12 @@ public class ECFieldF2m implements ECField {
     /**
      * Returns a hash code value for this characteristic 2
      * finite field.
+     *
      * @return a hash code value.
      */
     public int hashCode() {
         int value = m << 5;
-        value += (rp==null? 0:rp.hashCode());
+        value += (rp == null ? 0 : rp.hashCode());
         // no need to involve ks here since ks and rp
         // should be equivalent.
         return value;

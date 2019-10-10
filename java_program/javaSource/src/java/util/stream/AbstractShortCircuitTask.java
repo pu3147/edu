@@ -32,16 +32,16 @@ import java.util.concurrent.atomic.AtomicReference;
  * stream ops, which can produce a result without processing all elements of the
  * stream.
  *
- * @param <P_IN> type of input elements to the pipeline
+ * @param <P_IN>  type of input elements to the pipeline
  * @param <P_OUT> type of output elements from the pipeline
- * @param <R> type of intermediate result, may be different from operation
- *        result type
- * @param <K> type of child and sibling tasks
+ * @param <R>     type of intermediate result, may be different from operation
+ *                result type
+ * @param <K>     type of child and sibling tasks
  * @since 1.8
  */
 @SuppressWarnings("serial")
 abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
-                                        K extends AbstractShortCircuitTask<P_IN, P_OUT, R, K>>
+        K extends AbstractShortCircuitTask<P_IN, P_OUT, R, K>>
         extends AbstractTask<P_IN, P_OUT, R, K> {
     /**
      * The result for this computation; this is shared among all tasks and set
@@ -60,8 +60,8 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
     /**
      * Constructor for root tasks.
      *
-     * @param helper the {@code PipelineHelper} describing the stream pipeline
-     *               up to this operation
+     * @param helper      the {@code PipelineHelper} describing the stream pipeline
+     *                    up to this operation
      * @param spliterator the {@code Spliterator} describing the source for this
      *                    pipeline
      */
@@ -74,7 +74,7 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
     /**
      * Constructor for non-root nodes.
      *
-     * @param parent parent task in the computation tree
+     * @param parent      parent task in the computation tree
      * @param spliterator the {@code Spliterator} for the portion of the
      *                    computation tree described by this task
      */
@@ -116,7 +116,7 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
                 break;
             }
             K leftChild, rightChild, taskToFork;
-            task.leftChild  = leftChild = task.makeChild(ls);
+            task.leftChild = leftChild = task.makeChild(ls);
             task.rightChild = rightChild = task.makeChild(rs);
             task.setPendingCount(1);
             if (forkRight) {
@@ -124,8 +124,7 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
                 rs = ls;
                 task = leftChild;
                 taskToFork = rightChild;
-            }
-            else {
+            } else {
                 forkRight = true;
                 task = rightChild;
                 taskToFork = leftChild;
@@ -163,8 +162,7 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
         if (isRoot()) {
             if (localResult != null)
                 sharedResult.compareAndSet(null, localResult);
-        }
-        else
+        } else
             super.setLocalResult(localResult);
     }
 
@@ -185,8 +183,7 @@ abstract class AbstractShortCircuitTask<P_IN, P_OUT, R,
         if (isRoot()) {
             R answer = sharedResult.get();
             return (answer == null) ? getEmptyResult() : answer;
-        }
-        else
+        } else
             return super.getLocalResult();
     }
 

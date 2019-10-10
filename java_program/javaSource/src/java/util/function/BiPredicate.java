@@ -35,7 +35,6 @@ import java.util.Objects;
  *
  * @param <T> the type of the first argument to the predicate
  * @param <U> the type of the second argument the predicate
- *
  * @see Predicate
  * @since 1.8
  */

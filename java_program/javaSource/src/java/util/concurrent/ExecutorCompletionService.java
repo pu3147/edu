@@ -45,7 +45,7 @@ package java.util.concurrent;
  * <p>
  *
  * <b>Usage Examples.</b>
- *
+ * <p>
  * Suppose you have a set of solvers for a certain problem, each
  * returning a value of some type {@code Result}, and would like to
  * run them concurrently, processing the results of each of them that
@@ -67,7 +67,7 @@ package java.util.concurrent;
  *             use(r);
  *     }
  * }}</pre>
- *
+ * <p>
  * Suppose instead that you would like to use the first non-null result
  * of the set of tasks, ignoring any that encounter exceptions,
  * and cancelling all other tasks when the first one is ready:
@@ -117,7 +117,11 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
             super(task, null);
             this.task = task;
         }
-        protected void done() { completionQueue.add(task); }
+
+        protected void done() {
+            completionQueue.add(task);
+        }
+
         private final Future<V> task;
     }
 
@@ -148,7 +152,7 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
             throw new NullPointerException();
         this.executor = executor;
         this.aes = (executor instanceof AbstractExecutorService) ?
-            (AbstractExecutorService) executor : null;
+                (AbstractExecutorService) executor : null;
         this.completionQueue = new LinkedBlockingQueue<Future<V>>();
     }
 
@@ -157,12 +161,12 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
      * executor for base task execution and the supplied queue as its
      * completion queue.
      *
-     * @param executor the executor to use
+     * @param executor        the executor to use
      * @param completionQueue the queue to use as the completion queue
-     *        normally one dedicated for use by this service. This
-     *        queue is treated as unbounded -- failed attempted
-     *        {@code Queue.add} operations for completed tasks cause
-     *        them not to be retrievable.
+     *                        normally one dedicated for use by this service. This
+     *                        queue is treated as unbounded -- failed attempted
+     *                        {@code Queue.add} operations for completed tasks cause
+     *                        them not to be retrievable.
      * @throws NullPointerException if executor or completionQueue are {@code null}
      */
     public ExecutorCompletionService(Executor executor,
@@ -171,7 +175,7 @@ public class ExecutorCompletionService<V> implements CompletionService<V> {
             throw new NullPointerException();
         this.executor = executor;
         this.aes = (executor instanceof AbstractExecutorService) ?
-            (AbstractExecutorService) executor : null;
+                (AbstractExecutorService) executor : null;
         this.completionQueue = completionQueue;
     }
 

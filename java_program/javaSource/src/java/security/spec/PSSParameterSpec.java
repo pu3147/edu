@@ -60,19 +60,16 @@ import java.security.spec.MGF1ParameterSpec;
  * }
  * </pre>
  * <p>Note: the PSSParameterSpec.DEFAULT uses the following:
- *     message digest  -- "SHA-1"
- *     mask generation function (mgf) -- "MGF1"
- *     parameters for mgf -- MGF1ParameterSpec.SHA1
- *     SaltLength   -- 20
- *     TrailerField -- 1
+ * message digest  -- "SHA-1"
+ * mask generation function (mgf) -- "MGF1"
+ * parameters for mgf -- MGF1ParameterSpec.SHA1
+ * SaltLength   -- 20
+ * TrailerField -- 1
  *
+ * @author Valerie Peng
  * @see MGF1ParameterSpec
  * @see AlgorithmParameterSpec
  * @see java.security.Signature
- *
- * @author Valerie Peng
- *
- *
  * @since 1.4
  */
 
@@ -86,6 +83,7 @@ public class PSSParameterSpec implements AlgorithmParameterSpec {
 
     /**
      * The PSS parameter set with all default values.
+     *
      * @since 1.5
      */
     public static final PSSParameterSpec DEFAULT = new PSSParameterSpec();
@@ -103,18 +101,18 @@ public class PSSParameterSpec implements AlgorithmParameterSpec {
      * mask generation function, parameters for mask generation
      * function, salt length, and trailer field values.
      *
-     * @param mdName the algorithm name of the hash function.
-     * @param mgfName the algorithm name of the mask generation
-     * function.
-     * @param mgfSpec the parameters for the mask generation
-     * function. If null is specified, null will be returned by
-     * getMGFParameters().
-     * @param saltLen the length of salt.
+     * @param mdName       the algorithm name of the hash function.
+     * @param mgfName      the algorithm name of the mask generation
+     *                     function.
+     * @param mgfSpec      the parameters for the mask generation
+     *                     function. If null is specified, null will be returned by
+     *                     getMGFParameters().
+     * @param saltLen      the length of salt.
      * @param trailerField the value of the trailer field.
-     * @exception NullPointerException if {@code mdName},
-     * or {@code mgfName} is null.
-     * @exception IllegalArgumentException if {@code saltLen}
-     * or {@code trailerField} is less than 0.
+     * @throws NullPointerException     if {@code mdName},
+     *                                  or {@code mgfName} is null.
+     * @throws IllegalArgumentException if {@code saltLen}
+     *                                  or {@code trailerField} is less than 0.
      * @since 1.5
      */
     public PSSParameterSpec(String mdName, String mgfName,
@@ -125,15 +123,15 @@ public class PSSParameterSpec implements AlgorithmParameterSpec {
         }
         if (mgfName == null) {
             throw new NullPointerException("mask generation function " +
-                                           "algorithm is null");
+                    "algorithm is null");
         }
         if (saltLen < 0) {
             throw new IllegalArgumentException("negative saltLen value: " +
-                                               saltLen);
+                    saltLen);
         }
         if (trailerField < 0) {
             throw new IllegalArgumentException("negative trailerField: " +
-                                               trailerField);
+                    trailerField);
         }
         this.mdName = mdName;
         this.mgfName = mgfName;
@@ -148,14 +146,14 @@ public class PSSParameterSpec implements AlgorithmParameterSpec {
      * defined in PKCS#1.
      *
      * @param saltLen the length of salt in bits to be used in PKCS#1
-     * PSS encoding.
-     * @exception IllegalArgumentException if {@code saltLen} is
-     * less than 0.
+     *                PSS encoding.
+     * @throws IllegalArgumentException if {@code saltLen} is
+     *                                  less than 0.
      */
     public PSSParameterSpec(int saltLen) {
         if (saltLen < 0) {
             throw new IllegalArgumentException("negative saltLen value: " +
-                                               saltLen);
+                    saltLen);
         }
         this.saltLen = saltLen;
     }
@@ -174,7 +172,6 @@ public class PSSParameterSpec implements AlgorithmParameterSpec {
      * Returns the mask generation function algorithm name.
      *
      * @return the mask generation function algorithm name.
-     *
      * @since 1.5
      */
     public String getMGFAlgorithm() {

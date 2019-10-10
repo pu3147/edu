@@ -25,9 +25,9 @@
 
 package java.lang.instrument;
 
-import  java.io.File;
-import  java.io.IOException;
-import  java.util.jar.JarFile;
+import java.io.File;
+import java.io.IOException;
+import java.util.jar.JarFile;
 
 /*
  * Copyright 2003 Wily Technology, Inc.
@@ -64,7 +64,7 @@ import  java.util.jar.JarFile;
  * Once an agent acquires an <code>Instrumentation</code> instance,
  * the agent may call methods on the instance at any time.
  *
- * @since   1.5
+ * @since 1.5
  */
 public interface Instrumentation {
     /**
@@ -82,16 +82,16 @@ public interface Instrumentation {
      * transformers in order. The same transformer may be added more than once,
      * but it is strongly discouraged -- avoid this by creating a new instance of
      * transformer class.
-     * <P>
+     * <p>
      * This method is intended for use in instrumentation, as described in the
      * {@linkplain Instrumentation class specification}.
      *
-     * @param transformer          the transformer to register
-     * @param canRetransform       can this transformer's transformations be retransformed
-     * @throws java.lang.NullPointerException if passed a <code>null</code> transformer
+     * @param transformer    the transformer to register
+     * @param canRetransform can this transformer's transformations be retransformed
+     * @throws java.lang.NullPointerException          if passed a <code>null</code> transformer
      * @throws java.lang.UnsupportedOperationException if <code>canRetransform</code>
-     * is true and the current configuration of the JVM does not allow
-     * retransformation ({@link #isRetransformClassesSupported} is false)
+     *                                                 is true and the current configuration of the JVM does not allow
+     *                                                 retransformation ({@link #isRetransformClassesSupported} is false)
      * @since 1.6
      */
     void
@@ -99,12 +99,12 @@ public interface Instrumentation {
 
     /**
      * Registers the supplied transformer.
-     * <P>
+     * <p>
      * Same as <code>addTransformer(transformer, false)</code>.
      *
-     * @param transformer          the transformer to register
+     * @param transformer the transformer to register
      * @throws java.lang.NullPointerException if passed a <code>null</code> transformer
-     * @see    #addTransformer(ClassFileTransformer,boolean)
+     * @see #addTransformer(ClassFileTransformer, boolean)
      */
     void
     addTransformer(ClassFileTransformer transformer);
@@ -117,9 +117,9 @@ public interface Instrumentation {
      * after it has been removed. Transformers should be written defensively
      * to expect this situation.
      *
-     * @param transformer          the transformer to unregister
-     * @return  true if the transformer was found and removed, false if the
-     *           transformer was not found
+     * @param transformer the transformer to unregister
+     * @return true if the transformer was found and removed, false if the
+     * transformer was not found
      * @throws java.lang.NullPointerException if passed a <code>null</code> transformer
      */
     boolean
@@ -137,8 +137,9 @@ public interface Instrumentation {
      * this capability.
      * During a single instantiation of a single JVM, multiple calls to this
      * method will always return the same answer.
-     * @return  true if the current JVM configuration supports retransformation of
-     *          classes, false if not.
+     *
+     * @return true if the current JVM configuration supports retransformation of
+     * classes, false if not.
      * @see #retransformClasses
      * @since 1.6
      */
@@ -148,7 +149,7 @@ public interface Instrumentation {
     /**
      * Retransform the supplied set of classes.
      *
-     * <P>
+     * <p>
      * This function facilitates the instrumentation
      * of already loaded classes.
      * When classes are initially loaded or when they are
@@ -180,14 +181,14 @@ public interface Instrumentation {
      *      definition of the class
      *    </li>
      *  </ul>
-     * <P>
-     *
+     * <p>
+     * <p>
      * The order of transformation is described in the
      * {@link java.lang.instrument.ClassFileTransformer#transform transform} method.
      * This same order is used in the automatic reapplication of retransformation
      * incapable transforms.
-     * <P>
-     *
+     * <p>
+     * <p>
      * The initial class file bytes represent the bytes passed to
      * {@link java.lang.ClassLoader#defineClass ClassLoader.defineClass} or
      * {@link #redefineClasses redefineClasses}
@@ -201,26 +202,26 @@ public interface Instrumentation {
      *  Where order is not meaningful, for example the order of methods,
      *  order might not be preserved.
      *
-     * <P>
+     * <p>
      * This method operates on
      * a set in order to allow interdependent changes to more than one class at the same time
      * (a retransformation of class A can require a retransformation of class B).
      *
-     * <P>
+     * <p>
      * If a retransformed method has active stack frames, those active frames continue to
      * run the bytecodes of the original method.
      * The retransformed method will be used on new invokes.
      *
-     * <P>
+     * <p>
      * This method does not cause any initialization except that which would occur
      * under the customary JVM semantics. In other words, redefining a class
      * does not cause its initializers to be run. The values of static variables
      * will remain as they were prior to the call.
      *
-     * <P>
+     * <p>
      * Instances of the retransformed class are not affected.
      *
-     * <P>
+     * <p>
      * The retransformation may change method bodies, the constant pool and attributes.
      * The retransformation must not add, remove or rename fields or methods, change the
      * signatures of methods, or change inheritance.  These restrictions maybe be
@@ -228,27 +229,26 @@ public interface Instrumentation {
      * until after the transformations have been applied, if the resultant bytes are in
      * error this method will throw an exception.
      *
-     * <P>
+     * <p>
      * If this method throws an exception, no classes have been retransformed.
-     * <P>
+     * <p>
      * This method is intended for use in instrumentation, as described in the
      * {@linkplain Instrumentation class specification}.
      *
      * @param classes array of classes to retransform;
      *                a zero-length array is allowed, in this case, this method does nothing
      * @throws java.lang.instrument.UnmodifiableClassException if a specified class cannot be modified
-     * ({@link #isModifiableClass} would return <code>false</code>)
-     * @throws java.lang.UnsupportedOperationException if the current configuration of the JVM does not allow
-     * retransformation ({@link #isRetransformClassesSupported} is false) or the retransformation attempted
-     * to make unsupported changes
-     * @throws java.lang.ClassFormatError if the data did not contain a valid class
-     * @throws java.lang.NoClassDefFoundError if the name in the class file is not equal to the name of the class
-     * @throws java.lang.UnsupportedClassVersionError if the class file version numbers are not supported
-     * @throws java.lang.ClassCircularityError if the new classes contain a circularity
-     * @throws java.lang.LinkageError if a linkage error occurs
-     * @throws java.lang.NullPointerException if the supplied classes  array or any of its components
-     *                                        is <code>null</code>.
-     *
+     *                                                         ({@link #isModifiableClass} would return <code>false</code>)
+     * @throws java.lang.UnsupportedOperationException         if the current configuration of the JVM does not allow
+     *                                                         retransformation ({@link #isRetransformClassesSupported} is false) or the retransformation attempted
+     *                                                         to make unsupported changes
+     * @throws java.lang.ClassFormatError                      if the data did not contain a valid class
+     * @throws java.lang.NoClassDefFoundError                  if the name in the class file is not equal to the name of the class
+     * @throws java.lang.UnsupportedClassVersionError          if the class file version numbers are not supported
+     * @throws java.lang.ClassCircularityError                 if the new classes contain a circularity
+     * @throws java.lang.LinkageError                          if a linkage error occurs
+     * @throws java.lang.NullPointerException                  if the supplied classes  array or any of its components
+     *                                                         is <code>null</code>.
      * @see #isRetransformClassesSupported
      * @see #addTransformer
      * @see java.lang.instrument.ClassFileTransformer
@@ -269,7 +269,8 @@ public interface Instrumentation {
      * this capability.
      * During a single instantiation of a single JVM, multiple calls to this
      * method will always return the same answer.
-     * @return  true if the current JVM configuration supports redefinition of classes,
+     *
+     * @return true if the current JVM configuration supports redefinition of classes,
      * false if not.
      * @see #redefineClasses
      */
@@ -279,7 +280,7 @@ public interface Instrumentation {
     /**
      * Redefine the supplied set of classes using the supplied class files.
      *
-     * <P>
+     * <p>
      * This method is used to replace the definition of a class without reference
      * to the existing class file bytes, as one might do when recompiling from source
      * for fix-and-continue debugging.
@@ -288,26 +289,26 @@ public interface Instrumentation {
      * {@link #retransformClasses retransformClasses}
      * should be used.
      *
-     * <P>
+     * <p>
      * This method operates on
      * a set in order to allow interdependent changes to more than one class at the same time
      * (a redefinition of class A can require a redefinition of class B).
      *
-     * <P>
+     * <p>
      * If a redefined method has active stack frames, those active frames continue to
      * run the bytecodes of the original method.
      * The redefined method will be used on new invokes.
      *
-     * <P>
+     * <p>
      * This method does not cause any initialization except that which would occur
      * under the customary JVM semantics. In other words, redefining a class
      * does not cause its initializers to be run. The values of static variables
      * will remain as they were prior to the call.
      *
-     * <P>
+     * <p>
      * Instances of the redefined class are not affected.
      *
-     * <P>
+     * <p>
      * The redefinition may change method bodies, the constant pool and attributes.
      * The redefinition must not add, remove or rename fields or methods, change the
      * signatures of methods, or change inheritance.  These restrictions maybe be
@@ -315,35 +316,34 @@ public interface Instrumentation {
      * until after the transformations have been applied, if the resultant bytes are in
      * error this method will throw an exception.
      *
-     * <P>
+     * <p>
      * If this method throws an exception, no classes have been redefined.
-     * <P>
+     * <p>
      * This method is intended for use in instrumentation, as described in the
      * {@linkplain Instrumentation class specification}.
      *
      * @param definitions array of classes to redefine with corresponding definitions;
      *                    a zero-length array is allowed, in this case, this method does nothing
      * @throws java.lang.instrument.UnmodifiableClassException if a specified class cannot be modified
-     * ({@link #isModifiableClass} would return <code>false</code>)
-     * @throws java.lang.UnsupportedOperationException if the current configuration of the JVM does not allow
-     * redefinition ({@link #isRedefineClassesSupported} is false) or the redefinition attempted
-     * to make unsupported changes
-     * @throws java.lang.ClassFormatError if the data did not contain a valid class
-     * @throws java.lang.NoClassDefFoundError if the name in the class file is not equal to the name of the class
-     * @throws java.lang.UnsupportedClassVersionError if the class file version numbers are not supported
-     * @throws java.lang.ClassCircularityError if the new classes contain a circularity
-     * @throws java.lang.LinkageError if a linkage error occurs
-     * @throws java.lang.NullPointerException if the supplied definitions array or any of its components
-     * is <code>null</code>
-     * @throws java.lang.ClassNotFoundException Can never be thrown (present for compatibility reasons only)
-     *
+     *                                                         ({@link #isModifiableClass} would return <code>false</code>)
+     * @throws java.lang.UnsupportedOperationException         if the current configuration of the JVM does not allow
+     *                                                         redefinition ({@link #isRedefineClassesSupported} is false) or the redefinition attempted
+     *                                                         to make unsupported changes
+     * @throws java.lang.ClassFormatError                      if the data did not contain a valid class
+     * @throws java.lang.NoClassDefFoundError                  if the name in the class file is not equal to the name of the class
+     * @throws java.lang.UnsupportedClassVersionError          if the class file version numbers are not supported
+     * @throws java.lang.ClassCircularityError                 if the new classes contain a circularity
+     * @throws java.lang.LinkageError                          if a linkage error occurs
+     * @throws java.lang.NullPointerException                  if the supplied definitions array or any of its components
+     *                                                         is <code>null</code>
+     * @throws java.lang.ClassNotFoundException                Can never be thrown (present for compatibility reasons only)
      * @see #isRedefineClassesSupported
      * @see #addTransformer
      * @see java.lang.instrument.ClassFileTransformer
      */
     void
     redefineClasses(ClassDefinition... definitions)
-        throws  ClassNotFoundException, UnmodifiableClassException;
+            throws ClassNotFoundException, UnmodifiableClassException;
 
 
     /**
@@ -352,21 +352,20 @@ public interface Instrumentation {
      * or {@linkplain #redefineClasses redefinition}.
      * If a class is modifiable then this method returns <code>true</code>.
      * If a class is not modifiable then this method returns <code>false</code>.
-     * <P>
+     * <p>
      * For a class to be retransformed, {@link #isRetransformClassesSupported} must also be true.
      * But the value of <code>isRetransformClassesSupported()</code> does not influence the value
      * returned by this function.
      * For a class to be redefined, {@link #isRedefineClassesSupported} must also be true.
      * But the value of <code>isRedefineClassesSupported()</code> does not influence the value
      * returned by this function.
-     * <P>
+     * <p>
      * Primitive classes (for example, <code>java.lang.Integer.TYPE</code>)
      * and array classes are never modifiable.
      *
      * @param theClass the class to check for being modifiable
      * @return whether or not the argument class is modifiable
      * @throws java.lang.NullPointerException if the specified class is <code>null</code>.
-     *
      * @see #retransformClasses
      * @see #isRetransformClassesSupported
      * @see #redefineClasses
@@ -390,9 +389,9 @@ public interface Instrumentation {
      * If the supplied loader is <code>null</code>, classes initiated by the bootstrap class
      * loader are returned.
      *
-     * @param loader          the loader whose initiated class list will be returned
+     * @param loader the loader whose initiated class list will be returned
      * @return an array containing all the classes for which loader is an initiating loader,
-     *          zero-length if there are none
+     * zero-length if there are none
      */
     @SuppressWarnings("rawtypes")
     Class[]
@@ -402,10 +401,10 @@ public interface Instrumentation {
      * Returns an implementation-specific approximation of the amount of storage consumed by
      * the specified object. The result may include some or all of the object's overhead,
      * and thus is useful for comparison within an implementation but not between implementations.
-     *
+     * <p>
      * The estimate may change during a single invocation of the JVM.
      *
-     * @param objectToSize     the object to size
+     * @param objectToSize the object to size
      * @return an implementation-specific approximation of the amount of storage consumed by the specified object
      * @throws java.lang.NullPointerException if the supplied Object is <code>null</code>.
      */
@@ -448,17 +447,12 @@ public interface Instrumentation {
      * unsuccessfully attempted to resolve a reference, then subsequent attempts to
      * resolve that reference will fail with the same error as the initial attempt.
      *
-     * @param   jarfile
-     *          The JAR file to be searched when the bootstrap class loader
-     *          unsuccessfully searches for a class.
-     *
-     * @throws  NullPointerException
-     *          If <code>jarfile</code> is <code>null</code>.
-     *
-     * @see     #appendToSystemClassLoaderSearch
-     * @see     java.lang.ClassLoader
-     * @see     java.util.jar.JarFile
-     *
+     * @param jarfile The JAR file to be searched when the bootstrap class loader
+     *                unsuccessfully searches for a class.
+     * @throws NullPointerException If <code>jarfile</code> is <code>null</code>.
+     * @see #appendToSystemClassLoaderSearch
+     * @see java.lang.ClassLoader
+     * @see java.util.jar.JarFile
      * @since 1.6
      */
     void
@@ -467,7 +461,7 @@ public interface Instrumentation {
     /**
      * Specifies a JAR file with instrumentation classes to be defined by the
      * system class loader.
-     *
+     * <p>
      * When the system class loader for delegation (see
      * {@link java.lang.ClassLoader#getSystemClassLoader getSystemClassLoader()})
      * unsuccessfully searches for a class, the entries in the {@link
@@ -505,20 +499,14 @@ public interface Instrumentation {
      * <p> This method does not change the value of <code>java.class.path</code>
      * {@link java.lang.System#getProperties system property}.
      *
-     * @param   jarfile
-     *          The JAR file to be searched when the system class loader
-     *          unsuccessfully searches for a class.
-     *
-     * @throws  UnsupportedOperationException
-     *          If the system class loader does not support appending a
-     *          a JAR file to be searched.
-     *
-     * @throws  NullPointerException
-     *          If <code>jarfile</code> is <code>null</code>.
-     *
-     * @see     #appendToBootstrapClassLoaderSearch
-     * @see     java.lang.ClassLoader#getSystemClassLoader
-     * @see     java.util.jar.JarFile
+     * @param jarfile The JAR file to be searched when the system class loader
+     *                unsuccessfully searches for a class.
+     * @throws UnsupportedOperationException If the system class loader does not support appending a
+     *                                       a JAR file to be searched.
+     * @throws NullPointerException          If <code>jarfile</code> is <code>null</code>.
+     * @see #appendToBootstrapClassLoaderSearch
+     * @see java.lang.ClassLoader#getSystemClassLoader
+     * @see java.util.jar.JarFile
      * @since 1.6
      */
     void
@@ -526,7 +514,7 @@ public interface Instrumentation {
 
     /**
      * Returns whether the current JVM configuration supports
-     * {@linkplain #setNativeMethodPrefix(ClassFileTransformer,String)
+     * {@linkplain #setNativeMethodPrefix(ClassFileTransformer, String)
      * setting a native method prefix}.
      * The ability to set a native method prefix is an optional
      * capability of a JVM.
@@ -537,7 +525,8 @@ public interface Instrumentation {
      * this capability.
      * During a single instantiation of a single JVM, multiple
      * calls to this method will always return the same answer.
-     * @return  true if the current JVM configuration supports
+     *
+     * @return true if the current JVM configuration supports
      * setting a native method prefix, false if not.
      * @see #setNativeMethodPrefix
      * @since 1.6
@@ -629,7 +618,7 @@ public interface Instrumentation {
      * transformer needs its own prefix.  Since transformations
      * are applied in order, the prefixes, if applied, will
      * be applied in the same order
-     * (see {@link #addTransformer(ClassFileTransformer,boolean) addTransformer}).
+     * (see {@link #addTransformer(ClassFileTransformer, boolean) addTransformer}).
      * Thus if three transformers applied
      * wrappers, <code>foo</code> might become
      * <code>$trans3_$trans2_$trans1_foo</code>.  But if, say,
@@ -643,21 +632,18 @@ public interface Instrumentation {
      * <code>$trans1_</code> prefix is applied since
      * <code>$trans1_foo</code> exists.
      *
-     * @param   transformer
-     *          The ClassFileTransformer which wraps using this prefix.
-     * @param   prefix
-     *          The prefix to apply to wrapped native methods when
-     *          retrying a failed native method resolution. If prefix
-     *          is either <code>null</code> or the empty string, then
-     *          failed native method resolutions are not retried for
-     *          this transformer.
-     * @throws java.lang.NullPointerException if passed a <code>null</code> transformer.
+     * @param transformer The ClassFileTransformer which wraps using this prefix.
+     * @param prefix      The prefix to apply to wrapped native methods when
+     *                    retrying a failed native method resolution. If prefix
+     *                    is either <code>null</code> or the empty string, then
+     *                    failed native method resolutions are not retried for
+     *                    this transformer.
+     * @throws java.lang.NullPointerException          if passed a <code>null</code> transformer.
      * @throws java.lang.UnsupportedOperationException if the current configuration of
-     *           the JVM does not allow setting a native method prefix
-     *           ({@link #isNativeMethodPrefixSupported} is false).
-     * @throws java.lang.IllegalArgumentException if the transformer is not registered
-     *           (see {@link #addTransformer(ClassFileTransformer,boolean) addTransformer}).
-     *
+     *                                                 the JVM does not allow setting a native method prefix
+     *                                                 ({@link #isNativeMethodPrefixSupported} is false).
+     * @throws java.lang.IllegalArgumentException      if the transformer is not registered
+     *                                                 (see {@link #addTransformer(ClassFileTransformer, boolean) addTransformer}).
      * @since 1.6
      */
     void

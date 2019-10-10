@@ -76,19 +76,19 @@ import java.security.Permission;
  * <caption>URL Examples</caption>
  * <tr><th>Example url</th><th>Description</th></tr>
  * <tr><td style="white-space:nowrap;">http://www.oracle.com/a/b/c.html</td>
- *   <td>A url which identifies a specific (single) resource</td>
+ * <td>A url which identifies a specific (single) resource</td>
  * </tr>
  * <tr><td>http://www.oracle.com/a/b/*</td>
- *   <td>The '*' character refers to all resources in the same "directory" - in
- *       other words all resources with the same number of path components, and
- *       which only differ in the final path component, represented by the '*'.
- *   </td>
+ * <td>The '*' character refers to all resources in the same "directory" - in
+ * other words all resources with the same number of path components, and
+ * which only differ in the final path component, represented by the '*'.
+ * </td>
  * </tr>
  * <tr><td>http://www.oracle.com/a/b/-</td>
- *   <td>The '-' character refers to all resources recursively below the
- *       preceding path (eg. http://www.oracle.com/a/b/c/d/e.html matches this
- *       example).
- *   </td>
+ * <td>The '-' character refers to all resources recursively below the
+ * preceding path (eg. http://www.oracle.com/a/b/c/d/e.html matches this
+ * example).
+ * </td>
  * </tr>
  * </table>
  * <p>
@@ -155,11 +155,9 @@ public final class URLPermission extends Permission {
      * authority and path components of the url are used internally. Any fragment or query
      * components are ignored. The permissions action string is as specified above.
      *
-     * @param url the url string
-     *
+     * @param url     the url string
      * @param actions the actions string
-     *
-     * @exception IllegalArgumentException if url is invalid or if actions contains white-space.
+     * @throws IllegalArgumentException if url is invalid or if actions contains white-space.
      */
     public URLPermission(String url, String actions) {
         super(url);
@@ -179,7 +177,7 @@ public final class URLPermission extends Permission {
             headers = "";
         } else {
             methods = actions.substring(0, colon);
-            headers = actions.substring(colon+1);
+            headers = actions.substring(colon + 1);
         }
 
         List<String> l = normalizeMethods(methods);
@@ -199,8 +197,7 @@ public final class URLPermission extends Permission {
      * constructor as follows: URLPermission(url, "*:*")
      *
      * @param url the url string
-     *
-     * @throws    IllegalArgumentException if url does not result in a valid {@link URI}
+     * @throws IllegalArgumentException if url does not result in a valid {@link URI}
      */
     public URLPermission(String url) {
         this(url, "*:*");
@@ -258,11 +255,11 @@ public final class URLPermission extends Permission {
      * </table>
      */
     public boolean implies(Permission p) {
-        if (! (p instanceof URLPermission)) {
+        if (!(p instanceof URLPermission)) {
             return false;
         }
 
-        URLPermission that = (URLPermission)p;
+        URLPermission that = (URLPermission) p;
 
         if (!this.methods.get(0).equals("*") &&
                 Collections.indexOfSubList(this.methods, that.methods) == -1) {
@@ -274,9 +271,9 @@ public final class URLPermission extends Permission {
         }
 
         if (!this.requestHeaders.isEmpty() &&
-            !this.requestHeaders.get(0).equals("*") &&
-             Collections.indexOfSubList(this.requestHeaders,
-                                        that.requestHeaders) == -1) {
+                !this.requestHeaders.get(0).equals("*") &&
+                Collections.indexOfSubList(this.requestHeaders,
+                        that.requestHeaders) == -1) {
             return false;
         }
 
@@ -302,7 +299,7 @@ public final class URLPermission extends Permission {
         if (this.path.endsWith("/-")) {
             String thisprefix = this.path.substring(0, this.path.length() - 1);
             return that.path.startsWith(thisprefix);
-            }
+        }
 
         if (this.path.endsWith("/*")) {
             String thisprefix = this.path.substring(0, this.path.length() - 1);
@@ -331,7 +328,7 @@ public final class URLPermission extends Permission {
         if (!(p instanceof URLPermission)) {
             return false;
         }
-        URLPermission that = (URLPermission)p;
+        URLPermission that = (URLPermission) p;
         if (!this.scheme.equals(that.scheme)) {
             return false;
         }
@@ -354,16 +351,16 @@ public final class URLPermission extends Permission {
      */
     public int hashCode() {
         return getActions().hashCode()
-            + scheme.hashCode()
-            + authority.hashCode()
-            + (path == null ? 0 : path.hashCode());
+                + scheme.hashCode()
+                + authority.hashCode()
+                + (path == null ? 0 : path.hashCode());
     }
 
 
     private List<String> normalizeMethods(String methods) {
         List<String> l = new ArrayList<>();
         StringBuilder b = new StringBuilder();
-        for (int i=0; i<methods.length(); i++) {
+        for (int i = 0; i < methods.length(); i++) {
             char c = methods.charAt(i);
             if (c == ',') {
                 String s = b.toString();
@@ -389,7 +386,7 @@ public final class URLPermission extends Permission {
         List<String> l = new ArrayList<>();
         StringBuilder b = new StringBuilder();
         boolean capitalizeNext = true;
-        for (int i=0; i<headers.length(); i++) {
+        for (int i = 0; i < headers.length(); i++) {
             char c = headers.charAt(i);
             if (c >= 'a' && c <= 'z') {
                 if (capitalizeNext) {
@@ -400,7 +397,7 @@ public final class URLPermission extends Permission {
             } else if (c == ' ' || c == '\t') {
                 throw new IllegalArgumentException("white space not allowed");
             } else if (c == '-') {
-                    capitalizeNext = true;
+                capitalizeNext = true;
                 b.append(c);
             } else if (c == ',') {
                 String s = b.toString();
@@ -465,9 +462,9 @@ public final class URLPermission extends Permission {
      * restore the state of this object from stream
      */
     private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException {
         ObjectInputStream.GetField fields = s.readFields();
-        String actions = (String)fields.get("actions", null);
+        String actions = (String) fields.get("actions", null);
 
         init(actions);
     }
@@ -478,9 +475,9 @@ public final class URLPermission extends Permission {
         Authority(String scheme, String authority) {
             int at = authority.indexOf('@');
             if (at == -1) {
-                    p = new HostPortrange(scheme, authority);
+                p = new HostPortrange(scheme, authority);
             } else {
-                    p = new HostPortrange(scheme, authority.substring(at+1));
+                p = new HostPortrange(scheme, authority.substring(at + 1));
             }
         }
 
@@ -520,7 +517,7 @@ public final class URLPermission extends Permission {
                 return true;
             }
             return thisrange[0] <= thatrange[0] &&
-                        thisrange[1] >= thatrange[1];
+                    thisrange[1] >= thatrange[1];
         }
 
         boolean equals(Authority that) {

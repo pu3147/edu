@@ -64,7 +64,7 @@ public class WrongMethodTypeException extends RuntimeException {
      * Constructs a {@code WrongMethodTypeException} with the specified
      * detail message and cause.
      *
-     * @param s the detail message.
+     * @param s     the detail message.
      * @param cause the cause of the exception, or null.
      */
     //FIXME: make this public in MR1

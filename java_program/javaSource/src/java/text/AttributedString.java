@@ -69,7 +69,7 @@ public class AttributedString {
      * AttributedCharacterIterators.
      *
      * @param iterators AttributedCharacterIterators to construct
-     * AttributedString from.
+     *                  AttributedString from.
      * @throws NullPointerException if iterators is null
      */
     AttributedString(AttributedCharacterIterator[] iterators) {
@@ -78,8 +78,7 @@ public class AttributedString {
         }
         if (iterators.length == 0) {
             text = "";
-        }
-        else {
+        } else {
             // Build the String contents
             StringBuffer buffer = new StringBuffer();
             for (int counter = 0; counter < iterators.length; counter++) {
@@ -92,7 +91,7 @@ public class AttributedString {
                 // Determine the runs, creating a new run when the attributes
                 // differ.
                 int offset = 0;
-                Map<Attribute,Object> last = null;
+                Map<Attribute, Object> last = null;
 
                 for (int counter = 0; counter < iterators.length; counter++) {
                     AttributedCharacterIterator iterator = iterators[counter];
@@ -103,7 +102,7 @@ public class AttributedString {
                     while (index < end) {
                         iterator.setIndex(index);
 
-                        Map<Attribute,Object> attrs = iterator.getAttributes();
+                        Map<Attribute, Object> attrs = iterator.getAttributes();
 
                         if (mapsDiffer(last, attrs)) {
                             setAttributes(attrs, index - start + offset);
@@ -119,8 +118,9 @@ public class AttributedString {
 
     /**
      * Constructs an AttributedString instance with the given text.
+     *
      * @param text The text for this attributed string.
-     * @exception NullPointerException if <code>text</code> is null.
+     * @throws NullPointerException if <code>text</code> is null.
      */
     public AttributedString(String text) {
         if (text == null) {
@@ -131,17 +131,17 @@ public class AttributedString {
 
     /**
      * Constructs an AttributedString instance with the given text and attributes.
-     * @param text The text for this attributed string.
+     *
+     * @param text       The text for this attributed string.
      * @param attributes The attributes that apply to the entire string.
-     * @exception NullPointerException if <code>text</code> or
-     *            <code>attributes</code> is null.
-     * @exception IllegalArgumentException if the text has length 0
-     * and the attributes parameter is not an empty Map (attributes
-     * cannot be applied to a 0-length range).
+     * @throws NullPointerException     if <code>text</code> or
+     *                                  <code>attributes</code> is null.
+     * @throws IllegalArgumentException if the text has length 0
+     *                                  and the attributes parameter is not an empty Map (attributes
+     *                                  cannot be applied to a 0-length range).
      */
     public AttributedString(String text,
-                            Map<? extends Attribute, ?> attributes)
-    {
+                            Map<? extends Attribute, ?> attributes) {
         if (text == null || attributes == null) {
             throw new NullPointerException();
         }
@@ -173,8 +173,9 @@ public class AttributedString {
     /**
      * Constructs an AttributedString instance with the given attributed
      * text represented by AttributedCharacterIterator.
+     *
      * @param text The text for this attributed string.
-     * @exception NullPointerException if <code>text</code> is null.
+     * @throws NullPointerException if <code>text</code> is null.
      */
     public AttributedString(AttributedCharacterIterator text) {
         // If performance is critical, this constructor should be
@@ -191,13 +192,13 @@ public class AttributedString {
      * attributes wrapped by an Annotation object are discarded for a
      * subrange of the original attribute range.
      *
-     * @param text The text for this attributed string.
+     * @param text       The text for this attributed string.
      * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character
-     * of the range.
-     * @exception NullPointerException if <code>text</code> is null.
-     * @exception IllegalArgumentException if the subrange given by
-     * beginIndex and endIndex is out of the text range.
+     * @param endIndex   Index of the character following the last character
+     *                   of the range.
+     * @throws NullPointerException     if <code>text</code> is null.
+     * @throws IllegalArgumentException if the subrange given by
+     *                                  beginIndex and endIndex is out of the text range.
      * @see java.text.Annotation
      */
     public AttributedString(AttributedCharacterIterator text,
@@ -216,16 +217,16 @@ public class AttributedString {
      * object are discarded for a subrange of the original attribute
      * range.
      *
-     * @param text The text for this attributed string.
+     * @param text       The text for this attributed string.
      * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character
-     * of the range.
+     * @param endIndex   Index of the character following the last character
+     *                   of the range.
      * @param attributes Specifies attributes to be extracted
-     * from the text. If null is specified, all available attributes will
-     * be used.
-     * @exception NullPointerException if <code>text</code> is null.
-     * @exception IllegalArgumentException if the subrange given by
-     * beginIndex and endIndex is out of the text range.
+     *                   from the text. If null is specified, all available attributes will
+     *                   be used.
+     * @throws NullPointerException     if <code>text</code> is null.
+     * @throws IllegalArgumentException if the subrange given by
+     *                                  beginIndex and endIndex is out of the text range.
      * @see java.text.Annotation
      */
     public AttributedString(AttributedCharacterIterator text,
@@ -308,11 +309,12 @@ public class AttributedString {
 
     /**
      * Adds an attribute to the entire string.
+     *
      * @param attribute the attribute key
-     * @param value the value of the attribute; may be null
-     * @exception NullPointerException if <code>attribute</code> is null.
-     * @exception IllegalArgumentException if the AttributedString has length 0
-     * (attributes cannot be applied to a 0-length range).
+     * @param value     the value of the attribute; may be null
+     * @throws NullPointerException     if <code>attribute</code> is null.
+     * @throws IllegalArgumentException if the AttributedString has length 0
+     *                                  (attributes cannot be applied to a 0-length range).
      */
     public void addAttribute(Attribute attribute, Object value) {
 
@@ -330,17 +332,18 @@ public class AttributedString {
 
     /**
      * Adds an attribute to a subrange of the string.
-     * @param attribute the attribute key
-     * @param value The value of the attribute. May be null.
+     *
+     * @param attribute  the attribute key
+     * @param value      The value of the attribute. May be null.
      * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last character of the range.
-     * @exception NullPointerException if <code>attribute</code> is null.
-     * @exception IllegalArgumentException if beginIndex is less then 0, endIndex is
-     * greater than the length of the string, or beginIndex and endIndex together don't
-     * define a non-empty subrange of the string.
+     * @param endIndex   Index of the character following the last character of the range.
+     * @throws NullPointerException     if <code>attribute</code> is null.
+     * @throws IllegalArgumentException if beginIndex is less then 0, endIndex is
+     *                                  greater than the length of the string, or beginIndex and endIndex together don't
+     *                                  define a non-empty subrange of the string.
      */
     public void addAttribute(Attribute attribute, Object value,
-            int beginIndex, int endIndex) {
+                             int beginIndex, int endIndex) {
 
         if (attribute == null) {
             throw new NullPointerException();
@@ -355,20 +358,20 @@ public class AttributedString {
 
     /**
      * Adds a set of attributes to a subrange of the string.
+     *
      * @param attributes The attributes to be added to the string.
      * @param beginIndex Index of the first character of the range.
-     * @param endIndex Index of the character following the last
-     * character of the range.
-     * @exception NullPointerException if <code>attributes</code> is null.
-     * @exception IllegalArgumentException if beginIndex is less then
-     * 0, endIndex is greater than the length of the string, or
-     * beginIndex and endIndex together don't define a non-empty
-     * subrange of the string and the attributes parameter is not an
-     * empty Map.
+     * @param endIndex   Index of the character following the last
+     *                   character of the range.
+     * @throws NullPointerException     if <code>attributes</code> is null.
+     * @throws IllegalArgumentException if beginIndex is less then
+     *                                  0, endIndex is greater than the length of the string, or
+     *                                  beginIndex and endIndex together don't define a non-empty
+     *                                  subrange of the string and the attributes parameter is not an
+     *                                  empty Map.
      */
     public void addAttributes(Map<? extends Attribute, ?> attributes,
-                              int beginIndex, int endIndex)
-    {
+                              int beginIndex, int endIndex) {
         if (attributes == null) {
             throw new NullPointerException();
         }
@@ -392,7 +395,7 @@ public class AttributedString {
         int endRunIndex = ensureRunBreak(endIndex);
 
         Iterator<? extends Map.Entry<? extends Attribute, ?>> iterator =
-            attributes.entrySet().iterator();
+                attributes.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<? extends Attribute, ?> entry = iterator.next();
             addAttributeRunData(entry.getKey(), entry.getValue(), beginRunIndex, endRunIndex);
@@ -400,7 +403,7 @@ public class AttributedString {
     }
 
     private synchronized void addAttributeImpl(Attribute attribute, Object value,
-            int beginIndex, int endIndex) {
+                                               int beginIndex, int endIndex) {
 
         // make sure we have run attribute data vectors
         if (runCount == 0) {
@@ -498,7 +501,7 @@ public class AttributedString {
                 newRunAttributes = new Vector<>(oldRunAttributes);
             }
             if (oldRunAttributeValues != null) {
-                newRunAttributeValues =  new Vector<>(oldRunAttributeValues);
+                newRunAttributeValues = new Vector<>(oldRunAttributeValues);
             }
         }
 
@@ -518,7 +521,7 @@ public class AttributedString {
 
     // add the attribute attribute/value to all runs where beginRunIndex <= runIndex < endRunIndex
     private void addAttributeRunData(Attribute attribute, Object value,
-            int beginRunIndex, int endRunIndex) {
+                                     int beginRunIndex, int endRunIndex) {
 
         for (int i = beginRunIndex; i < endRunIndex; i++) {
             int keyValueIndex = -1; // index of key and value in our vectors; assume we don't have an entry yet
@@ -538,8 +541,7 @@ public class AttributedString {
                 runAttributes[i].addElement(attribute);
                 try {
                     runAttributeValues[i].addElement(value);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     runAttributes[i].setSize(oldSize);
                     runAttributeValues[i].setSize(oldSize);
                 }
@@ -585,11 +587,11 @@ public class AttributedString {
      *
      * @param attributes a list of attributes that the client is interested in
      * @param beginIndex the index of the first character
-     * @param endIndex the index of the character following the last character
+     * @param endIndex   the index of the character following the last character
      * @return an iterator providing access to the text and its attributes
-     * @exception IllegalArgumentException if beginIndex is less then 0,
-     * endIndex is greater than the length of the string, or beginIndex is
-     * greater than endIndex.
+     * @throws IllegalArgumentException if beginIndex is less then 0,
+     *                                  endIndex is greater than the length of the string, or beginIndex is
+     *                                  greater than endIndex.
      */
     public AttributedCharacterIterator getIterator(Attribute[] attributes, int beginIndex, int endIndex) {
         return new AttributedStringIterator(attributes, beginIndex, endIndex);
@@ -617,8 +619,7 @@ public class AttributedString {
         int attributeIndex = currentRunAttributes.indexOf(attribute);
         if (attributeIndex != -1) {
             return currentRunAttributeValues.elementAt(attributeIndex);
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -666,7 +667,7 @@ public class AttributedString {
         Iterator<? extends Attribute> iterator = attributes.iterator();
         while (iterator.hasNext()) {
             Attribute key = iterator.next();
-           if (!valuesMatch(getAttribute(key, runIndex1), getAttribute(key, runIndex2))) {
+            if (!valuesMatch(getAttribute(key, runIndex1), getAttribute(key, runIndex2))) {
                 return false;
             }
         }
@@ -729,7 +730,7 @@ public class AttributedString {
     /**
      * Returns true if the attributes specified in last and attrs differ.
      */
-    private static <K,V> boolean mapsDiffer(Map<K, V> last, Map<K, V> attrs) {
+    private static <K, V> boolean mapsDiffer(Map<K, V> last, Map<K, V> attrs) {
         if (last == null) {
             return (attrs != null && attrs.size() > 0);
         }
@@ -804,8 +805,7 @@ public class AttributedString {
             try {
                 AttributedStringIterator other = (AttributedStringIterator) super.clone();
                 return other;
-            }
-            catch (CloneNotSupportedException e) {
+            } catch (CloneNotSupportedException e) {
                 throw new InternalError(e);
             }
         }
@@ -835,8 +835,7 @@ public class AttributedString {
         public char next() {
             if (currentIndex < endIndex) {
                 return internalSetIndex(currentIndex + 1);
-            }
-            else {
+            } else {
                 return DONE;
             }
         }
@@ -844,8 +843,7 @@ public class AttributedString {
         public char previous() {
             if (currentIndex > beginIndex) {
                 return internalSetIndex(currentIndex - 1);
-            }
-            else {
+            } else {
                 return DONE;
             }
         }
@@ -952,7 +950,7 @@ public class AttributedString {
             }
         }
 
-        public Map<Attribute,Object> getAttributes() {
+        public Map<Attribute, Object> getAttributes() {
             if (runAttributes == null || currentRunIndex == -1 || runAttributes[currentRunIndex] == null) {
                 // ??? would be nice to return null, but current spec doesn't allow it
                 // returning Hashtable saves AttributeMap from dealing with emptiness
@@ -1032,16 +1030,14 @@ public class AttributedString {
                         currentRunStart = runStarts[runIndex];
                         if (currentRunStart < beginIndex)
                             currentRunStart = beginIndex;
-                    }
-                    else {
+                    } else {
                         currentRunStart = beginIndex;
                     }
                     if (runIndex < runCount - 1) {
                         currentRunLimit = runStarts[runIndex + 1];
                         if (currentRunLimit > endIndex)
                             currentRunLimit = endIndex;
-                    }
-                    else {
+                    } else {
                         currentRunLimit = endIndex;
                     }
                 }
@@ -1052,7 +1048,7 @@ public class AttributedString {
 
     // the map class associated with this string class, giving access to the attributes of one run
 
-    final private class AttributeMap extends AbstractMap<Attribute,Object> {
+    final private class AttributeMap extends AbstractMap<Attribute, Object> {
 
         int runIndex;
         int beginIndex;
@@ -1073,7 +1069,7 @@ public class AttributedString {
                     Object value = runAttributeValues[runIndex].get(i);
                     if (value instanceof Annotation) {
                         value = AttributedString.this.getAttributeCheckRange(key,
-                                                             runIndex, beginIndex, endIndex);
+                                runIndex, beginIndex, endIndex);
                         if (value == null) {
                             continue;
                         }
@@ -1092,7 +1088,7 @@ public class AttributedString {
     }
 }
 
-class AttributeEntry implements Map.Entry<Attribute,Object> {
+class AttributeEntry implements Map.Entry<Attribute, Object> {
 
     private Attribute key;
     private Object value;
@@ -1108,7 +1104,7 @@ class AttributeEntry implements Map.Entry<Attribute,Object> {
         }
         AttributeEntry other = (AttributeEntry) o;
         return other.key.equals(key) &&
-            (value == null ? other.value == null : other.value.equals(value));
+                (value == null ? other.value == null : other.value.equals(value));
     }
 
     public Attribute getKey() {
@@ -1124,10 +1120,10 @@ class AttributeEntry implements Map.Entry<Attribute,Object> {
     }
 
     public int hashCode() {
-        return key.hashCode() ^ (value==null ? 0 : value.hashCode());
+        return key.hashCode() ^ (value == null ? 0 : value.hashCode());
     }
 
     public String toString() {
-        return key.toString()+"="+value.toString();
+        return key.toString() + "=" + value.toString();
     }
 }

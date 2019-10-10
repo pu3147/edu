@@ -58,7 +58,6 @@ public interface IntUnaryOperator {
      * @return a composed operator that first applies the {@code before}
      * operator and then applies this operator
      * @throws NullPointerException if before is null
-     *
      * @see #andThen(IntUnaryOperator)
      */
     default IntUnaryOperator compose(IntUnaryOperator before) {
@@ -76,7 +75,6 @@ public interface IntUnaryOperator {
      * @return a composed operator that first applies this operator and then
      * applies the {@code after} operator
      * @throws NullPointerException if after is null
-     *
      * @see #compose(IntUnaryOperator)
      */
     default IntUnaryOperator andThen(IntUnaryOperator after) {

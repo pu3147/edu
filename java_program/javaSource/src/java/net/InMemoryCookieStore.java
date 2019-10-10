@@ -104,9 +104,9 @@ class InMemoryCookieStore implements CookieStore {
 
     /**
      * Get all cookies, which:
-     *  1) given uri domain-matches with, or, associated with
-     *     given uri when added to the cookie store.
-     *  3) not expired.
+     * 1) given uri domain-matches with, or, associated with
+     * given uri when added to the cookie store.
+     * 3) not expired.
      * See RFC 2965 sec. 3.3.4 for more detail.
      */
     public List<HttpCookie> get(URI uri) {
@@ -235,8 +235,7 @@ class InMemoryCookieStore implements CookieStore {
      * passed along.
      * And should be used for 'old' style cookies (aka Netscape type of cookies)
      */
-    private boolean netscapeDomainMatches(String domain, String host)
-    {
+    private boolean netscapeDomainMatches(String domain, String host) {
         if (domain == null || host == null) {
             return false;
         }
@@ -278,7 +277,7 @@ class InMemoryCookieStore implements CookieStore {
     }
 
     private void getInternal1(List<HttpCookie> cookies, Map<String, List<HttpCookie>> cookieIndex,
-            String host, boolean secureLink) {
+                              String host, boolean secureLink) {
         // Use a separate list to handle cookies that need to be removed so
         // that there is no conflict with iterators.
         ArrayList<HttpCookie> toRemove = new ArrayList<HttpCookie>();
@@ -322,9 +321,8 @@ class InMemoryCookieStore implements CookieStore {
     // @param comparator        the prediction to decide whether or not
     //                          a cookie in index should be returned
     private <T> void getInternal2(List<HttpCookie> cookies,
-                                Map<T, List<HttpCookie>> cookieIndex,
-                                Comparable<T> comparator, boolean secureLink)
-    {
+                                  Map<T, List<HttpCookie>> cookieIndex,
+                                  Comparable<T> comparator, boolean secureLink) {
         for (T index : cookieIndex.keySet()) {
             if (comparator.compareTo(index) == 0) {
                 List<HttpCookie> indexedCookies = cookieIndex.get(index);
@@ -358,8 +356,7 @@ class InMemoryCookieStore implements CookieStore {
     // add 'cookie' indexed by 'index' into 'indexStore'
     private <T> void addIndex(Map<T, List<HttpCookie>> indexStore,
                               T index,
-                              HttpCookie cookie)
-    {
+                              HttpCookie cookie) {
         if (index != null) {
             List<HttpCookie> cookies = indexStore.get(index);
             if (cookies != null) {
@@ -384,11 +381,11 @@ class InMemoryCookieStore implements CookieStore {
         URI effectiveURI = null;
         try {
             effectiveURI = new URI("http",
-                                   uri.getHost(),
-                                   null,  // path component
-                                   null,  // query component
-                                   null   // fragment component
-                                  );
+                    uri.getHost(),
+                    null,  // path component
+                    null,  // query component
+                    null   // fragment component
+            );
         } catch (URISyntaxException ignored) {
             effectiveURI = uri;
         }

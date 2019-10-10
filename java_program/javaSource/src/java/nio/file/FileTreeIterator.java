@@ -55,23 +55,18 @@ class FileTreeIterator implements Iterator<Event>, Closeable {
     /**
      * Creates a new iterator to walk the file tree starting at the given file.
      *
-     * @throws  IllegalArgumentException
-     *          if {@code maxDepth} is negative
-     * @throws  IOException
-     *          if an I/O errors occurs opening the starting file
-     * @throws  SecurityException
-     *          if the security manager denies access to the starting file
-     * @throws  NullPointerException
-     *          if {@code start} or {@code options} is {@ocde null} or
-     *          the options array contains a {@code null} element
+     * @throws IllegalArgumentException if {@code maxDepth} is negative
+     * @throws IOException              if an I/O errors occurs opening the starting file
+     * @throws SecurityException        if the security manager denies access to the starting file
+     * @throws NullPointerException     if {@code start} or {@code options} is {@ocde null} or
+     *                                  the options array contains a {@code null} element
      */
     FileTreeIterator(Path start, int maxDepth, FileVisitOption... options)
-        throws IOException
-    {
+            throws IOException {
         this.walker = new FileTreeWalker(Arrays.asList(options), maxDepth);
         this.next = walker.walk(start);
         assert next.type() == FileTreeWalker.EventType.ENTRY ||
-               next.type() == FileTreeWalker.EventType.START_DIRECTORY;
+                next.type() == FileTreeWalker.EventType.START_DIRECTORY;
 
         // IOException if there a problem accessing the starting file
         IOException ioe = next.ioeException();

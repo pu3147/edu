@@ -55,8 +55,9 @@ import java.net.*;
  * are bound to the wildcard address, which accepts requests from all network
  * interfaces.
  *
- * @implNote
- * <p>You can use the {@code RMISocketFactory} class to create a server socket that
+ * @author Ann Wollrath
+ * @author Peter Jones
+ * @implNote <p>You can use the {@code RMISocketFactory} class to create a server socket that
  * is bound to a specific address, restricting the origin of requests. For example,
  * the following code implements a socket factory that binds server sockets to an IPv4
  * loopback address. This restricts RMI to processing requests only from the local host.
@@ -78,28 +79,31 @@ import java.net.*;
  *
  *     RMISocketFactory.setSocketFactory(new LoopbackSocketFactory());
  * }</pre>
- *
+ * <p>
  * Set the {@code java.rmi.server.hostname} system property
  * to {@code 127.0.0.1} to ensure that the generated stubs connect to the right
  * network interface.
- *
- * @author  Ann Wollrath
- * @author  Peter Jones
- * @since   JDK1.1
+ * @since JDK1.1
  */
 public abstract class RMISocketFactory
-        implements RMIClientSocketFactory, RMIServerSocketFactory
-{
+        implements RMIClientSocketFactory, RMIServerSocketFactory {
 
-    /** Client/server socket factory to be used by RMI runtime */
+    /**
+     * Client/server socket factory to be used by RMI runtime
+     */
     private static RMISocketFactory factory = null;
-    /** default socket factory used by this RMI implementation */
+    /**
+     * default socket factory used by this RMI implementation
+     */
     private static RMISocketFactory defaultSocketFactory;
-    /** Handler for socket creation failure */
+    /**
+     * Handler for socket creation failure
+     */
     private static RMIFailureHandler handler = null;
 
     /**
      * Constructs an <code>RMISocketFactory</code>.
+     *
      * @since JDK1.1
      */
     public RMISocketFactory() {
@@ -108,26 +112,28 @@ public abstract class RMISocketFactory
 
     /**
      * Creates a client socket connected to the specified host and port.
-     * @param  host   the host name
-     * @param  port   the port number
+     *
+     * @param host the host name
+     * @param port the port number
      * @return a socket connected to the specified host and port.
-     * @exception IOException if an I/O error occurs during socket creation
+     * @throws IOException if an I/O error occurs during socket creation
      * @since JDK1.1
      */
     public abstract Socket createSocket(String host, int port)
-        throws IOException;
+            throws IOException;
 
     /**
      * Create a server socket on the specified port (port 0 indicates
      * an anonymous port).
-     * @param  port the port number
+     *
+     * @param port the port number
      * @return the server socket on the specified port
-     * @exception IOException if an I/O error occurs during server socket
-     * creation
+     * @throws IOException if an I/O error occurs during server socket
+     *                     creation
      * @since JDK1.1
      */
     public abstract ServerSocket createServerSocket(int port)
-        throws IOException;
+            throws IOException;
 
     /**
      * Set the global socket factory from which RMI gets sockets (if the
@@ -136,17 +142,17 @@ public abstract class RMISocketFactory
      * RMISocketFactory may only be set if the current security manager allows
      * setting a socket factory; if disallowed, a SecurityException will be
      * thrown.
+     *
      * @param fac the socket factory
-     * @exception IOException if the RMI socket factory is already set
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkSetFactory</code> method doesn't allow the operation.
+     * @throws IOException       if the RMI socket factory is already set
+     * @throws SecurityException if a security manager exists and its
+     *                           <code>checkSetFactory</code> method doesn't allow the operation.
      * @see #getSocketFactory
      * @see java.lang.SecurityManager#checkSetFactory()
      * @since JDK1.1
      */
     public synchronized static void setSocketFactory(RMISocketFactory fac)
-        throws IOException
-    {
+            throws IOException {
         if (factory != null) {
             throw new SocketException("factory already defined");
         }
@@ -161,12 +167,12 @@ public abstract class RMISocketFactory
      * Returns the socket factory set by the <code>setSocketFactory</code>
      * method. Returns <code>null</code> if no socket factory has been
      * set.
+     *
      * @return the socket factory
      * @see #setSocketFactory(RMISocketFactory)
      * @since JDK1.1
      */
-    public synchronized static RMISocketFactory getSocketFactory()
-    {
+    public synchronized static RMISocketFactory getSocketFactory() {
         return factory;
     }
 
@@ -175,13 +181,14 @@ public abstract class RMISocketFactory
      * by this RMI implementation.  This will be the factory used
      * by the RMI runtime when <code>getSocketFactory</code>
      * returns <code>null</code>.
+     *
      * @return the default RMI socket factory
      * @since JDK1.1
      */
     public synchronized static RMISocketFactory getDefaultSocketFactory() {
         if (defaultSocketFactory == null) {
             defaultSocketFactory =
-                new sun.rmi.transport.proxy.RMIMasterSocketFactory();
+                    new sun.rmi.transport.proxy.RMIMasterSocketFactory();
         }
         return defaultSocketFactory;
     }
@@ -198,15 +205,14 @@ public abstract class RMISocketFactory
      * This could result in a <code>SecurityException</code>.
      *
      * @param fh the failure handler
-     * @throws  SecurityException  if a security manager exists and its
-     *          <code>checkSetFactory</code> method doesn't allow the
-     *          operation.
+     * @throws SecurityException if a security manager exists and its
+     *                           <code>checkSetFactory</code> method doesn't allow the
+     *                           operation.
      * @see #getFailureHandler
      * @see java.rmi.server.RMIFailureHandler#failure(Exception)
      * @since JDK1.1
      */
-    public synchronized static void setFailureHandler(RMIFailureHandler fh)
-    {
+    public synchronized static void setFailureHandler(RMIFailureHandler fh) {
         SecurityManager security = System.getSecurityManager();
         if (security != null) {
             security.checkSetFactory();
@@ -217,12 +223,12 @@ public abstract class RMISocketFactory
     /**
      * Returns the handler for socket creation failure set by the
      * <code>setFailureHandler</code> method.
+     *
      * @return the failure handler
      * @see #setFailureHandler(RMIFailureHandler)
      * @since JDK1.1
      */
-    public synchronized static RMIFailureHandler getFailureHandler()
-    {
+    public synchronized static RMIFailureHandler getFailureHandler() {
         return handler;
     }
 }

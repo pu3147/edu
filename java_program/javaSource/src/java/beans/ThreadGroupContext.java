@@ -37,7 +37,7 @@ import java.util.WeakHashMap;
  * context referenced by the specific {@link ThreadGroup}.
  * This is a replacement for the {@link sun.awt.AppContext}.
  *
- * @author  Sergey Malenkov
+ * @author Sergey Malenkov
  */
 final class ThreadGroupContext {
 
@@ -51,7 +51,7 @@ final class ThreadGroupContext {
      * Returns the appropriate {@code ThreadGroupContext} for the caller,
      * as determined by its {@code ThreadGroup}.
      *
-     * @return  the application-dependent context
+     * @return the application-dependent context
      */
     static ThreadGroupContext getContext() {
         return contexts.get(Thread.currentThread().getThreadGroup());

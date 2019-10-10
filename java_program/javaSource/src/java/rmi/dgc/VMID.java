@@ -33,11 +33,13 @@ import java.security.SecureRandom;
  * machines.  VMIDs are used by the distributed garbage collector
  * to identify client VMs.
  *
- * @author      Ann Wollrath
- * @author      Peter Jones
+ * @author Ann Wollrath
+ * @author Peter Jones
  */
 public final class VMID implements java.io.Serializable {
-    /** Array of bytes uniquely identifying this host */
+    /**
+     * Array of bytes uniquely identifying this host
+     */
     private static final byte[] randomBytes;
 
     /**
@@ -50,7 +52,9 @@ public final class VMID implements java.io.Serializable {
      */
     private UID uid;
 
-    /** indicate compatibility with JDK 1.1.x version of class */
+    /**
+     * indicate compatibility with JDK 1.1.x version of class
+     */
     private static final long serialVersionUID = -538642295484486218L;
 
     static {
@@ -77,6 +81,7 @@ public final class VMID implements java.io.Serializable {
     /**
      * Return true if an accurate address can be determined for this
      * host.  If false, reliable VMID cannot be generated from this host
+     *
      * @return true if host address can be determined, false otherwise
      * @deprecated
      */
@@ -106,7 +111,7 @@ public final class VMID implements java.io.Serializable {
             if (addr != null) {
                 if (addr.length != vmid.addr.length)
                     return false;
-                for (int i = 0; i < addr.length; ++ i)
+                for (int i = 0; i < addr.length; ++i)
                     if (addr[i] != vmid.addr[i])
                         return false;
             }
@@ -122,10 +127,10 @@ public final class VMID implements java.io.Serializable {
     public String toString() {
         StringBuffer result = new StringBuffer();
         if (addr != null)
-            for (int i = 0; i < addr.length; ++ i) {
+            for (int i = 0; i < addr.length; ++i) {
                 int x = addr[i] & 0xFF;
                 result.append((x < 0x10 ? "0" : "") +
-                              Integer.toString(x, 16));
+                        Integer.toString(x, 16));
             }
         result.append(':');
         result.append(uid.toString());

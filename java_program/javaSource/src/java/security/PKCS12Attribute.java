@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.regex.Pattern;
+
 import sun.security.util.*;
 
 /**
@@ -41,7 +42,7 @@ import sun.security.util.*;
 public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
 
     private static final Pattern COLON_SEPARATED_HEX_PAIRS =
-        Pattern.compile("^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2})+$");
+            Pattern.compile("^[0-9a-fA-F]{2}(:[0-9a-fA-F]{2})+$");
     private String name;
     private String value;
     private byte[] encoded;
@@ -61,13 +62,12 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
      * A string value will be DER-encoded as an ASN.1 UTF8String and a
      * binary value will be DER-encoded as an ASN.1 Octet String.
      *
-     * @param name the attribute's identifier
+     * @param name  the attribute's identifier
      * @param value the attribute's value
-     *
-     * @exception NullPointerException if {@code name} or {@code value}
-     *     is {@code null}
-     * @exception IllegalArgumentException if {@code name} or
-     *     {@code value} is incorrectly formatted
+     * @throws NullPointerException     if {@code name} or {@code value}
+     *                                  is {@code null}
+     * @throws IllegalArgumentException if {@code name} or
+     *                                  {@code value} is incorrectly formatted
      */
     public PKCS12Attribute(String name, String value) {
         if (name == null || value == null) {
@@ -88,7 +88,7 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
         if (value.charAt(0) == '[' && value.charAt(length - 1) == ']') {
             values = value.substring(1, length - 1).split(", ");
         } else {
-            values = new String[]{ value };
+            values = new String[]{value};
         }
         this.value = value;
 
@@ -114,12 +114,11 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
      * </pre>
      *
      * @param encoded the attribute's ASN.1 DER encoding. It is cloned
-     *     to prevent subsequent modificaion.
-     *
-     * @exception NullPointerException if {@code encoded} is
-     *     {@code null}
-     * @exception IllegalArgumentException if {@code encoded} is
-     *     incorrectly formatted
+     *                to prevent subsequent modificaion.
+     * @throws NullPointerException     if {@code encoded} is
+     *                                  {@code null}
+     * @throws IllegalArgumentException if {@code encoded} is
+     *                                  incorrectly formatted
      */
     public PKCS12Attribute(byte[] encoded) {
         if (encoded == null) {
@@ -186,7 +185,6 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
      * equality.
      *
      * @param obj the comparison object
-     *
      * @return true if {@code obj} is a {@code PKCS12Attribute} and
      * their DER encodings are equal.
      */
@@ -233,7 +231,7 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
         for (String value : values) {
             if (COLON_SEPARATED_HEX_PAIRS.matcher(value).matches()) {
                 byte[] bytes =
-                    new BigInteger(value.replace(":", ""), 16).toByteArray();
+                        new BigInteger(value.replace(":", ""), 16).toByteArray();
                 if (bytes[0] == 0) {
                     bytes = Arrays.copyOfRange(bytes, 1, bytes.length);
                 }
@@ -254,7 +252,7 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
         DerValue[] attrSeq = attributeValue.getSequence(2);
         ObjectIdentifier type = attrSeq[0].getOID();
         DerInputStream attrContent =
-            new DerInputStream(attrSeq[1].toByteArray());
+                new DerInputStream(attrSeq[1].toByteArray());
         DerValue[] attrValueSet = attrContent.getSet(1);
         String[] values = new String[attrValueSet.length];
         String printableString;
@@ -262,7 +260,7 @@ public final class PKCS12Attribute implements KeyStore.Entry.Attribute {
             if (attrValueSet[i].tag == DerValue.tag_OctetString) {
                 values[i] = Debug.toString(attrValueSet[i].getOctetString());
             } else if ((printableString = attrValueSet[i].getAsString())
-                != null) {
+                    != null) {
                 values[i] = printableString;
             } else if (attrValueSet[i].tag == DerValue.tag_ObjectId) {
                 values[i] = attrValueSet[i].getOID().toString();

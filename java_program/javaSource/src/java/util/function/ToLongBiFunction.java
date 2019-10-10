@@ -34,7 +34,6 @@ package java.util.function;
  *
  * @param <T> the type of the first argument to the function
  * @param <U> the type of the second argument to the function
- *
  * @see BiFunction
  * @since 1.8
  */

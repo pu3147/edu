@@ -34,7 +34,7 @@ import sun.security.x509.X509CRLEntryImpl;
 /**
  * <p>Abstract class for a revoked certificate in a CRL (Certificate
  * Revocation List).
- *
+ * <p>
  * The ASN.1 definition for <em>revokedCertificates</em> is:
  * <pre>
  * revokedCertificates    SEQUENCE OF SEQUENCE  {
@@ -58,10 +58,9 @@ import sun.security.x509.X509CRLEntryImpl;
  * }
  * </pre>
  *
+ * @author Hemma Prafullchandra
  * @see X509CRL
  * @see X509Extension
- *
- * @author Hemma Prafullchandra
  */
 
 public abstract class X509CRLEntry implements X509Extension {
@@ -84,13 +83,13 @@ public abstract class X509CRLEntry implements X509Extension {
             return false;
         try {
             byte[] thisCRLEntry = this.getEncoded();
-            byte[] otherCRLEntry = ((X509CRLEntry)other).getEncoded();
+            byte[] otherCRLEntry = ((X509CRLEntry) other).getEncoded();
 
             if (thisCRLEntry.length != otherCRLEntry.length)
                 return false;
             for (int i = 0; i < thisCRLEntry.length; i++)
-                 if (thisCRLEntry[i] != otherCRLEntry[i])
-                     return false;
+                if (thisCRLEntry[i] != otherCRLEntry[i])
+                    return false;
         } catch (CRLException ce) {
             return false;
         }
@@ -104,16 +103,16 @@ public abstract class X509CRLEntry implements X509Extension {
      * @return the hashcode value.
      */
     public int hashCode() {
-        int     retval = 0;
+        int retval = 0;
         try {
             byte[] entryData = this.getEncoded();
             for (int i = 1; i < entryData.length; i++)
-                 retval += entryData[i] * i;
+                retval += entryData[i] * i;
 
         } catch (CRLException ce) {
-            return(retval);
+            return (retval);
         }
-        return(retval);
+        return (retval);
     }
 
     /**
@@ -121,7 +120,7 @@ public abstract class X509CRLEntry implements X509Extension {
      * that is the inner SEQUENCE.
      *
      * @return the encoded form of this certificate
-     * @exception CRLException if an encoding error occurs.
+     * @throws CRLException if an encoding error occurs.
      */
     public abstract byte[] getEncoded() throws CRLException;
 
@@ -144,7 +143,6 @@ public abstract class X509CRLEntry implements X509Extension {
      *
      * @return the issuer of the X509Certificate described by this entry
      * or null if it is issued by the CRL issuer.
-     *
      * @since 1.5
      */
     public X500Principal getCertificateIssuer() {
@@ -178,8 +176,8 @@ public abstract class X509CRLEntry implements X509Extension {
      * in the Reason Code extension of this CRL entry.
      *
      * @return the reason the certificate has been revoked, or
-     *    {@code null} if this CRL entry does not have
-     *    a Reason Code extension
+     * {@code null} if this CRL entry does not have
+     * a Reason Code extension
      * @since 1.7
      */
     public CRLReason getRevocationReason() {

@@ -167,11 +167,9 @@ import java.util.TimeZone;
  * {@code ZoneId} may have unpredictable results and should be avoided.
  * The {@code equals} method should be used for comparisons.
  *
- * @implSpec
- * This abstract class has two implementations, both of which are immutable and thread-safe.
+ * @implSpec This abstract class has two implementations, both of which are immutable and thread-safe.
  * One implementation models region-based IDs, the other is {@code ZoneOffset} modelling
  * offset-based IDs. This difference is visible in serialization.
- *
  * @since 1.8
  */
 public abstract class ZoneId implements Serializable {
@@ -221,6 +219,7 @@ public abstract class ZoneId implements Serializable {
      * The map is unmodifiable.
      */
     public static final Map<String, String> SHORT_IDS;
+
     static {
         Map<String, String> map = new HashMap<>(64);
         map.put("ACT", "Australia/Darwin");
@@ -253,12 +252,14 @@ public abstract class ZoneId implements Serializable {
         map.put("HST", "-10:00");
         SHORT_IDS = Collections.unmodifiableMap(map);
     }
+
     /**
      * Serialization version.
      */
     private static final long serialVersionUID = 8352817235686L;
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the system default time-zone.
      * <p>
@@ -267,7 +268,7 @@ public abstract class ZoneId implements Serializable {
      * then the result of this method will also change.
      *
      * @return the zone ID, not null
-     * @throws DateTimeException if the converted zone ID has an invalid format
+     * @throws DateTimeException  if the converted zone ID has an invalid format
      * @throws ZoneRulesException if the converted zone region ID cannot be found
      */
     public static ZoneId systemDefault() {
@@ -291,6 +292,7 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ZoneId} using its ID using a map
      * of aliases to supplement the standard zone IDs.
@@ -301,10 +303,10 @@ public abstract class ZoneId implements Serializable {
      * This method allows a map of string to time-zone to be setup and reused
      * within an application.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param aliasMap  a map of alias zone IDs (typically abbreviations) to real zone IDs, not null
+     * @param zoneId   the time-zone ID, not null
+     * @param aliasMap a map of alias zone IDs (typically abbreviations) to real zone IDs, not null
      * @return the zone ID, not null
-     * @throws DateTimeException if the zone ID has an invalid format
+     * @throws DateTimeException  if the zone ID has an invalid format
      * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
      */
     public static ZoneId of(String zoneId, Map<String, String> aliasMap) {
@@ -350,9 +352,9 @@ public abstract class ZoneId implements Serializable {
      *  This is compatible with most IDs from {@link java.util.TimeZone}.
      * </ul>
      *
-     * @param zoneId  the time-zone ID, not null
+     * @param zoneId the time-zone ID, not null
      * @return the zone ID, not null
-     * @throws DateTimeException if the zone ID has an invalid format
+     * @throws DateTimeException  if the zone ID has an invalid format
      * @throws ZoneRulesException if the zone ID is a region ID that cannot be found
      */
     public static ZoneId of(String zoneId) {
@@ -366,11 +368,11 @@ public abstract class ZoneId implements Serializable {
      * with the prefix and the non-zero offset is returned.
      * If the prefix is empty {@code ""} the {@code ZoneOffset} is returned.
      *
-     * @param prefix  the time-zone ID, not null
-     * @param offset  the offset, not null
+     * @param prefix the time-zone ID, not null
+     * @param offset the offset, not null
      * @return the zone ID, not null
      * @throws IllegalArgumentException if the prefix is not one of
-     *     "GMT", "UTC", or "UT", or ""
+     *                                  "GMT", "UTC", or "UT", or ""
      */
     public static ZoneId ofOffset(String prefix, ZoneOffset offset) {
         Objects.requireNonNull(prefix, "prefix");
@@ -380,7 +382,7 @@ public abstract class ZoneId implements Serializable {
         }
 
         if (!prefix.equals("GMT") && !prefix.equals("UTC") && !prefix.equals("UT")) {
-             throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " + prefix);
+            throw new IllegalArgumentException("prefix should be GMT, UTC or UT, is: " + prefix);
         }
 
         if (offset.getTotalSeconds() != 0) {
@@ -393,10 +395,10 @@ public abstract class ZoneId implements Serializable {
      * Parses the ID, taking a flag to indicate whether {@code ZoneRulesException}
      * should be thrown or not, used in deserialization.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param checkAvailable  whether to check if the zone ID is available
+     * @param zoneId         the time-zone ID, not null
+     * @param checkAvailable whether to check if the zone ID is available
      * @return the zone ID, not null
-     * @throws DateTimeException if the ID format is invalid
+     * @throws DateTimeException  if the ID format is invalid
      * @throws ZoneRulesException if checking availability and the ID cannot be found
      */
     static ZoneId of(String zoneId, boolean checkAvailable) {
@@ -414,8 +416,8 @@ public abstract class ZoneId implements Serializable {
     /**
      * Parse once a prefix is established.
      *
-     * @param zoneId  the time-zone ID, not null
-     * @param prefixLength  the length of the prefix, 2 or 3
+     * @param zoneId       the time-zone ID, not null
+     * @param prefixLength the length of the prefix, 2 or 3
      * @return the zone ID, not null
      * @throws DateTimeException if the zone ID has an invalid format
      */
@@ -439,6 +441,7 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ZoneId} from a temporal object.
      * <p>
@@ -455,7 +458,7 @@ public abstract class ZoneId implements Serializable {
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used in queries via method reference, {@code ZoneId::from}.
      *
-     * @param temporal  the temporal object to convert, not null
+     * @param temporal the temporal object to convert, not null
      * @return the zone ID, not null
      * @throws DateTimeException if unable to convert to a {@code ZoneId}
      */
@@ -469,6 +472,7 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Constructor only accessible within the package.
      */
@@ -479,6 +483,7 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the unique time-zone ID.
      * <p>
@@ -490,6 +495,7 @@ public abstract class ZoneId implements Serializable {
     public abstract String getId();
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the textual representation of the zone, such as 'British Time' or
      * '+02:00'.
@@ -501,7 +507,7 @@ public abstract class ZoneId implements Serializable {
      * If no textual mapping is found then the {@link #getId() full ID} is returned.
      *
      * @param style  the length of the text required, not null
-     * @param locale  the locale to use, not null
+     * @param locale the locale to use, not null
      * @return the text value of the zone, not null
      */
     public String getDisplayName(TextStyle style, Locale locale) {
@@ -526,10 +532,12 @@ public abstract class ZoneId implements Serializable {
             public boolean isSupported(TemporalField field) {
                 return false;
             }
+
             @Override
             public long getLong(TemporalField field) {
                 throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
             }
+
             @SuppressWarnings("unchecked")
             @Override
             public <R> R query(TemporalQuery<R> query) {
@@ -542,6 +550,7 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the time-zone rules for this ID allowing calculations to be performed.
      * <p>
@@ -590,18 +599,19 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this time-zone ID is equal to another time-zone ID.
      * <p>
      * The comparison is based on the ID.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other time-zone ID
      */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
-           return true;
+            return true;
         }
         if (obj instanceof ZoneId) {
             ZoneId other = (ZoneId) obj;
@@ -621,6 +631,7 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Defend against malicious streams.
      *
@@ -642,11 +653,13 @@ public abstract class ZoneId implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Writes the object using a
      * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
+     *
+     * @return the instance of {@code Ser}, not null
+     * @serialData <pre>
      *  out.writeByte(7);  // identifies a ZoneId (not ZoneOffset)
      *  out.writeUTF(getId());
      * </pre>
@@ -654,8 +667,6 @@ public abstract class ZoneId implements Serializable {
      * When read back in, the {@code ZoneId} will be created as though using
      * {@link #of(String)}, but without any exception in the case where the
      * ID has a valid format, but is not in the known set of region-based IDs.
-     *
-     * @return the instance of {@code Ser}, not null
      */
     // this is here for serialization Javadoc
     private Object writeReplace() {

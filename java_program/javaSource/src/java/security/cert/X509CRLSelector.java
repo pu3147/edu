@@ -64,11 +64,10 @@ import sun.security.x509.X500Name;
  * provide the necessary locking. Multiple threads each manipulating
  * separate objects need not synchronize.
  *
+ * @author Steve Hanna
  * @see CRLSelector
  * @see X509CRL
- *
- * @since       1.4
- * @author      Steve Hanna
+ * @since 1.4
  */
 public class X509CRLSelector implements CRLSelector {
 
@@ -89,7 +88,8 @@ public class X509CRLSelector implements CRLSelector {
      * Creates an {@code X509CRLSelector}. Initially, no criteria are set
      * so any {@code X509CRL} will match.
      */
-    public X509CRLSelector() {}
+    public X509CRLSelector() {
+    }
 
     /**
      * Sets the issuerNames criterion. The issuer distinguished name in the
@@ -114,7 +114,7 @@ public class X509CRLSelector implements CRLSelector {
      * protect against subsequent modifications.
      *
      * @param issuers a {@code Collection} of X500Principals
-     *   (or {@code null})
+     *                (or {@code null})
      * @see #getIssuers
      * @since 1.5
      */
@@ -282,7 +282,7 @@ public class X509CRLSelector implements CRLSelector {
      * name in the {@code X509CRL} must match at least one of the specified
      * distinguished names.
      *
-     * @param name the name in string or byte array form
+     * @param name      the name in string or byte array form
      * @param principal the name in X500Principal form
      * @throws IOException if a parsing error occurs
      */
@@ -309,21 +309,20 @@ public class X509CRLSelector implements CRLSelector {
      * @throws IOException if a parsing error occurs
      */
     private static HashSet<Object> cloneAndCheckIssuerNames(Collection<?> names)
-        throws IOException
-    {
+            throws IOException {
         HashSet<Object> namesCopy = new HashSet<Object>();
         Iterator<?> i = names.iterator();
         while (i.hasNext()) {
             Object nameObject = i.next();
-            if (!(nameObject instanceof byte []) &&
-                !(nameObject instanceof String))
+            if (!(nameObject instanceof byte[]) &&
+                    !(nameObject instanceof String))
                 throw new IOException("name not byte array or String");
-            if (nameObject instanceof byte [])
-                namesCopy.add(((byte []) nameObject).clone());
+            if (nameObject instanceof byte[])
+                namesCopy.add(((byte[]) nameObject).clone());
             else
                 namesCopy.add(nameObject);
         }
-        return(namesCopy);
+        return (namesCopy);
     }
 
     /**
@@ -362,17 +361,17 @@ public class X509CRLSelector implements CRLSelector {
      * @throws IOException if a parsing error occurs
      */
     private static HashSet<X500Principal> parseIssuerNames(Collection<Object> names)
-    throws IOException {
+            throws IOException {
         HashSet<X500Principal> x500Principals = new HashSet<X500Principal>();
         for (Iterator<Object> t = names.iterator(); t.hasNext(); ) {
             Object nameObject = t.next();
             if (nameObject instanceof String) {
-                x500Principals.add(new X500Name((String)nameObject).asX500Principal());
+                x500Principals.add(new X500Name((String) nameObject).asX500Principal());
             } else {
                 try {
-                    x500Principals.add(new X500Principal((byte[])nameObject));
+                    x500Principals.add(new X500Principal((byte[]) nameObject));
                 } catch (IllegalArgumentException e) {
-                    throw (IOException)new IOException("Invalid name").initCause(e);
+                    throw (IOException) new IOException("Invalid name").initCause(e);
                 }
             }
         }
@@ -432,7 +431,7 @@ public class X509CRLSelector implements CRLSelector {
      */
     void setDateAndTime(Date dateAndTime, long skew) {
         this.dateAndTime =
-            (dateAndTime == null ? null : new Date(dateAndTime.getTime()));
+                (dateAndTime == null ? null : new Date(dateAndTime.getTime()));
         this.skew = skew;
     }
 
@@ -461,7 +460,7 @@ public class X509CRLSelector implements CRLSelector {
      * unmodifiable {@code Collection} of {@code X500Principal}s.
      *
      * @return an unmodifiable {@code Collection} of names
-     *   (or {@code null})
+     * (or {@code null})
      * @see #setIssuers
      * @since 1.5
      */
@@ -563,7 +562,7 @@ public class X509CRLSelector implements CRLSelector {
      * Returns a printable representation of the {@code X509CRLSelector}.
      *
      * @return a {@code String} describing the contents of the
-     *         {@code X509CRLSelector}.
+     * {@code X509CRLSelector}.
      */
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -591,13 +590,13 @@ public class X509CRLSelector implements CRLSelector {
      *
      * @param crl the {@code CRL} to be checked
      * @return {@code true} if the {@code CRL} should be selected,
-     *         {@code false} otherwise
+     * {@code false} otherwise
      */
     public boolean match(CRL crl) {
         if (!(crl instanceof X509CRL)) {
             return false;
         }
-        X509CRL xcrl = (X509CRL)crl;
+        X509CRL xcrl = (X509CRL) crl;
 
         /* match on issuer name */
         if (issuerNames != null) {
@@ -612,7 +611,7 @@ public class X509CRLSelector implements CRLSelector {
             if (!found) {
                 if (debug != null) {
                     debug.println("X509CRLSelector.match: issuer DNs "
-                        + "don't match");
+                            + "don't match");
                 }
                 return false;
             }
@@ -631,12 +630,12 @@ public class X509CRLSelector implements CRLSelector {
                 DerInputStream in = new DerInputStream(crlNumExtVal);
                 byte[] encoded = in.getOctetString();
                 CRLNumberExtension crlNumExt =
-                    new CRLNumberExtension(Boolean.FALSE, encoded);
+                        new CRLNumberExtension(Boolean.FALSE, encoded);
                 crlNum = crlNumExt.get(CRLNumberExtension.NUMBER);
             } catch (IOException ex) {
                 if (debug != null) {
                     debug.println("X509CRLSelector.match: exception in "
-                        + "decoding CRL number");
+                            + "decoding CRL number");
                 }
                 return false;
             }
@@ -684,7 +683,7 @@ public class X509CRLSelector implements CRLSelector {
             //   [ thisUpdate - MAX_CLOCK_SKEW,
             //     nextUpdate + MAX_CLOCK_SKEW ]
             if (nowMinusSkew.after(nextUpdate)
-                || nowPlusSkew.before(crlThisUpdate)) {
+                    || nowPlusSkew.before(crlThisUpdate)) {
                 if (debug != null) {
                     debug.println("X509CRLSelector.match: update out-of-range");
                 }
@@ -702,7 +701,7 @@ public class X509CRLSelector implements CRLSelector {
      */
     public Object clone() {
         try {
-            X509CRLSelector copy = (X509CRLSelector)super.clone();
+            X509CRLSelector copy = (X509CRLSelector) super.clone();
             if (issuerNames != null) {
                 copy.issuerNames =
                         new HashSet<Object>(issuerNames);

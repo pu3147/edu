@@ -39,13 +39,13 @@ import java.nio.channels.*;
  */
 
 public abstract class AbstractSelectionKey
-    extends SelectionKey
-{
+        extends SelectionKey {
 
     /**
      * Initializes a new instance of this class.
      */
-    protected AbstractSelectionKey() { }
+    protected AbstractSelectionKey() {
+    }
 
     private volatile boolean valid = true;
 
@@ -70,7 +70,7 @@ public abstract class AbstractSelectionKey
         synchronized (this) {
             if (valid) {
                 valid = false;
-                ((AbstractSelector)selector()).cancel(this);
+                ((AbstractSelector) selector()).cancel(this);
             }
         }
     }

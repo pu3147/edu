@@ -66,10 +66,10 @@ class NameGenerator {
     @SuppressWarnings("rawtypes")
     public static String unqualifiedClassName(Class type) {
         if (type.isArray()) {
-            return unqualifiedClassName(type.getComponentType())+"Array";
+            return unqualifiedClassName(type.getComponentType()) + "Array";
         }
         String name = type.getName();
-        return name.substring(name.lastIndexOf('.')+1);
+        return name.substring(name.lastIndexOf('.') + 1);
     }
 
     /**
@@ -95,9 +95,8 @@ class NameGenerator {
             return "null";
         }
         if (instance instanceof Class) {
-            return unqualifiedClassName((Class)instance);
-        }
-        else {
+            return unqualifiedClassName((Class) instance);
+        } else {
             String result = valueToName.get(instance);
             if (result != null) {
                 return result;

@@ -26,6 +26,7 @@
 package java.util.zip;
 
 import java.nio.ByteBuffer;
+
 import sun.nio.ch.DirectBuffer;
 
 /**
@@ -34,8 +35,8 @@ import sun.nio.ch.DirectBuffer;
  * <p> Passing a {@code null} argument to a method in this class will cause
  * a {@link NullPointerException} to be thrown.
  *
- * @see         Checksum
- * @author      David Connelly
+ * @author David Connelly
+ * @see Checksum
  */
 public
 class CRC32 implements Checksum {
@@ -61,10 +62,9 @@ class CRC32 implements Checksum {
     /**
      * Updates the CRC-32 checksum with the specified array of bytes.
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if {@code off} is negative, or {@code len} is negative,
-     *          or {@code off+len} is greater than the length of the
-     *          array {@code b}
+     * @throws ArrayIndexOutOfBoundsException if {@code off} is negative, or {@code len} is negative,
+     *                                        or {@code off+len} is greater than the length of the
+     *                                        array {@code b}
      */
     public void update(byte[] b, int off, int len) {
         if (b == null) {
@@ -87,7 +87,7 @@ class CRC32 implements Checksum {
 
     /**
      * Updates the checksum with the bytes from the specified buffer.
-     *
+     * <p>
      * The checksum is updated using
      * buffer.{@link java.nio.Buffer#remaining() remaining()}
      * bytes starting at
@@ -106,7 +106,7 @@ class CRC32 implements Checksum {
         if (rem <= 0)
             return;
         if (buffer instanceof DirectBuffer) {
-            crc = updateByteBuffer(crc, ((DirectBuffer)buffer).address(), pos, rem);
+            crc = updateByteBuffer(crc, ((DirectBuffer) buffer).address(), pos, rem);
         } else if (buffer.hasArray()) {
             crc = updateBytes(crc, buffer.array(), pos + buffer.arrayOffset(), rem);
         } else {
@@ -128,10 +128,11 @@ class CRC32 implements Checksum {
      * Returns CRC-32 value.
      */
     public long getValue() {
-        return (long)crc & 0xffffffffL;
+        return (long) crc & 0xffffffffL;
     }
 
     private native static int update(int crc, int b);
+
     private native static int updateBytes(int crc, byte[] b, int off, int len);
 
     private native static int updateByteBuffer(int adler, long addr,

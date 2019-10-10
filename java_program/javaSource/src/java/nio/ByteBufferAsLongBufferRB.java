@@ -29,27 +29,10 @@ package java.nio;
 
 
 class ByteBufferAsLongBufferRB                  // package-private
-    extends ByteBufferAsLongBufferB
-{
-
-
-
-
-
-
+        extends ByteBufferAsLongBufferB {
 
 
     ByteBufferAsLongBufferRB(ByteBuffer bb) {   // package-private
-
-
-
-
-
-
-
-
-
-
 
 
         super(bb);
@@ -57,12 +40,8 @@ class ByteBufferAsLongBufferRB                  // package-private
     }
 
     ByteBufferAsLongBufferRB(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
-
-
-
+                             int mark, int pos, int lim, int cap,
+                             int off) {
 
 
         super(bb, mark, pos, lim, cap, off);
@@ -81,20 +60,14 @@ class ByteBufferAsLongBufferRB                  // package-private
 
     public LongBuffer duplicate() {
         return new ByteBufferAsLongBufferRB(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public LongBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -102,30 +75,7 @@ class ByteBufferAsLongBufferRB                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public LongBuffer put(long x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -135,28 +85,11 @@ class ByteBufferAsLongBufferRB                  // package-private
     public LongBuffer put(int i, long x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public LongBuffer compact() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -172,52 +105,9 @@ class ByteBufferAsLongBufferRB                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;
-
-
 
 
     }

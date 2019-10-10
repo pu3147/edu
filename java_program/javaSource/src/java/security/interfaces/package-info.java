@@ -29,14 +29,14 @@
  * keys as defined in the RSA Laboratory Technical Note
  * PKCS#1, and DSA (Digital Signature
  * Algorithm) keys as defined in NIST's FIPS-186.
- * <P>
+ * <p>
  * Note that these interfaces are intended only for key
  * implementations whose key material is accessible and
  * available. These interfaces are not intended for key
  * implementations whose key material resides in
  * inaccessible, protected storage (such as in a
  * hardware device).
- * <P>
+ * <p>
  * For more developer information on how to use these
  * interfaces, including information on how to design
  * {@code Key} classes for hardware devices, please refer
@@ -58,7 +58,7 @@
  * </ul>
  *
  * <h2>Related Documentation</h2>
- *
+ * <p>
  * For further documentation, please see:
  * <ul>
  *   <li>

@@ -79,6 +79,7 @@ import java.time.chrono.Chronology;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
 import sun.util.locale.provider.LocaleProviderAdapter;
 import sun.util.locale.provider.LocaleResources;
 
@@ -93,9 +94,7 @@ import sun.util.locale.provider.LocaleResources;
  * just with slightly different rules.
  * The documentation of each field explains how it operates.
  *
- * @implSpec
- * This is a final, immutable and thread-safe enum.
- *
+ * @implSpec This is a final, immutable and thread-safe enum.
  * @since 1.8
  */
 public enum ChronoField implements TemporalField {
@@ -605,7 +604,7 @@ public enum ChronoField implements TemporalField {
     }
 
     private ChronoField(String name, TemporalUnit baseUnit, TemporalUnit rangeUnit,
-            ValueRange range, String displayNameKey) {
+                        ValueRange range, String displayNameKey) {
         this.name = name;
         this.baseUnit = baseUnit;
         this.rangeUnit = rangeUnit;
@@ -621,7 +620,7 @@ public enum ChronoField implements TemporalField {
         }
 
         LocaleResources lr = LocaleProviderAdapter.getResourceBundleBased()
-                                    .getLocaleResources(locale);
+                .getLocaleResources(locale);
         ResourceBundle rb = lr.getJavaTimeFormatData();
         String key = "field." + displayNameKey;
         return rb.containsKey(key) ? rb.getString(key) : name;
@@ -660,6 +659,7 @@ public enum ChronoField implements TemporalField {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this field represents a component of a date.
      * <p>
@@ -685,6 +685,7 @@ public enum ChronoField implements TemporalField {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks that the specified value is valid for this field.
      * <p>
@@ -696,7 +697,7 @@ public enum ChronoField implements TemporalField {
      * Use {@link Chronology#range(ChronoField)} to access the correct range
      * for a different calendar system.
      *
-     * @param value  the value to check
+     * @param value the value to check
      * @return the value that was passed in
      */
     public long checkValidValue(long value) {
@@ -715,7 +716,7 @@ public enum ChronoField implements TemporalField {
      * Use {@link Chronology#range(ChronoField)} to access the correct range
      * for a different calendar system.
      *
-     * @param value  the value to check
+     * @param value the value to check
      * @return the value that was passed in
      */
     public int checkValidIntValue(long value) {

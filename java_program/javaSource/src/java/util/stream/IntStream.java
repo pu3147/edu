@@ -60,15 +60,15 @@ import java.util.function.Supplier;
  *                      .mapToInt(w -> w.getWeight())
  *                      .sum();
  * }</pre>
- *
+ * <p>
  * See the class documentation for {@link Stream} and the package documentation
  * for <a href="package-summary.html">java.util.stream</a> for additional
  * specification of streams, stream operations, stream pipelines, and
  * parallelism.
  *
- * @since 1.8
  * @see Stream
  * @see <a href="package-summary.html">java.util.stream</a>
+ * @since 1.8
  */
 public interface IntStream extends BaseStream<Integer, IntStream> {
 
@@ -106,9 +106,9 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * applying the given function to the elements of this stream.
      *
      * <p>This is an <a href="package-summary.html#StreamOps">
-     *     intermediate operation</a>.
+     * intermediate operation</a>.
      *
-     * @param <U> the element type of the new stream
+     * @param <U>    the element type of the new stream
      * @param mapper a <a href="package-summary.html#NonInterference">non-interfering</a>,
      *               <a href="package-summary.html#Statelessness">stateless</a>
      *               function to apply to each element
@@ -198,6 +198,10 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * upstream operation.  If the action modifies shared state,
      * it is responsible for providing the required synchronization.
      *
+     * @param action a <a href="package-summary.html#NonInterference">
+     *               non-interfering</a> action to perform on the elements as
+     *               they are consumed from the stream
+     * @return the new stream
      * @apiNote This method exists mainly to support debugging, where you want
      * to see the elements as they flow past a certain point in a pipeline:
      * <pre>{@code
@@ -208,11 +212,6 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *         .peek(e -> System.out.println("Mapped value: " + e))
      *         .sum();
      * }</pre>
-     *
-     * @param action a <a href="package-summary.html#NonInterference">
-     *               non-interfering</a> action to perform on the elements as
-     *               they are consumed from the stream
-     * @return the new stream
      */
     IntStream peek(IntConsumer action);
 
@@ -223,8 +222,10 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
      * stateful intermediate operation</a>.
      *
-     * @apiNote
-     * While {@code limit()} is generally a cheap operation on sequential
+     * @param maxSize the number of elements the stream should be limited to
+     * @return the new stream
+     * @throws IllegalArgumentException if {@code maxSize} is negative
+     * @apiNote While {@code limit()} is generally a cheap operation on sequential
      * stream pipelines, it can be quite expensive on ordered parallel pipelines,
      * especially for large values of {@code maxSize}, since {@code limit(n)}
      * is constrained to return not just any <em>n</em> elements, but the
@@ -236,10 +237,6 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * and you are experiencing poor performance or memory utilization with
      * {@code limit()} in parallel pipelines, switching to sequential execution
      * with {@link #sequential()} may improve performance.
-     *
-     * @param maxSize the number of elements the stream should be limited to
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code maxSize} is negative
      */
     IntStream limit(long maxSize);
 
@@ -252,8 +249,10 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">stateful
      * intermediate operation</a>.
      *
-     * @apiNote
-     * While {@code skip()} is generally a cheap operation on sequential
+     * @param n the number of leading elements to skip
+     * @return the new stream
+     * @throws IllegalArgumentException if {@code n} is negative
+     * @apiNote While {@code skip()} is generally a cheap operation on sequential
      * stream pipelines, it can be quite expensive on ordered parallel pipelines,
      * especially for large values of {@code n}, since {@code skip(n)}
      * is constrained to skip not just any <em>n</em> elements, but the
@@ -265,10 +264,6 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * and you are experiencing poor performance or memory utilization with
      * {@code skip()} in parallel pipelines, switching to sequential execution
      * with {@link #sequential()} may improve performance.
-     *
-     * @param n the number of leading elements to skip
-     * @return the new stream
-     * @throws IllegalArgumentException if {@code n} is negative
      */
     IntStream skip(long n);
 
@@ -326,7 +321,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *         result = accumulator.applyAsInt(result, element)
      *     return result;
      * }</pre>
-     *
+     * <p>
      * but is not constrained to execute sequentially.
      *
      * <p>The {@code identity} value must be an identity for the accumulator
@@ -338,13 +333,19 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">terminal
      * operation</a>.
      *
+     * @param identity the identity value for the accumulating function
+     * @param op       an <a href="package-summary.html#Associativity">associative</a>,
+     *                 <a href="package-summary.html#NonInterference">non-interfering</a>,
+     *                 <a href="package-summary.html#Statelessness">stateless</a>
+     *                 function for combining two values
+     * @return the result of the reduction
      * @apiNote Sum, min, max, and average are all special cases of reduction.
      * Summing a stream of numbers can be expressed as:
      *
      * <pre>{@code
      *     int sum = integers.reduce(0, (a, b) -> a+b);
      * }</pre>
-     *
+     * <p>
      * or more compactly:
      *
      * <pre>{@code
@@ -355,13 +356,6 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * compared to simply mutating a running total in a loop, reduction
      * operations parallelize more gracefully, without needing additional
      * synchronization and with greatly reduced risk of data races.
-     *
-     * @param identity the identity value for the accumulating function
-     * @param op an <a href="package-summary.html#Associativity">associative</a>,
-     *           <a href="package-summary.html#NonInterference">non-interfering</a>,
-     *           <a href="package-summary.html#Statelessness">stateless</a>
-     *           function for combining two values
-     * @return the result of the reduction
      * @see #sum()
      * @see #min()
      * @see #max()
@@ -388,7 +382,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      *     }
      *     return foundAny ? OptionalInt.of(result) : OptionalInt.empty();
      * }</pre>
-     *
+     * <p>
      * but is not constrained to execute sequentially.
      *
      * <p>The {@code accumulator} function must be an
@@ -426,15 +420,15 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">terminal
      * operation</a>.
      *
-     * @param <R> type of the result
-     * @param supplier a function that creates a new result container. For a
-     *                 parallel execution, this function may be called
-     *                 multiple times and must return a fresh value each time.
+     * @param <R>         type of the result
+     * @param supplier    a function that creates a new result container. For a
+     *                    parallel execution, this function may be called
+     *                    multiple times and must return a fresh value each time.
      * @param accumulator an <a href="package-summary.html#Associativity">associative</a>,
      *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
      *                    <a href="package-summary.html#Statelessness">stateless</a>
      *                    function for incorporating an additional element into a result
-     * @param combiner an <a href="package-summary.html#Associativity">associative</a>,
+     * @param combiner    an <a href="package-summary.html#Associativity">associative</a>,
      *                    <a href="package-summary.html#NonInterference">non-interfering</a>,
      *                    <a href="package-summary.html#Statelessness">stateless</a>
      *                    function for combining two values, which must be
@@ -544,15 +538,13 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
      * terminal operation</a>.
      *
-     * @apiNote
-     * This method evaluates the <em>existential quantification</em> of the
-     * predicate over the elements of the stream (for some x P(x)).
-     *
      * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
      *                  <a href="package-summary.html#Statelessness">stateless</a>
      *                  predicate to apply to elements of this stream
      * @return {@code true} if any elements of the stream match the provided
      * predicate, otherwise {@code false}
+     * @apiNote This method evaluates the <em>existential quantification</em> of the
+     * predicate over the elements of the stream (for some x P(x)).
      */
     boolean anyMatch(IntPredicate predicate);
 
@@ -565,17 +557,15 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
      * terminal operation</a>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * predicate over the elements of the stream (for all x P(x)).  If the
-     * stream is empty, the quantification is said to be <em>vacuously
-     * satisfied</em> and is always {@code true} (regardless of P(x)).
-     *
      * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
      *                  <a href="package-summary.html#Statelessness">stateless</a>
      *                  predicate to apply to elements of this stream
      * @return {@code true} if either all elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
+     * @apiNote This method evaluates the <em>universal quantification</em> of the
+     * predicate over the elements of the stream (for all x P(x)).  If the
+     * stream is empty, the quantification is said to be <em>vacuously
+     * satisfied</em> and is always {@code true} (regardless of P(x)).
      */
     boolean allMatch(IntPredicate predicate);
 
@@ -588,17 +578,15 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * <p>This is a <a href="package-summary.html#StreamOps">short-circuiting
      * terminal operation</a>.
      *
-     * @apiNote
-     * This method evaluates the <em>universal quantification</em> of the
-     * negated predicate over the elements of the stream (for all x ~P(x)).  If
-     * the stream is empty, the quantification is said to be vacuously satisfied
-     * and is always {@code true}, regardless of P(x).
-     *
      * @param predicate a <a href="package-summary.html#NonInterference">non-interfering</a>,
      *                  <a href="package-summary.html#Statelessness">stateless</a>
      *                  predicate to apply to elements of this stream
      * @return {@code true} if either no elements of the stream match the
      * provided predicate or the stream is empty, otherwise {@code false}
+     * @apiNote This method evaluates the <em>universal quantification</em> of the
+     * negated predicate over the elements of the stream (for all x ~P(x)).  If
+     * the stream is empty, the quantification is said to be vacuously satisfied
+     * and is always {@code true}, regardless of P(x).
      */
     boolean noneMatch(IntPredicate predicate);
 
@@ -734,8 +722,8 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * element at position {@code n - 1}.
      *
      * @param seed the initial element
-     * @param f a function to be applied to to the previous element to produce
-     *          a new element
+     * @param f    a function to be applied to to the previous element to produce
+     *             a new element
      * @return A new sequential {@code IntStream}
      */
     public static IntStream iterate(final int seed, final IntUnaryOperator f) {
@@ -779,17 +767,15 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * (inclusive) to {@code endExclusive} (exclusive) by an incremental step of
      * {@code 1}.
      *
-     * @apiNote
-     * <p>An equivalent sequence of increasing values can be produced
+     * @param startInclusive the (inclusive) initial value
+     * @param endExclusive   the exclusive upper bound
+     * @return a sequential {@code IntStream} for the range of {@code int}
+     * elements
+     * @apiNote <p>An equivalent sequence of increasing values can be produced
      * sequentially using a {@code for} loop as follows:
      * <pre>{@code
      *     for (int i = startInclusive; i < endExclusive ; i++) { ... }
      * }</pre>
-     *
-     * @param startInclusive the (inclusive) initial value
-     * @param endExclusive the exclusive upper bound
-     * @return a sequential {@code IntStream} for the range of {@code int}
-     *         elements
      */
     public static IntStream range(int startInclusive, int endExclusive) {
         if (startInclusive >= endExclusive) {
@@ -805,17 +791,15 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * (inclusive) to {@code endInclusive} (inclusive) by an incremental step of
      * {@code 1}.
      *
-     * @apiNote
-     * <p>An equivalent sequence of increasing values can be produced
+     * @param startInclusive the (inclusive) initial value
+     * @param endInclusive   the inclusive upper bound
+     * @return a sequential {@code IntStream} for the range of {@code int}
+     * elements
+     * @apiNote <p>An equivalent sequence of increasing values can be produced
      * sequentially using a {@code for} loop as follows:
      * <pre>{@code
      *     for (int i = startInclusive; i <= endInclusive ; i++) { ... }
      * }</pre>
-     *
-     * @param startInclusive the (inclusive) initial value
-     * @param endInclusive the inclusive upper bound
-     * @return a sequential {@code IntStream} for the range of {@code int}
-     *         elements
      */
     public static IntStream rangeClosed(int startInclusive, int endInclusive) {
         if (startInclusive > endInclusive) {
@@ -834,14 +818,12 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
      * streams is parallel.  When the resulting stream is closed, the close
      * handlers for both input streams are invoked.
      *
-     * @implNote
-     * Use caution when constructing streams from repeated concatenation.
-     * Accessing an element of a deeply concatenated stream can result in deep
-     * call chains, or even {@code StackOverflowException}.
-     *
      * @param a the first stream
      * @param b the second stream
      * @return the concatenation of the two input streams
+     * @implNote Use caution when constructing streams from repeated concatenation.
+     * Accessing an element of a deeply concatenated stream can result in deep
+     * call chains, or even {@code StackOverflowException}.
      */
     public static IntStream concat(IntStream a, IntStream b) {
         Objects.requireNonNull(a);
@@ -872,7 +854,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
          * Adds an element to the stream being built.
          *
          * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
+         *                               to the built state
          */
         @Override
         void accept(int t);
@@ -880,17 +862,15 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
         /**
          * Adds an element to the stream being built.
          *
-         * @implSpec
-         * The default implementation behaves as if:
+         * @param t the element to add
+         * @return {@code this} builder
+         * @throws IllegalStateException if the builder has already transitioned
+         *                               to the built state
+         * @implSpec The default implementation behaves as if:
          * <pre>{@code
          *     accept(t)
          *     return this;
          * }</pre>
-         *
-         * @param t the element to add
-         * @return {@code this} builder
-         * @throws IllegalStateException if the builder has already transitioned
-         * to the built state
          */
         default Builder add(int t) {
             accept(t);
@@ -905,7 +885,7 @@ public interface IntStream extends BaseStream<Integer, IntStream> {
          *
          * @return the built stream
          * @throws IllegalStateException if the builder has already transitioned to
-         * the built state
+         *                               the built state
          */
         IntStream build();
     }

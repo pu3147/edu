@@ -173,8 +173,8 @@ public class XMLFormatter extends Formatter {
         Object parameters[] = record.getParameters();
         //  Check to see if the parameter was not a messagetext format
         //  or was not null or empty
-        if ( parameters != null && parameters.length != 0
-                && record.getMessage().indexOf("{") == -1 ) {
+        if (parameters != null && parameters.length != 0
+                && record.getMessage().indexOf("{") == -1) {
             for (int i = 0; i < parameters.length; i++) {
                 sb.append("  <param>");
                 try {
@@ -221,8 +221,8 @@ public class XMLFormatter extends Formatter {
     /**
      * Return the header string for a set of XML formatted records.
      *
-     * @param   h  The target handler (can be null)
-     * @return  a valid XML string
+     * @param h The target handler (can be null)
+     * @return a valid XML string
      */
     public String getHead(Handler h) {
         StringBuilder sb = new StringBuilder();
@@ -260,8 +260,8 @@ public class XMLFormatter extends Formatter {
     /**
      * Return the tail string for a set of XML formatted records.
      *
-     * @param   h  The target handler (can be null)
-     * @return  a valid XML string
+     * @param h The target handler (can be null)
+     * @return a valid XML string
      */
     public String getTail(Handler h) {
         return "</log>\n";

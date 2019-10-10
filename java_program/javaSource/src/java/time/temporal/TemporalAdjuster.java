@@ -95,10 +95,8 @@ import java.time.DateTimeException;
  * <li>finding the next or previous day-of-week, such as "next Thursday"
  * </ul>
  *
- * @implSpec
- * This interface places no restrictions on the mutability of implementations,
+ * @implSpec This interface places no restrictions on the mutability of implementations,
  * however immutability is strongly recommended.
- *
  * @see TemporalAdjusters
  * @since 1.8
  */
@@ -124,8 +122,11 @@ public interface TemporalAdjuster {
      * It is recommended to use the second approach, {@code with(TemporalAdjuster)},
      * as it is a lot clearer to read in code.
      *
-     * @implSpec
-     * The implementation must take the input object and adjust it.
+     * @param temporal the temporal object to adjust, not null
+     * @return an object of the same observable type with the adjustment made, not null
+     * @throws DateTimeException   if unable to make the adjustment
+     * @throws ArithmeticException if numeric overflow occurs
+     * @implSpec The implementation must take the input object and adjust it.
      * The implementation defines the logic of the adjustment and is responsible for
      * documenting that logic. It may use any method on {@code Temporal} to
      * query the temporal object and perform the adjustment.
@@ -141,11 +142,6 @@ public interface TemporalAdjuster {
      * <p>
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
-     *
-     * @param temporal  the temporal object to adjust, not null
-     * @return an object of the same observable type with the adjustment made, not null
-     * @throws DateTimeException if unable to make the adjustment
-     * @throws ArithmeticException if numeric overflow occurs
      */
     Temporal adjustInto(Temporal temporal);
 

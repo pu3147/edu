@@ -29,19 +29,11 @@ package java.nio;
 
 
 /**
-
  * A read/write HeapShortBuffer.
-
-
-
-
-
-
  */
 
 class HeapShortBuffer
-    extends ShortBuffer
-{
+        extends ShortBuffer {
 
     // For speed these fields are actually declared in X-Buffer;
     // these declarations are here as documentation
@@ -61,8 +53,6 @@ class HeapShortBuffer
         */
 
 
-
-
     }
 
     HeapShortBuffer(short[] buf, int off, int len) { // package-private
@@ -74,14 +64,11 @@ class HeapShortBuffer
         */
 
 
-
-
     }
 
     protected HeapShortBuffer(short[] buf,
-                                   int mark, int pos, int lim, int cap,
-                                   int off)
-    {
+                              int mark, int pos, int lim, int cap,
+                              int off) {
 
         super(mark, pos, lim, cap, buf, off);
         /*
@@ -90,41 +77,37 @@ class HeapShortBuffer
         */
 
 
-
-
     }
 
     public ShortBuffer slice() {
         return new HeapShortBuffer(hb,
-                                        -1,
-                                        0,
-                                        this.remaining(),
-                                        this.remaining(),
-                                        this.position() + offset);
+                -1,
+                0,
+                this.remaining(),
+                this.remaining(),
+                this.position() + offset);
     }
 
     public ShortBuffer duplicate() {
         return new HeapShortBuffer(hb,
-                                        this.markValue(),
-                                        this.position(),
-                                        this.limit(),
-                                        this.capacity(),
-                                        offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public ShortBuffer asReadOnlyBuffer() {
 
         return new HeapShortBufferR(hb,
-                                     this.markValue(),
-                                     this.position(),
-                                     this.limit(),
-                                     this.capacity(),
-                                     offset);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
 
 
     }
-
 
 
     protected int ix(int i) {
@@ -138,11 +121,6 @@ class HeapShortBuffer
     public short get(int i) {
         return hb[ix(checkIndex(i))];
     }
-
-
-
-
-
 
 
     public ShortBuffer get(short[] dst, int offset, int length) {
@@ -159,7 +137,6 @@ class HeapShortBuffer
     }
 
 
-
     public boolean isReadOnly() {
         return false;
     }
@@ -170,14 +147,12 @@ class HeapShortBuffer
         return this;
 
 
-
     }
 
     public ShortBuffer put(int i, short x) {
 
         hb[ix(checkIndex(i))] = x;
         return this;
-
 
 
     }
@@ -192,7 +167,6 @@ class HeapShortBuffer
         return this;
 
 
-
     }
 
     public ShortBuffer put(ShortBuffer src) {
@@ -200,12 +174,12 @@ class HeapShortBuffer
         if (src instanceof HeapShortBuffer) {
             if (src == this)
                 throw new IllegalArgumentException();
-            HeapShortBuffer sb = (HeapShortBuffer)src;
+            HeapShortBuffer sb = (HeapShortBuffer) src;
             int n = sb.remaining();
             if (n > remaining())
                 throw new BufferOverflowException();
             System.arraycopy(sb.hb, sb.ix(sb.position()),
-                             hb, ix(position()), n);
+                    hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
@@ -220,7 +194,6 @@ class HeapShortBuffer
         return this;
 
 
-
     }
 
     public ShortBuffer compact() {
@@ -232,370 +205,12 @@ class HeapShortBuffer
         return this;
 
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }
-
 
 
 }

@@ -98,9 +98,7 @@ import java.util.Objects;
  * {@code ThaiBuddhistDate} may have unpredictable results and should be avoided.
  * The {@code equals} method should be used for comparisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class ThaiBuddhistDate
@@ -118,6 +116,7 @@ public final class ThaiBuddhistDate
     private final transient LocalDate isoDate;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains the current {@code ThaiBuddhistDate} from the system clock in the default time-zone.
      * <p>
@@ -142,7 +141,7 @@ public final class ThaiBuddhistDate
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param zone  the zone ID to use, not null
+     * @param zone the zone ID to use, not null
      * @return the current date using the system clock, not null
      */
     public static ThaiBuddhistDate now(ZoneId zone) {
@@ -156,7 +155,7 @@ public final class ThaiBuddhistDate
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
+     * @param clock the clock to use, not null
      * @return the current date, not null
      * @throws DateTimeException if the current date cannot be obtained
      */
@@ -171,12 +170,12 @@ public final class ThaiBuddhistDate
      * This returns a {@code ThaiBuddhistDate} with the specified fields.
      * The day must be valid for the year and month, otherwise an exception will be thrown.
      *
-     * @param prolepticYear  the Thai Buddhist proleptic-year
-     * @param month  the Thai Buddhist month-of-year, from 1 to 12
-     * @param dayOfMonth  the Thai Buddhist day-of-month, from 1 to 31
+     * @param prolepticYear the Thai Buddhist proleptic-year
+     * @param month         the Thai Buddhist month-of-year, from 1 to 12
+     * @param dayOfMonth    the Thai Buddhist day-of-month, from 1 to 31
      * @return the date in Thai Buddhist calendar system, not null
      * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     *                           or if the day-of-month is invalid for the month-year
      */
     public static ThaiBuddhistDate of(int prolepticYear, int month, int dayOfMonth) {
         return new ThaiBuddhistDate(LocalDate.of(prolepticYear - YEARS_DIFFERENCE, month, dayOfMonth));
@@ -195,7 +194,7 @@ public final class ThaiBuddhistDate
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ThaiBuddhistDate::from}.
      *
-     * @param temporal  the temporal object to convert, not null
+     * @param temporal the temporal object to convert, not null
      * @return the date in Thai Buddhist calendar system, not null
      * @throws DateTimeException if unable to convert to a {@code ThaiBuddhistDate}
      */
@@ -204,10 +203,11 @@ public final class ThaiBuddhistDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Creates an instance from an ISO date.
      *
-     * @param isoDate  the standard local date, validated not null
+     * @param isoDate the standard local date, validated not null
      */
     ThaiBuddhistDate(LocalDate isoDate) {
         Objects.requireNonNull(isoDate, "isoDate");
@@ -215,6 +215,7 @@ public final class ThaiBuddhistDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the chronology of this date, which is the Thai Buddhist calendar system.
      * <p>
@@ -324,7 +325,7 @@ public final class ThaiBuddhistDate
                     int nvalue = getChronology().range(f).checkValidIntValue(newValue, f);
                     switch (f) {
                         case YEAR_OF_ERA:
-                            return with(isoDate.withYear((getProlepticYear() >= 1 ? nvalue : 1 - nvalue)  - YEARS_DIFFERENCE));
+                            return with(isoDate.withYear((getProlepticYear() >= 1 ? nvalue : 1 - nvalue) - YEARS_DIFFERENCE));
                         case YEAR:
                             return with(isoDate.withYear(nvalue - YEARS_DIFFERENCE));
                         case ERA:
@@ -339,17 +340,19 @@ public final class ThaiBuddhistDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public  ThaiBuddhistDate with(TemporalAdjuster adjuster) {
+    public ThaiBuddhistDate with(TemporalAdjuster adjuster) {
         return super.with(adjuster);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -359,7 +362,8 @@ public final class ThaiBuddhistDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -440,6 +444,7 @@ public final class ThaiBuddhistDate
     }
 
     //-------------------------------------------------------------------------
+
     /**
      * Compares this date to another date, including the chronology.
      * <p>
@@ -449,7 +454,7 @@ public final class ThaiBuddhistDate
      * To compare the dates of two {@code TemporalAccessor} instances, including dates
      * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
     @Override  // override for performance
@@ -475,6 +480,7 @@ public final class ThaiBuddhistDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Defend against malicious streams.
      *
@@ -488,15 +494,14 @@ public final class ThaiBuddhistDate
     /**
      * Writes the object using a
      * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
+     *
+     * @return the instance of {@code Ser}, not null
+     * @serialData <pre>
      *  out.writeByte(10);                // identifies a ThaiBuddhistDate
      *  out.writeInt(get(YEAR));
      *  out.writeByte(get(MONTH_OF_YEAR));
      *  out.writeByte(get(DAY_OF_MONTH));
      * </pre>
-     *
-     * @return the instance of {@code Ser}, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.THAIBUDDHIST_DATE_TYPE, this);

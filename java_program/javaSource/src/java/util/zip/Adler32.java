@@ -26,6 +26,7 @@
 package java.util.zip;
 
 import java.nio.ByteBuffer;
+
 import sun.nio.ch.DirectBuffer;
 
 /**
@@ -36,8 +37,8 @@ import sun.nio.ch.DirectBuffer;
  * <p> Passing a {@code null} argument to a method in this class will cause
  * a {@link NullPointerException} to be thrown.
  *
- * @see         Checksum
- * @author      David Connelly
+ * @author David Connelly
+ * @see Checksum
  */
 public
 class Adler32 implements Checksum {
@@ -63,10 +64,9 @@ class Adler32 implements Checksum {
     /**
      * Updates the checksum with the specified array of bytes.
      *
-     * @throws  ArrayIndexOutOfBoundsException
-     *          if {@code off} is negative, or {@code len} is negative,
-     *          or {@code off+len} is greater than the length of the
-     *          array {@code b}
+     * @throws ArrayIndexOutOfBoundsException if {@code off} is negative, or {@code len} is negative,
+     *                                        or {@code off+len} is greater than the length of the
+     *                                        array {@code b}
      */
     public void update(byte[] b, int off, int len) {
         if (b == null) {
@@ -90,7 +90,7 @@ class Adler32 implements Checksum {
 
     /**
      * Updates the checksum with the bytes from the specified buffer.
-     *
+     * <p>
      * The checksum is updated using
      * buffer.{@link java.nio.Buffer#remaining() remaining()}
      * bytes starting at
@@ -109,7 +109,7 @@ class Adler32 implements Checksum {
         if (rem <= 0)
             return;
         if (buffer instanceof DirectBuffer) {
-            adler = updateByteBuffer(adler, ((DirectBuffer)buffer).address(), pos, rem);
+            adler = updateByteBuffer(adler, ((DirectBuffer) buffer).address(), pos, rem);
         } else if (buffer.hasArray()) {
             adler = updateBytes(adler, buffer.array(), pos + buffer.arrayOffset(), rem);
         } else {
@@ -131,12 +131,14 @@ class Adler32 implements Checksum {
      * Returns the checksum value.
      */
     public long getValue() {
-        return (long)adler & 0xffffffffL;
+        return (long) adler & 0xffffffffL;
     }
 
     private native static int update(int adler, int b);
+
     private native static int updateBytes(int adler, byte[] b, int off,
                                           int len);
+
     private native static int updateByteBuffer(int adler, long addr,
                                                int off, int len);
 }

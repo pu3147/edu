@@ -32,7 +32,7 @@ import java.util.function.Supplier;
  *
  * @param <T> the type of elements to be accepted
  * @param <R> the type of the result
- *
  * @since 1.8
  */
-interface TerminalSink<T, R> extends Sink<T>, Supplier<R> { }
+interface TerminalSink<T, R> extends Sink<T>, Supplier<R> {
+}

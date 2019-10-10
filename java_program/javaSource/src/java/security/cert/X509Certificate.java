@@ -95,15 +95,13 @@ import sun.security.x509.X509CertImpl;
  * </pre>
  *
  * @author Hemma Prafullchandra
- *
- *
  * @see Certificate
  * @see CertificateFactory
  * @see X509Extension
  */
 
 public abstract class X509Certificate extends Certificate
-implements X509Extension {
+        implements X509Extension {
 
     private static final long serialVersionUID = -2491127588187038216L;
 
@@ -137,12 +135,12 @@ implements X509Extension {
      *     generalTime    GeneralizedTime }
      * </pre>
      *
-     * @exception CertificateExpiredException if the certificate has expired.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid.
+     * @throws CertificateExpiredException     if the certificate has expired.
+     * @throws CertificateNotYetValidException if the certificate is not
+     *                                         yet valid.
      */
     public abstract void checkValidity()
-        throws CertificateExpiredException, CertificateNotYetValidException;
+            throws CertificateExpiredException, CertificateNotYetValidException;
 
     /**
      * Checks that the given date is within the certificate's
@@ -150,17 +148,15 @@ implements X509Extension {
      * certificate would be valid at the given date/time.
      *
      * @param date the Date to check against to see if this certificate
-     *        is valid at that date/time.
-     *
-     * @exception CertificateExpiredException if the certificate has expired
-     * with respect to the {@code date} supplied.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid with respect to the {@code date} supplied.
-     *
+     *             is valid at that date/time.
+     * @throws CertificateExpiredException     if the certificate has expired
+     *                                         with respect to the {@code date} supplied.
+     * @throws CertificateNotYetValidException if the certificate is not
+     *                                         yet valid with respect to the {@code date} supplied.
      * @see #checkValidity()
      */
     public abstract void checkValidity(Date date)
-        throws CertificateExpiredException, CertificateNotYetValidException;
+            throws CertificateExpiredException, CertificateNotYetValidException;
 
     /**
      * Gets the {@code version} (version number) value from the
@@ -171,6 +167,7 @@ implements X509Extension {
      *
      * Version ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
      * </pre>
+     *
      * @return the version number, i.e. 1, 2 or 3.
      */
     public abstract int getVersion();
@@ -240,7 +237,7 @@ implements X509Extension {
      * It is recommended that subclasses override this method.
      *
      * @return an {@code X500Principal} representing the issuer
-     *          distinguished name
+     * distinguished name
      * @since 1.4
      */
     public X500Principal getIssuerX500Principal() {
@@ -283,7 +280,7 @@ implements X509Extension {
      * It is recommended that subclasses override this method.
      *
      * @return an {@code X500Principal} representing the subject
-     *          distinguished name
+     * distinguished name
      * @since 1.4
      */
     public X500Principal getSubjectX500Principal() {
@@ -330,10 +327,10 @@ implements X509Extension {
      * This can be used to verify the signature independently.
      *
      * @return the DER-encoded certificate information.
-     * @exception CertificateEncodingException if an encoding error occurs.
+     * @throws CertificateEncodingException if an encoding error occurs.
      */
     public abstract byte[] getTBSCertificate()
-        throws CertificateEncodingException;
+            throws CertificateEncodingException;
 
     /**
      * Gets the {@code signature} value (the raw signature bits) from
@@ -400,7 +397,7 @@ implements X509Extension {
      * relevant ASN.1 definitions.
      *
      * @return the DER-encoded signature algorithm parameters, or
-     *         null if no parameters are present.
+     * null if no parameters are present.
      */
     public abstract byte[] getSigAlgParams();
 
@@ -485,7 +482,7 @@ implements X509Extension {
      *
      * KeyPurposeId ::= OBJECT IDENTIFIER
      * </pre>
-     *
+     * <p>
      * Key purposes may be defined by any organization with a
      * need. Object identifiers used to identify key purposes shall be
      * assigned in accordance with IANA or ITU-T Rec. X.660 |
@@ -498,9 +495,9 @@ implements X509Extension {
      * should override this method with a correct implementation.
      *
      * @return the ExtendedKeyUsage extension of this certificate,
-     *         as an unmodifiable list of object identifiers represented
-     *         as Strings. Returns null if this certificate does not
-     *         contain an ExtendedKeyUsage extension.
+     * as an unmodifiable list of object identifiers represented
+     * as Strings. Returns null if this certificate does not
+     * contain an ExtendedKeyUsage extension.
      * @throws CertificateParsingException if the extension cannot be decoded
      * @since 1.4
      */
@@ -601,7 +598,7 @@ implements X509Extension {
      * @since 1.4
      */
     public Collection<List<?>> getSubjectAlternativeNames()
-        throws CertificateParsingException {
+            throws CertificateParsingException {
         return X509CertImpl.getSubjectAlternativeNames(this);
     }
 
@@ -643,36 +640,35 @@ implements X509Extension {
      * @since 1.4
      */
     public Collection<List<?>> getIssuerAlternativeNames()
-        throws CertificateParsingException {
+            throws CertificateParsingException {
         return X509CertImpl.getIssuerAlternativeNames(this);
     }
 
-     /**
+    /**
      * Verifies that this certificate was signed using the
      * private key that corresponds to the specified public key.
      * This method uses the signature verification engine
      * supplied by the specified provider. Note that the specified
      * Provider object does not have to be registered in the provider list.
-     *
+     * <p>
      * This method was added to version 1.8 of the Java Platform Standard
      * Edition. In order to maintain backwards compatibility with existing
      * service providers, this method is not {@code abstract}
      * and it provides a default implementation.
      *
-     * @param key the PublicKey used to carry out the verification.
+     * @param key         the PublicKey used to carry out the verification.
      * @param sigProvider the signature provider.
-     *
-     * @exception NoSuchAlgorithmException on unsupported signature
-     * algorithms.
-     * @exception InvalidKeyException on incorrect key.
-     * @exception SignatureException on signature errors.
-     * @exception CertificateException on encoding errors.
-     * @exception UnsupportedOperationException if the method is not supported
+     * @throws NoSuchAlgorithmException      on unsupported signature
+     *                                       algorithms.
+     * @throws InvalidKeyException           on incorrect key.
+     * @throws SignatureException            on signature errors.
+     * @throws CertificateException          on encoding errors.
+     * @throws UnsupportedOperationException if the method is not supported
      * @since 1.8
      */
     public void verify(PublicKey key, Provider sigProvider)
-        throws CertificateException, NoSuchAlgorithmException,
-        InvalidKeyException, SignatureException {
+            throws CertificateException, NoSuchAlgorithmException,
+            InvalidKeyException, SignatureException {
         X509CertImpl.verify(this, key, sigProvider);
     }
 }

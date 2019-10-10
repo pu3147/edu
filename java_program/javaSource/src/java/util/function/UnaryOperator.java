@@ -33,7 +33,6 @@ package java.util.function;
  * whose functional method is {@link #apply(Object)}.
  *
  * @param <T> the type of the operand and result of the operator
- *
  * @see Function
  * @since 1.8
  */

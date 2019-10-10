@@ -28,6 +28,7 @@ package java.util.stream;
  * Base class for a data structure for gathering elements into a buffer and then
  * iterating them. Maintains an array of increasingly sized arrays, so there is
  * no copying cost associated with growing the data structure.
+ *
  * @since 1.8
  */
 abstract class AbstractSpinedBuffer {
@@ -88,10 +89,10 @@ abstract class AbstractSpinedBuffer {
      */
     protected AbstractSpinedBuffer(int initialCapacity) {
         if (initialCapacity < 0)
-            throw new IllegalArgumentException("Illegal Capacity: "+ initialCapacity);
+            throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
 
         this.initialChunkPower = Math.max(MIN_CHUNK_POWER,
-                                          Integer.SIZE - Integer.numberOfLeadingZeros(initialCapacity - 1));
+                Integer.SIZE - Integer.numberOfLeadingZeros(initialCapacity - 1));
     }
 
     /**
@@ -106,8 +107,8 @@ abstract class AbstractSpinedBuffer {
      */
     public long count() {
         return (spineIndex == 0)
-               ? elementIndex
-               : priorElementCount[spineIndex] + elementIndex;
+                ? elementIndex
+                : priorElementCount[spineIndex] + elementIndex;
     }
 
     /**
@@ -115,8 +116,8 @@ abstract class AbstractSpinedBuffer {
      */
     protected int chunkSize(int n) {
         int power = (n == 0 || n == 1)
-                    ? initialChunkPower
-                    : Math.min(initialChunkPower + n - 1, AbstractSpinedBuffer.MAX_CHUNK_POWER);
+                ? initialChunkPower
+                : Math.min(initialChunkPower + n - 1, AbstractSpinedBuffer.MAX_CHUNK_POWER);
         return 1 << power;
     }
 

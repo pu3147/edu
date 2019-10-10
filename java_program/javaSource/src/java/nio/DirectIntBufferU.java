@@ -28,6 +28,7 @@
 package java.nio;
 
 import java.io.FileDescriptor;
+
 import sun.misc.Cleaner;
 import sun.misc.Unsafe;
 import sun.misc.VM;
@@ -36,20 +37,17 @@ import sun.nio.ch.DirectBuffer;
 
 class DirectIntBufferU
 
-    extends IntBuffer
+        extends IntBuffer
 
 
-
-    implements DirectBuffer
-{
-
+        implements DirectBuffer {
 
 
     // Cached unsafe-access object
     protected static final Unsafe unsafe = Bits.unsafe();
 
     // Cached array base offset
-    private static final long arrayBaseOffset = (long)unsafe.arrayBaseOffset(int[].class);
+    private static final long arrayBaseOffset = (long) unsafe.arrayBaseOffset(int[].class);
 
     // Cached unaligned-access capability
     protected static final boolean unaligned = Bits.unaligned();
@@ -68,137 +66,22 @@ class DirectIntBufferU
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public Cleaner cleaner() { return null; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public Cleaner cleaner() {
+        return null;
+    }
 
 
     // For duplicates and slices
     //
     DirectIntBufferU(DirectBuffer db,         // package-private
-                               int mark, int pos, int lim, int cap,
-                               int off)
-    {
+                     int mark, int pos, int lim, int cap,
+                     int off) {
 
         super(mark, pos, lim, cap);
         address = db.address() + off;
 
 
-
         att = db;
-
 
 
     }
@@ -215,26 +98,24 @@ class DirectIntBufferU
 
     public IntBuffer duplicate() {
         return new DirectIntBufferU(this,
-                                              this.markValue(),
-                                              this.position(),
-                                              this.limit(),
-                                              this.capacity(),
-                                              0);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                0);
     }
 
     public IntBuffer asReadOnlyBuffer() {
 
         return new DirectIntBufferRU(this,
-                                           this.markValue(),
-                                           this.position(),
-                                           this.limit(),
-                                           this.capacity(),
-                                           0);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                0);
 
 
     }
-
 
 
     public long address() {
@@ -254,11 +135,6 @@ class DirectIntBufferU
     }
 
 
-
-
-
-
-
     public IntBuffer get(int[] dst, int offset, int length) {
 
         if ((length << 2) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
@@ -273,13 +149,13 @@ class DirectIntBufferU
 
             if (order() != ByteOrder.nativeOrder())
                 Bits.copyToIntArray(ix(pos), dst,
-                                          offset << 2,
-                                          length << 2);
+                        offset << 2,
+                        length << 2);
             else
 
                 Bits.copyToArray(ix(pos), dst, arrayBaseOffset,
-                                 offset << 2,
-                                 length << 2);
+                        offset << 2,
+                        length << 2);
             position(pos + length);
         } else {
             super.get(dst, offset, length);
@@ -287,16 +163,13 @@ class DirectIntBufferU
         return this;
 
 
-
     }
-
 
 
     public IntBuffer put(int x) {
 
         unsafe.putInt(ix(nextPutIndex()), ((x)));
         return this;
-
 
 
     }
@@ -307,7 +180,6 @@ class DirectIntBufferU
         return this;
 
 
-
     }
 
     public IntBuffer put(IntBuffer src) {
@@ -315,7 +187,7 @@ class DirectIntBufferU
         if (src instanceof DirectIntBufferU) {
             if (src == this)
                 throw new IllegalArgumentException();
-            DirectIntBufferU sb = (DirectIntBufferU)src;
+            DirectIntBufferU sb = (DirectIntBufferU) src;
 
             int spos = sb.position();
             int slim = sb.limit();
@@ -348,7 +220,6 @@ class DirectIntBufferU
         return this;
 
 
-
     }
 
     public IntBuffer put(int[] src, int offset, int length) {
@@ -365,17 +236,16 @@ class DirectIntBufferU
 
             if (order() != ByteOrder.nativeOrder())
                 Bits.copyFromIntArray(src, offset << 2,
-                                            ix(pos), length << 2);
+                        ix(pos), length << 2);
             else
 
                 Bits.copyFromArray(src, arrayBaseOffset, offset << 2,
-                                   ix(pos), length << 2);
+                        ix(pos), length << 2);
             position(pos + length);
         } else {
             super.put(src, offset, length);
         }
         return this;
-
 
 
     }
@@ -394,7 +264,6 @@ class DirectIntBufferU
         return this;
 
 
-
     }
 
     public boolean isDirect() {
@@ -406,85 +275,13 @@ class DirectIntBufferU
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
-
 
 
         return ((ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN)
                 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

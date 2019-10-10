@@ -29,27 +29,10 @@ package java.nio;
 
 
 class ByteBufferAsFloatBufferRB                  // package-private
-    extends ByteBufferAsFloatBufferB
-{
-
-
-
-
-
-
+        extends ByteBufferAsFloatBufferB {
 
 
     ByteBufferAsFloatBufferRB(ByteBuffer bb) {   // package-private
-
-
-
-
-
-
-
-
-
-
 
 
         super(bb);
@@ -57,12 +40,8 @@ class ByteBufferAsFloatBufferRB                  // package-private
     }
 
     ByteBufferAsFloatBufferRB(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
-
-
-
+                              int mark, int pos, int lim, int cap,
+                              int off) {
 
 
         super(bb, mark, pos, lim, cap, off);
@@ -81,20 +60,14 @@ class ByteBufferAsFloatBufferRB                  // package-private
 
     public FloatBuffer duplicate() {
         return new ByteBufferAsFloatBufferRB(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public FloatBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -102,30 +75,7 @@ class ByteBufferAsFloatBufferRB                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public FloatBuffer put(float x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -135,28 +85,11 @@ class ByteBufferAsFloatBufferRB                  // package-private
     public FloatBuffer put(int i, float x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public FloatBuffer compact() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -172,52 +105,9 @@ class ByteBufferAsFloatBufferRB                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;
-
-
 
 
     }

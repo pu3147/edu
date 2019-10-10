@@ -34,7 +34,6 @@ package java.util.function;
  * whose functional method is {@link #get()}.
  *
  * @param <T> the type of results supplied by this supplier
- *
  * @since 1.8
  */
 @FunctionalInterface

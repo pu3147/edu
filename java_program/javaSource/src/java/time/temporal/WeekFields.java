@@ -87,6 +87,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import sun.util.locale.provider.CalendarDataUtility;
 import sun.util.locale.provider.LocaleProviderAdapter;
 import sun.util.locale.provider.LocaleResources;
@@ -171,9 +172,7 @@ import sun.util.locale.provider.LocaleResources;
  *  <td>Week 2 of 2009</td><td>Week 1 of 2009</td></tr>
  * </table>
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class WeekFields implements Serializable {
@@ -274,12 +273,13 @@ public final class WeekFields implements Serializable {
     private final transient TemporalField weekBasedYear = ComputedDayOfField.ofWeekBasedYearField(this);
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code WeekFields} appropriate for a locale.
      * <p>
      * This will look up appropriate values from the provider of localization data.
      *
-     * @param locale  the locale to use, not null
+     * @param locale the locale to use, not null
      * @return the week-definition, not null
      */
     public static WeekFields of(Locale locale) {
@@ -306,11 +306,11 @@ public final class WeekFields implements Serializable {
      * of {@code firstDayOfWeek} and {@code minimalDaysInFirstWeek} the
      * the same instance will be returned.
      *
-     * @param firstDayOfWeek  the first day of the week, not null
-     * @param minimalDaysInFirstWeek  the minimal number of days in the first week, from 1 to 7
+     * @param firstDayOfWeek         the first day of the week, not null
+     * @param minimalDaysInFirstWeek the minimal number of days in the first week, from 1 to 7
      * @return the week-definition, not null
      * @throws IllegalArgumentException if the minimal days value is less than one
-     *      or greater than 7
+     *                                  or greater than 7
      */
     public static WeekFields of(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
         String key = firstDayOfWeek.toString() + minimalDaysInFirstWeek;
@@ -324,11 +324,12 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Creates an instance of the definition.
      *
-     * @param firstDayOfWeek  the first day of the week, not null
-     * @param minimalDaysInFirstWeek  the minimal number of days in the first week, from 1 to 7
+     * @param firstDayOfWeek         the first day of the week, not null
+     * @param minimalDaysInFirstWeek the minimal number of days in the first week, from 1 to 7
      * @throws IllegalArgumentException if the minimal days value is invalid
      */
     private WeekFields(DayOfWeek firstDayOfWeek, int minimalDaysInFirstWeek) {
@@ -341,18 +342,18 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Restore the state of a WeekFields from the stream.
      * Check that the values are valid.
      *
      * @param s the stream to read
      * @throws InvalidObjectException if the serialized object has an invalid
-     *     value for firstDayOfWeek or minimalDays.
+     *                                value for firstDayOfWeek or minimalDays.
      * @throws ClassNotFoundException if a class cannot be resolved
      */
     private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException, InvalidObjectException
-    {
+            throws IOException, ClassNotFoundException, InvalidObjectException {
         s.defaultReadObject();
         if (firstDayOfWeek == null) {
             throw new InvalidObjectException("firstDayOfWeek is null");
@@ -366,9 +367,10 @@ public final class WeekFields implements Serializable {
     /**
      * Return the singleton WeekFields associated with the
      * {@code firstDayOfWeek} and {@code minimalDays}.
+     *
      * @return the singleton WeekFields for the firstDayOfWeek and minimalDays.
      * @throws InvalidObjectException if the serialized object has invalid
-     *     values for firstDayOfWeek or minimalDays.
+     *                                values for firstDayOfWeek or minimalDays.
      */
     private Object readResolve() throws InvalidObjectException {
         try {
@@ -379,6 +381,7 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the first day-of-week.
      * <p>
@@ -407,6 +410,7 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a field to access the day of week based on this {@code WeekFields}.
      * <p>
@@ -536,11 +540,11 @@ public final class WeekFields implements Serializable {
      * For example:<br>
      * - if the 1st day of the year is a Monday, week one starts on the 1st<br>
      * - if the 2nd day of the year is a Monday, week one starts on the 2nd and
-     *   the 1st is in the last week of the previous year<br>
+     * the 1st is in the last week of the previous year<br>
      * - if the 4th day of the year is a Monday, week one starts on the 4th and
-     *   the 1st to 3rd is in the last week of the previous year<br>
+     * the 1st to 3rd is in the last week of the previous year<br>
      * - if the 5th day of the year is a Monday, week two starts on the 5th and
-     *   the 1st to 4th is in week one<br>
+     * the 1st to 4th is in week one<br>
      * <p>
      * This field can be used with any calendar system.
      * <p>
@@ -613,13 +617,14 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this {@code WeekFields} is equal to the specified object.
      * <p>
      * The comparison is based on the entire state of the rules, which is
      * the first day-of-week and minimal days.
      *
-     * @param object  the other rules to compare to, null returns false
+     * @param object the other rules to compare to, null returns false
      * @return true if this is equal to the specified rules
      */
     @Override
@@ -644,6 +649,7 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * A string representation of this {@code WeekFields} instance.
      *
@@ -655,6 +661,7 @@ public final class WeekFields implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Field type that computes DayOfWeek, WeekOfMonth, and WeekOfYear
      * based on a WeekFields.
@@ -679,6 +686,7 @@ public final class WeekFields implements Serializable {
         /**
          * Returns a field to access the week of month,
          * computed based on a WeekFields.
+         *
          * @see WeekFields#weekOfMonth()
          */
         static ComputedDayOfField ofWeekOfMonthField(WeekFields weekDef) {
@@ -688,6 +696,7 @@ public final class WeekFields implements Serializable {
         /**
          * Returns a field to access the week of year,
          * computed based on a WeekFields.
+         *
          * @see WeekFields#weekOfYear()
          */
         static ComputedDayOfField ofWeekOfYearField(WeekFields weekDef) {
@@ -697,6 +706,7 @@ public final class WeekFields implements Serializable {
         /**
          * Returns a field to access the week of week-based-year,
          * computed based on a WeekFields.
+         *
          * @see WeekFields#weekOfWeekBasedYear()
          */
         static ComputedDayOfField ofWeekOfWeekBasedYearField(WeekFields weekDef) {
@@ -706,6 +716,7 @@ public final class WeekFields implements Serializable {
         /**
          * Returns a field to access the week of week-based-year,
          * computed based on a WeekFields.
+         *
          * @see WeekFields#weekBasedYear()
          */
         static ComputedDayOfField ofWeekBasedYearField(WeekFields weekDef) {
@@ -715,14 +726,15 @@ public final class WeekFields implements Serializable {
         /**
          * Return a new week-based-year date of the Chronology, year, week-of-year,
          * and dow of week.
+         *
          * @param chrono The chronology of the new date
-         * @param yowby the year of the week-based-year
-         * @param wowby the week of the week-based-year
-         * @param dow the day of the week
+         * @param yowby  the year of the week-based-year
+         * @param wowby  the week of the week-based-year
+         * @param dow    the day of the week
          * @return a ChronoLocalDate for the requested year, week of year, and day of week
          */
         private ChronoLocalDate ofWeekBasedYear(Chronology chrono,
-                int yowby, int wowby, int dow) {
+                                                int yowby, int wowby, int dow) {
             ChronoLocalDate date = chrono.date(yowby, 1, 1);
             int ldow = localizedDayOfWeek(date);
             int offset = startOfWeekOffset(1, ldow);
@@ -800,6 +812,7 @@ public final class WeekFields implements Serializable {
         /**
          * Returns the year of week-based-year for the temporal.
          * The year can be the previous year, the current year, or the next year.
+         *
          * @param temporal a date of any chronology, not null
          * @return the year of week-based-year for the date
          */
@@ -816,7 +829,7 @@ public final class WeekFields implements Serializable {
                 // If getting close to end of year, use higher precision logic
                 // Check if date of year is in partial week associated with next year
                 ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-                int yearLen = (int)dayRange.getMaximum();
+                int yearLen = (int) dayRange.getMaximum();
                 int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
                 if (week >= newYearWeek) {
                     return year + 1;
@@ -830,7 +843,8 @@ public final class WeekFields implements Serializable {
          * The week can be part of the previous year, the current year,
          * or the next year depending on the week start and minimum number
          * of days.
-         * @param temporal  a date of any chronology
+         *
+         * @param temporal a date of any chronology
          * @return the week of the year
          * @see #localizedWeekBasedYear(java.time.temporal.TemporalAccessor)
          */
@@ -849,7 +863,7 @@ public final class WeekFields implements Serializable {
                 // If getting close to end of year, use higher precision logic
                 // Check if date of year is in partial week associated with next year
                 ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-                int yearLen = (int)dayRange.getMaximum();
+                int yearLen = (int) dayRange.getMaximum();
                 int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
                 if (week >= newYearWeek) {
                     // Overlaps with week of following year; reduce to week in following year
@@ -862,9 +876,9 @@ public final class WeekFields implements Serializable {
         /**
          * Returns an offset to align week start with a day of month or day of year.
          *
-         * @param day  the day; 1 through infinity
-         * @param dow  the day of the week of that day; 1 through 7
-         * @return  an offset in days to align a day with the start of the first 'full' week
+         * @param day the day; 1 through infinity
+         * @param dow the day of the week of that day; 1 through 7
+         * @return an offset in days to align a day with the start of the first 'full' week
          */
         private int startOfWeekOffset(int day, int dow) {
             // offset of first day corresponding to the day of week in first 7 days (zero origin)
@@ -881,8 +895,8 @@ public final class WeekFields implements Serializable {
          * Returns the week number computed from the reference day and reference dayOfWeek.
          *
          * @param offset the offset to align a date with the start of week
-         *     from {@link #startOfWeekOffset}.
-         * @param day  the day for which to compute the week number
+         *               from {@link #startOfWeekOffset}.
+         * @param day    the day for which to compute the week number
          * @return the week number where zero is used for a partial week and 1 for the first full week
          */
         private int computeWeek(int offset, int day) {
@@ -904,7 +918,7 @@ public final class WeekFields implements Serializable {
                 // the desired year and the same week and dow.
                 int idow = temporal.get(weekDef.dayOfWeek);
                 int wowby = temporal.get(weekDef.weekOfWeekBasedYear);
-                return (R) ofWeekBasedYear(Chronology.from(temporal), (int)newValue, wowby, idow);
+                return (R) ofWeekBasedYear(Chronology.from(temporal), (int) newValue, wowby, idow);
             } else {
                 // Compute the difference and add that using the base unit of the field
                 return (R) temporal.plus(newVal - currentVal, baseUnit);
@@ -1103,8 +1117,9 @@ public final class WeekFields implements Serializable {
 
         /**
          * Map the field range to a week range
+         *
          * @param temporal the temporal
-         * @param field the field to get the range of
+         * @param field    the field to get the range of
          * @return the ValueRange with the range adjusted to weeks.
          */
         private ValueRange rangeByWeek(TemporalAccessor temporal, TemporalField field) {
@@ -1117,7 +1132,8 @@ public final class WeekFields implements Serializable {
 
         /**
          * Map the field range to a week range of a week year.
-         * @param temporal  the temporal
+         *
+         * @param temporal the temporal
          * @return the ValueRange with the range adjusted to weeks.
          */
         private ValueRange rangeWeekOfWeekBasedYear(TemporalAccessor temporal) {
@@ -1137,7 +1153,7 @@ public final class WeekFields implements Serializable {
             }
             // Check if day of year is in partial week associated with next year
             ValueRange dayRange = temporal.range(DAY_OF_YEAR);
-            int yearLen = (int)dayRange.getMaximum();
+            int yearLen = (int) dayRange.getMaximum();
             int newYearWeek = computeWeek(offset, yearLen + weekDef.getMinimalDaysInFirstWeek());
 
             if (week >= newYearWeek) {
@@ -1146,7 +1162,7 @@ public final class WeekFields implements Serializable {
                 date = date.plus(yearLen - doy + 1 + 7, ChronoUnit.DAYS);
                 return rangeWeekOfWeekBasedYear(date);
             }
-            return ValueRange.of(1, newYearWeek-1);
+            return ValueRange.of(1, newYearWeek - 1);
         }
 
         //-----------------------------------------------------------------------

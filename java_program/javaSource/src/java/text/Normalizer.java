@@ -55,13 +55,13 @@ import sun.text.normalizer.NormalizerImpl;
  *
  * <pre>
  *      U+00C1    LATIN CAPITAL LETTER A WITH ACUTE</pre>
- *
+ * <p>
  * or as two separate characters (the "decomposed" form):
  *
  * <pre>
  *      U+0041    LATIN CAPITAL LETTER A
  *      U+0301    COMBINING ACUTE ACCENT</pre>
- *
+ * <p>
  * To a user of your program, however, both of these sequences should be
  * treated as the same "user-level" character "A with acute accent".  When you
  * are searching or comparing text, you must ensure that these two sequences are
@@ -76,12 +76,12 @@ import sun.text.normalizer.NormalizerImpl;
  *      U+0066    LATIN SMALL LETTER F
  *      U+0066    LATIN SMALL LETTER F
  *      U+0069    LATIN SMALL LETTER I</pre>
- *
+ * <p>
  * or as the single character
  *
  * <pre>
  *      U+FB03    LATIN SMALL LIGATURE FFI</pre>
- *
+ * <p>
  * The ffi ligature is not a distinct semantic character, and strictly speaking
  * it shouldn't be in Unicode at all, but it was included for compatibility
  * with existing character sets that already provided it.  The Unicode standard
@@ -108,7 +108,10 @@ import sun.text.normalizer.NormalizerImpl;
  */
 public final class Normalizer {
 
-   private Normalizer() {};
+    private Normalizer() {
+    }
+
+    ;
 
     /**
      * This enum provides constants of the four Unicode normalization forms
@@ -146,15 +149,16 @@ public final class Normalizer {
      * Normalize a sequence of char values.
      * The sequence will be normalized according to the specified normalization
      * from.
-     * @param src        The sequence of char values to normalize.
-     * @param form       The normalization form; one of
-     *                   {@link java.text.Normalizer.Form#NFC},
-     *                   {@link java.text.Normalizer.Form#NFD},
-     *                   {@link java.text.Normalizer.Form#NFKC},
-     *                   {@link java.text.Normalizer.Form#NFKD}
+     *
+     * @param src  The sequence of char values to normalize.
+     * @param form The normalization form; one of
+     *             {@link java.text.Normalizer.Form#NFC},
+     *             {@link java.text.Normalizer.Form#NFD},
+     *             {@link java.text.Normalizer.Form#NFKC},
+     *             {@link java.text.Normalizer.Form#NFKD}
      * @return The normalized String
      * @throws NullPointerException If <code>src</code> or <code>form</code>
-     * is null.
+     *                              is null.
      */
     public static String normalize(CharSequence src, Form form) {
         return NormalizerBase.normalize(src.toString(), form);
@@ -162,16 +166,17 @@ public final class Normalizer {
 
     /**
      * Determines if the given sequence of char values is normalized.
-     * @param src        The sequence of char values to be checked.
-     * @param form       The normalization form; one of
-     *                   {@link java.text.Normalizer.Form#NFC},
-     *                   {@link java.text.Normalizer.Form#NFD},
-     *                   {@link java.text.Normalizer.Form#NFKC},
-     *                   {@link java.text.Normalizer.Form#NFKD}
+     *
+     * @param src  The sequence of char values to be checked.
+     * @param form The normalization form; one of
+     *             {@link java.text.Normalizer.Form#NFC},
+     *             {@link java.text.Normalizer.Form#NFD},
+     *             {@link java.text.Normalizer.Form#NFKC},
+     *             {@link java.text.Normalizer.Form#NFKD}
      * @return true if the sequence of char values is normalized;
      * false otherwise.
      * @throws NullPointerException If <code>src</code> or <code>form</code>
-     * is null.
+     *                              is null.
      */
     public static boolean isNormalized(CharSequence src, Form form) {
         return NormalizerBase.isNormalized(src.toString(), form);

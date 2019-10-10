@@ -35,8 +35,9 @@ import java.security.*;
  * loader will download classes from remote locations only if a security
  * manager has been set.
  *
- * @implNote
- * <p>Applets typically run in a container that already has a security
+ * @author Roger Riggs
+ * @author Peter Jones
+ * @implNote <p>Applets typically run in a container that already has a security
  * manager, so there is generally no need for applets to set a security
  * manager. If you have a standalone application, you might need to set a
  * {@code SecurityManager} in order to enable class downloading. This can be
@@ -49,9 +50,6 @@ import java.security.*;
  *        System.setSecurityManager(new SecurityManager());
  *    }
  * }</pre>
- *
- * @author  Roger Riggs
- * @author  Peter Jones
  * @since JDK1.1
  * @deprecated Use {@link SecurityManager} instead.
  */
@@ -60,6 +58,7 @@ public class RMISecurityManager extends SecurityManager {
 
     /**
      * Constructs a new {@code RMISecurityManager}.
+     *
      * @since JDK1.1
      */
     public RMISecurityManager() {

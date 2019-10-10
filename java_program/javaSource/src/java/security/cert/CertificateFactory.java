@@ -113,13 +113,11 @@ import sun.security.jca.GetInstance.Instance;
  * @author Hemma Prafullchandra
  * @author Jan Luehe
  * @author Sean Mullan
- *
  * @see Certificate
  * @see X509Certificate
  * @see CertPath
  * @see CRL
  * @see X509CRL
- *
  * @since 1.2
  */
 
@@ -139,12 +137,11 @@ public class CertificateFactory {
      * the given provider implementation (SPI object) in it.
      *
      * @param certFacSpi the provider implementation.
-     * @param provider the provider.
-     * @param type the certificate type.
+     * @param provider   the provider.
+     * @param type       the certificate type.
      */
     protected CertificateFactory(CertificateFactorySpi certFacSpi,
-                                 Provider provider, String type)
-    {
+                                 Provider provider, String type) {
         this.certFacSpi = certFacSpi;
         this.provider = provider;
         this.type = type;
@@ -164,26 +161,23 @@ public class CertificateFactory {
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
      * @param type the name of the requested certificate type.
-     * See the CertificateFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertificateFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard certificate types.
-     *
+     *             See the CertificateFactory section in the <a href=
+     *             "{@docRoot}/../technotes/guides/security/StandardNames.html#CertificateFactory">
+     *             Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *             for information about standard certificate types.
      * @return a certificate factory object for the specified type.
-     *
-     * @exception CertificateException if no Provider supports a
-     *          CertificateFactorySpi implementation for the
-     *          specified type.
-     *
+     * @throws CertificateException if no Provider supports a
+     *                              CertificateFactorySpi implementation for the
+     *                              specified type.
      * @see java.security.Provider
      */
     public static final CertificateFactory getInstance(String type)
             throws CertificateException {
         try {
             Instance instance = GetInstance.getInstance("CertificateFactory",
-                CertificateFactorySpi.class, type);
-            return new CertificateFactory((CertificateFactorySpi)instance.impl,
-                instance.provider, type);
+                    CertificateFactorySpi.class, type);
+            return new CertificateFactory((CertificateFactorySpi) instance.impl,
+                    instance.provider, type);
         } catch (NoSuchAlgorithmException e) {
             throw new CertificateException(type + " not found", e);
         }
@@ -201,36 +195,30 @@ public class CertificateFactory {
      * <p> Note that the list of registered providers may be retrieved via
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the certificate type.
-     * See the CertificateFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertificateFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard certificate types.
-     *
+     * @param type     the certificate type.
+     *                 See the CertificateFactory section in the <a href=
+     *                 "{@docRoot}/../technotes/guides/security/StandardNames.html#CertificateFactory">
+     *                 Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                 for information about standard certificate types.
      * @param provider the name of the provider.
-     *
      * @return a certificate factory object for the specified type.
-     *
-     * @exception CertificateException if a CertificateFactorySpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
-     *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
-     *
-     * @exception IllegalArgumentException if the provider name is null
-     *          or empty.
-     *
+     * @throws CertificateException     if a CertificateFactorySpi
+     *                                  implementation for the specified algorithm is not
+     *                                  available from the specified provider.
+     * @throws NoSuchProviderException  if the specified provider is not
+     *                                  registered in the security provider list.
+     * @throws IllegalArgumentException if the provider name is null
+     *                                  or empty.
      * @see java.security.Provider
      */
     public static final CertificateFactory getInstance(String type,
-            String provider) throws CertificateException,
+                                                       String provider) throws CertificateException,
             NoSuchProviderException {
         try {
             Instance instance = GetInstance.getInstance("CertificateFactory",
-                CertificateFactorySpi.class, type, provider);
-            return new CertificateFactory((CertificateFactorySpi)instance.impl,
-                instance.provider, type);
+                    CertificateFactorySpi.class, type, provider);
+            return new CertificateFactory((CertificateFactorySpi) instance.impl,
+                    instance.provider, type);
         } catch (NoSuchAlgorithmException e) {
             throw new CertificateException(type + " not found", e);
         }
@@ -245,33 +233,28 @@ public class CertificateFactory {
      * object is returned.  Note that the specified Provider object
      * does not have to be registered in the provider list.
      *
-     * @param type the certificate type.
-     * See the CertificateFactory section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#CertificateFactory">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard certificate types.
+     * @param type     the certificate type.
+     *                 See the CertificateFactory section in the <a href=
+     *                 "{@docRoot}/../technotes/guides/security/StandardNames.html#CertificateFactory">
+     *                 Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                 for information about standard certificate types.
      * @param provider the provider.
-     *
      * @return a certificate factory object for the specified type.
-     *
-     * @exception CertificateException if a CertificateFactorySpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
-     *
-     * @exception IllegalArgumentException if the {@code provider} is
-     *          null.
-     *
+     * @throws CertificateException     if a CertificateFactorySpi
+     *                                  implementation for the specified algorithm is not available
+     *                                  from the specified Provider object.
+     * @throws IllegalArgumentException if the {@code provider} is
+     *                                  null.
      * @see java.security.Provider
-     *
      * @since 1.4
      */
     public static final CertificateFactory getInstance(String type,
-            Provider provider) throws CertificateException {
+                                                       Provider provider) throws CertificateException {
         try {
             Instance instance = GetInstance.getInstance("CertificateFactory",
-                CertificateFactorySpi.class, type, provider);
-            return new CertificateFactory((CertificateFactorySpi)instance.impl,
-                instance.provider, type);
+                    CertificateFactorySpi.class, type, provider);
+            return new CertificateFactory((CertificateFactorySpi) instance.impl,
+                    instance.provider, type);
         } catch (NoSuchAlgorithmException e) {
             throw new CertificateException(type + " not found", e);
         }
@@ -327,15 +310,12 @@ public class CertificateFactory {
      * {@code CertificateException} is thrown.
      *
      * @param inStream an input stream with the certificate data.
-     *
      * @return a certificate object initialized with the data
      * from the input stream.
-     *
-     * @exception CertificateException on parsing errors.
+     * @throws CertificateException on parsing errors.
      */
     public final Certificate generateCertificate(InputStream inStream)
-        throws CertificateException
-    {
+            throws CertificateException {
         return certFacSpi.engineGenerateCertificate(inStream);
     }
 
@@ -352,11 +332,11 @@ public class CertificateFactory {
      * {@code UnsupportedOperationException}.
      *
      * @return an {@code Iterator} over the names of the supported
-     *         {@code CertPath} encodings (as {@code String}s)
+     * {@code CertPath} encodings (as {@code String}s)
      * @since 1.4
      */
     public final Iterator<String> getCertPathEncodings() {
-        return(certFacSpi.engineGetCertPathEncodings());
+        return (certFacSpi.engineGetCertPathEncodings());
     }
 
     /**
@@ -368,14 +348,13 @@ public class CertificateFactory {
      *
      * @param inStream an {@code InputStream} containing the data
      * @return a {@code CertPath} initialized with the data from the
-     *   {@code InputStream}
-     * @exception CertificateException if an exception occurs while decoding
+     * {@code InputStream}
+     * @throws CertificateException if an exception occurs while decoding
      * @since 1.4
      */
     public final CertPath generateCertPath(InputStream inStream)
-        throws CertificateException
-    {
-        return(certFacSpi.engineGenerateCertPath(inStream));
+            throws CertificateException {
+        return (certFacSpi.engineGenerateCertPath(inStream));
     }
 
     /**
@@ -390,15 +369,14 @@ public class CertificateFactory {
      * @param inStream an {@code InputStream} containing the data
      * @param encoding the encoding used for the data
      * @return a {@code CertPath} initialized with the data from the
-     *   {@code InputStream}
-     * @exception CertificateException if an exception occurs while decoding or
-     *   the encoding requested is not supported
+     * {@code InputStream}
+     * @throws CertificateException if an exception occurs while decoding or
+     *                              the encoding requested is not supported
      * @since 1.4
      */
     public final CertPath generateCertPath(InputStream inStream,
-        String encoding) throws CertificateException
-    {
-        return(certFacSpi.engineGenerateCertPath(inStream, encoding));
+                                           String encoding) throws CertificateException {
+        return (certFacSpi.engineGenerateCertPath(inStream, encoding));
     }
 
     /**
@@ -411,15 +389,14 @@ public class CertificateFactory {
      *
      * @param certificates a {@code List} of {@code Certificate}s
      * @return a {@code CertPath} initialized with the supplied list of
-     *   certificates
-     * @exception CertificateException if an exception occurs
+     * certificates
+     * @throws CertificateException if an exception occurs
      * @since 1.4
      */
     public final CertPath
-        generateCertPath(List<? extends Certificate> certificates)
-        throws CertificateException
-    {
-        return(certFacSpi.engineGenerateCertPath(certificates));
+    generateCertPath(List<? extends Certificate> certificates)
+            throws CertificateException {
+        return (certFacSpi.engineGenerateCertPath(certificates));
     }
 
     /**
@@ -450,15 +427,13 @@ public class CertificateFactory {
      * consume the entire input stream.
      *
      * @param inStream the input stream with the certificates.
-     *
      * @return a (possibly empty) collection view of
      * java.security.cert.Certificate objects
      * initialized with the data from the input stream.
-     *
-     * @exception CertificateException on parsing errors.
+     * @throws CertificateException on parsing errors.
      */
     public final Collection<? extends Certificate> generateCertificates
-            (InputStream inStream) throws CertificateException {
+    (InputStream inStream) throws CertificateException {
         return certFacSpi.engineGenerateCertificates(inStream);
     }
 
@@ -485,15 +460,12 @@ public class CertificateFactory {
      * {@code CRLException} is thrown.
      *
      * @param inStream an input stream with the CRL data.
-     *
      * @return a CRL object initialized with the data
      * from the input stream.
-     *
-     * @exception CRLException on parsing errors.
+     * @throws CRLException on parsing errors.
      */
     public final CRL generateCRL(InputStream inStream)
-        throws CRLException
-    {
+            throws CRLException {
         return certFacSpi.engineGenerateCRL(inStream);
     }
 
@@ -523,12 +495,10 @@ public class CertificateFactory {
      * consume the entire input stream.
      *
      * @param inStream the input stream with the CRLs.
-     *
      * @return a (possibly empty) collection view of
      * java.security.cert.CRL objects initialized with the data from the input
      * stream.
-     *
-     * @exception CRLException on parsing errors.
+     * @throws CRLException on parsing errors.
      */
     public final Collection<? extends CRL> generateCRLs(InputStream inStream)
             throws CRLException {

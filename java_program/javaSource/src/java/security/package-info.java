@@ -33,7 +33,7 @@
  * including those for message digest and signature generation.  Finally,
  * this package provides classes that support signed/guarded objects
  * and secure random number generation.
- *
+ * <p>
  * Many of the classes provided in this package (the cryptographic
  * and secure random number generator classes in particular) are
  * provider-based.  The class itself defines a programming interface
@@ -60,7 +60,7 @@
  * </ul>
  *
  * <h2>Related Documentation</h2>
- *
+ * <p>
  * For further documentation, please see:
  * <ul>
  *   <li><a href=

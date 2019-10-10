@@ -39,7 +39,6 @@ import java.io.IOException;
  */
 
 public interface ByteChannel
-    extends ReadableByteChannel, WritableByteChannel
-{
+        extends ReadableByteChannel, WritableByteChannel {
 
 }

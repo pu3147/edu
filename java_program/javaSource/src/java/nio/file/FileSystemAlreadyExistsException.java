@@ -31,8 +31,7 @@ package java.nio.file;
  */
 
 public class FileSystemAlreadyExistsException
-    extends RuntimeException
-{
+        extends RuntimeException {
     static final long serialVersionUID = -5438419127181131148L;
 
     /**
@@ -44,8 +43,7 @@ public class FileSystemAlreadyExistsException
     /**
      * Constructs an instance of this class.
      *
-     * @param   msg
-     *          the detail message
+     * @param msg the detail message
      */
     public FileSystemAlreadyExistsException(String msg) {
         super(msg);

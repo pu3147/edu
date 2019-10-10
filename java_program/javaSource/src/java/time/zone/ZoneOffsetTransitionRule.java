@@ -92,9 +92,7 @@ import java.util.Objects;
  * </ul>
  * These different rule types can be expressed and queried.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class ZoneOffsetTransitionRule implements Serializable {
@@ -153,17 +151,17 @@ public final class ZoneOffsetTransitionRule implements Serializable {
      * Applications should normally obtain an instance from {@link ZoneRules}.
      * This factory is only intended for use when creating {@link ZoneRules}.
      *
-     * @param month  the month of the month-day of the first day of the cutover week, not null
-     * @param dayOfMonthIndicator  the day of the month-day of the cutover week, positive if the week is that
-     *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
-     *  from -28 to 31 excluding 0
-     * @param dayOfWeek  the required day-of-week, null if the month-day should not be changed
-     * @param time  the cutover time in the 'before' offset, not null
-     * @param timeEndOfDay  whether the time is midnight at the end of day
-     * @param timeDefnition  how to interpret the cutover
-     * @param standardOffset  the standard offset in force at the cutover, not null
-     * @param offsetBefore  the offset before the cutover, not null
-     * @param offsetAfter  the offset after the cutover, not null
+     * @param month               the month of the month-day of the first day of the cutover week, not null
+     * @param dayOfMonthIndicator the day of the month-day of the cutover week, positive if the week is that
+     *                            day or later, negative if the week is that day or earlier, counting from the last day of the month,
+     *                            from -28 to 31 excluding 0
+     * @param dayOfWeek           the required day-of-week, null if the month-day should not be changed
+     * @param time                the cutover time in the 'before' offset, not null
+     * @param timeEndOfDay        whether the time is midnight at the end of day
+     * @param timeDefnition       how to interpret the cutover
+     * @param standardOffset      the standard offset in force at the cutover, not null
+     * @param offsetBefore        the offset before the cutover, not null
+     * @param offsetAfter         the offset after the cutover, not null
      * @return the rule, not null
      * @throws IllegalArgumentException if the day of month indicator is invalid
      * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
@@ -196,17 +194,17 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     /**
      * Creates an instance defining the yearly rule to create transitions between two offsets.
      *
-     * @param month  the month of the month-day of the first day of the cutover week, not null
-     * @param dayOfMonthIndicator  the day of the month-day of the cutover week, positive if the week is that
-     *  day or later, negative if the week is that day or earlier, counting from the last day of the month,
-     *  from -28 to 31 excluding 0
-     * @param dayOfWeek  the required day-of-week, null if the month-day should not be changed
-     * @param time  the cutover time in the 'before' offset, not null
-     * @param timeEndOfDay  whether the time is midnight at the end of day
-     * @param timeDefnition  how to interpret the cutover
-     * @param standardOffset  the standard offset in force at the cutover, not null
-     * @param offsetBefore  the offset before the cutover, not null
-     * @param offsetAfter  the offset after the cutover, not null
+     * @param month               the month of the month-day of the first day of the cutover week, not null
+     * @param dayOfMonthIndicator the day of the month-day of the cutover week, positive if the week is that
+     *                            day or later, negative if the week is that day or earlier, counting from the last day of the month,
+     *                            from -28 to 31 excluding 0
+     * @param dayOfWeek           the required day-of-week, null if the month-day should not be changed
+     * @param time                the cutover time in the 'before' offset, not null
+     * @param timeEndOfDay        whether the time is midnight at the end of day
+     * @param timeDefnition       how to interpret the cutover
+     * @param standardOffset      the standard offset in force at the cutover, not null
+     * @param offsetBefore        the offset before the cutover, not null
+     * @param offsetAfter         the offset after the cutover, not null
      * @throws IllegalArgumentException if the day of month indicator is invalid
      * @throws IllegalArgumentException if the end of day flag is true when the time is not midnight
      */
@@ -232,6 +230,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Defend against malicious streams.
      *
@@ -245,8 +244,9 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     /**
      * Writes the object using a
      * <a href="../../../serialized-form.html#java.time.zone.Ser">dedicated serialized form</a>.
-     * @serialData
-     * Refer to the serialized form of
+     *
+     * @return the replacing object, not null
+     * @serialData Refer to the serialized form of
      * <a href="../../../serialized-form.html#java.time.zone.ZoneRules">ZoneRules.writeReplace</a>
      * for the encoding of epoch seconds and offsets.
      * <pre style="font-size:1.0em">{@code
@@ -284,8 +284,6 @@ public final class ZoneOffsetTransitionRule implements Serializable {
      *      }
      * }
      * </pre>
-     *
-     * @return the replacing object, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.ZOTRULE, this);
@@ -294,7 +292,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     /**
      * Writes the state to the stream.
      *
-     * @param out  the output stream, not null
+     * @param out the output stream, not null
      * @throws IOException if an error occurs
      */
     void writeExternal(DataOutput out) throws IOException {
@@ -333,7 +331,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     /**
      * Reads the state from the stream.
      *
-     * @param in  the input stream, not null
+     * @param in the input stream, not null
      * @return the created object, not null
      * @throws IOException if an error occurs
      */
@@ -356,6 +354,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the month of the transition.
      * <p>
@@ -471,12 +470,13 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Creates a transition instance for the specified year.
      * <p>
      * Calculations are performed using the ISO-8601 chronology.
      *
-     * @param year  the year to create a transition for, not null
+     * @param year the year to create a transition for, not null
      * @return the transition instance, not null
      */
     public ZoneOffsetTransition createTransition(int year) {
@@ -501,12 +501,13 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this object equals another.
      * <p>
      * The entire state of the object is compared.
      *
-     * @param otherRule  the other object to compare to, null returns false
+     * @param otherRule the other object to compare to, null returns false
      * @return true if equal
      */
     @Override
@@ -517,12 +518,12 @@ public final class ZoneOffsetTransitionRule implements Serializable {
         if (otherRule instanceof ZoneOffsetTransitionRule) {
             ZoneOffsetTransitionRule other = (ZoneOffsetTransitionRule) otherRule;
             return month == other.month && dom == other.dom && dow == other.dow &&
-                timeDefinition == other.timeDefinition &&
-                time.equals(other.time) &&
-                timeEndOfDay == other.timeEndOfDay &&
-                standardOffset.equals(other.standardOffset) &&
-                offsetBefore.equals(other.offsetBefore) &&
-                offsetAfter.equals(other.offsetAfter);
+                    timeDefinition == other.timeDefinition &&
+                    time.equals(other.time) &&
+                    timeEndOfDay == other.timeEndOfDay &&
+                    standardOffset.equals(other.standardOffset) &&
+                    offsetBefore.equals(other.offsetBefore) &&
+                    offsetAfter.equals(other.offsetAfter);
         }
         return false;
     }
@@ -542,6 +543,7 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a string describing this object.
      *
@@ -551,8 +553,8 @@ public final class ZoneOffsetTransitionRule implements Serializable {
     public String toString() {
         StringBuilder buf = new StringBuilder();
         buf.append("TransitionRule[")
-            .append(offsetBefore.compareTo(offsetAfter) > 0 ? "Gap " : "Overlap ")
-            .append(offsetBefore).append(" to ").append(offsetAfter).append(", ");
+                .append(offsetBefore.compareTo(offsetAfter) > 0 ? "Gap " : "Overlap ")
+                .append(offsetBefore).append(" to ").append(offsetAfter).append(", ");
         if (dow != null) {
             if (dom == -1) {
                 buf.append(dow.name()).append(" on or before last day of ").append(month.name());
@@ -565,13 +567,14 @@ public final class ZoneOffsetTransitionRule implements Serializable {
             buf.append(month.name()).append(' ').append(dom);
         }
         buf.append(" at ").append(timeEndOfDay ? "24:00" : time.toString())
-            .append(" ").append(timeDefinition)
-            .append(", standard offset ").append(standardOffset)
-            .append(']');
+                .append(" ").append(timeDefinition)
+                .append(", standard offset ").append(standardOffset)
+                .append(']');
         return buf.toString();
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * A definition of the way a local time can be converted to the actual
      * transition date-time.
@@ -584,11 +587,17 @@ public final class ZoneOffsetTransitionRule implements Serializable {
      * </ul>
      */
     public static enum TimeDefinition {
-        /** The local date-time is expressed in terms of the UTC offset. */
+        /**
+         * The local date-time is expressed in terms of the UTC offset.
+         */
         UTC,
-        /** The local date-time is expressed in terms of the wall offset. */
+        /**
+         * The local date-time is expressed in terms of the wall offset.
+         */
         WALL,
-        /** The local date-time is expressed in terms of the standard offset. */
+        /**
+         * The local date-time is expressed in terms of the standard offset.
+         */
         STANDARD;
 
         /**
@@ -603,9 +612,9 @@ public final class ZoneOffsetTransitionRule implements Serializable {
          * The WALL type returns the input date-time.
          * The result is intended for use with the wall-offset.
          *
-         * @param dateTime  the local date-time, not null
-         * @param standardOffset  the standard offset, not null
-         * @param wallOffset  the wall offset, not null
+         * @param dateTime       the local date-time, not null
+         * @param standardOffset the standard offset, not null
+         * @param wallOffset     the wall offset, not null
          * @return the date-time relative to the wall/before offset, not null
          */
         public LocalDateTime createDateTime(LocalDateTime dateTime, ZoneOffset standardOffset, ZoneOffset wallOffset) {

@@ -27,6 +27,7 @@ package java.lang.ref;
 
 import java.security.PrivilegedAction;
 import java.security.AccessController;
+
 import sun.misc.JavaLangAccess;
 import sun.misc.SharedSecrets;
 import sun.misc.VM;
@@ -40,8 +41,8 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
     private static final Object lock = new Object();
 
     private Finalizer
-        next = null,
-        prev = null;
+            next = null,
+            prev = null;
 
     private boolean hasBeenFinalized() {
         return (next == this);
@@ -101,7 +102,8 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
                    the chances of false retention with a conservative GC */
                 finalizee = null;
             }
-        } catch (Throwable x) { }
+        } catch (Throwable x) {
+        }
         super.clear();
     }
 
@@ -120,21 +122,23 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
      */
     private static void forkSecondaryFinalizer(final Runnable proc) {
         AccessController.doPrivileged(
-            new PrivilegedAction<Void>() {
-                public Void run() {
-                ThreadGroup tg = Thread.currentThread().getThreadGroup();
-                for (ThreadGroup tgn = tg;
-                     tgn != null;
-                     tg = tgn, tgn = tg.getParent());
-                Thread sft = new Thread(tg, proc, "Secondary finalizer");
-                sft.start();
-                try {
-                    sft.join();
-                } catch (InterruptedException x) {
-                    /* Ignore */
-                }
-                return null;
-                }});
+                new PrivilegedAction<Void>() {
+                    public Void run() {
+                        ThreadGroup tg = Thread.currentThread().getThreadGroup();
+                        for (ThreadGroup tgn = tg;
+                             tgn != null;
+                             tg = tgn, tgn = tg.getParent())
+                            ;
+                        Thread sft = new Thread(tg, proc, "Secondary finalizer");
+                        sft.start();
+                        try {
+                            sft.join();
+                        } catch (InterruptedException x) {
+                            /* Ignore */
+                        }
+                        return null;
+                    }
+                });
     }
 
     /* Called by Runtime.runFinalization() */
@@ -145,13 +149,14 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
 
         forkSecondaryFinalizer(new Runnable() {
             private volatile boolean running;
+
             public void run() {
                 if (running)
                     return;
                 final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
                 running = true;
-                for (;;) {
-                    Finalizer f = (Finalizer)queue.poll();
+                for (; ; ) {
+                    Finalizer f = (Finalizer) queue.poll();
                     if (f == null) break;
                     f.runFinalizer(jla);
                 }
@@ -167,12 +172,13 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
 
         forkSecondaryFinalizer(new Runnable() {
             private volatile boolean running;
+
             public void run() {
                 if (running)
                     return;
                 final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
                 running = true;
-                for (;;) {
+                for (; ; ) {
                     Finalizer f;
                     synchronized (lock) {
                         f = unfinalized;
@@ -180,14 +186,18 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
                         unfinalized = f.next;
                     }
                     f.runFinalizer(jla);
-                }}});
+                }
+            }
+        });
     }
 
     private static class FinalizerThread extends Thread {
         private volatile boolean running;
+
         FinalizerThread(ThreadGroup g) {
             super(g, "Finalizer");
         }
+
         public void run() {
             if (running)
                 return;
@@ -204,9 +214,9 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
             }
             final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
             running = true;
-            for (;;) {
+            for (; ; ) {
                 try {
-                    Finalizer f = (Finalizer)queue.remove();
+                    Finalizer f = (Finalizer) queue.remove();
                     f.runFinalizer(jla);
                 } catch (InterruptedException x) {
                     // ignore and continue
@@ -219,7 +229,8 @@ final class Finalizer extends FinalReference<Object> { /* Package-private; must 
         ThreadGroup tg = Thread.currentThread().getThreadGroup();
         for (ThreadGroup tgn = tg;
              tgn != null;
-             tg = tgn, tgn = tg.getParent());
+             tg = tgn, tgn = tg.getParent())
+            ;
         Thread finalizer = new FinalizerThread(tg);
         finalizer.setPriority(Thread.MAX_PRIORITY - 2);
         finalizer.setDaemon(true);

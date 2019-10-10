@@ -41,26 +41,27 @@ import java.util.function.IntFunction;
  */
 final class DistinctOps {
 
-    private DistinctOps() { }
+    private DistinctOps() {
+    }
 
     /**
      * Appends a "distinct" operation to the provided stream, and returns the
      * new stream.
      *
-     * @param <T> the type of both input and output elements
+     * @param <T>      the type of both input and output elements
      * @param upstream a reference stream with element type T
      * @return the new stream
      */
     static <T> ReferencePipeline<T, T> makeRef(AbstractPipeline<?, T, ?> upstream) {
         return new ReferencePipeline.StatefulOp<T, T>(upstream, StreamShape.REFERENCE,
-                                                      StreamOpFlag.IS_DISTINCT | StreamOpFlag.NOT_SIZED) {
+                StreamOpFlag.IS_DISTINCT | StreamOpFlag.NOT_SIZED) {
 
             <P_IN> Node<T> reduce(PipelineHelper<T> helper, Spliterator<P_IN> spliterator) {
                 // If the stream is SORTED then it should also be ORDERED so the following will also
                 // preserve the sort order
                 TerminalOp<T, LinkedHashSet<T>> reduceOp
                         = ReduceOps.<T, LinkedHashSet<T>>makeRef(LinkedHashSet::new, LinkedHashSet::add,
-                                                                 LinkedHashSet::addAll);
+                        LinkedHashSet::addAll);
                 return Nodes.node(reduceOp.evaluateParallel(helper, spliterator));
             }
 
@@ -71,11 +72,9 @@ final class DistinctOps {
                 if (StreamOpFlag.DISTINCT.isKnown(helper.getStreamAndOpFlags())) {
                     // No-op
                     return helper.evaluate(spliterator, false, generator);
-                }
-                else if (StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
+                } else if (StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
                     return reduce(helper, spliterator);
-                }
-                else {
+                } else {
                     // Holder of null state since ConcurrentHashMap does not support null values
                     AtomicBoolean seenNull = new AtomicBoolean(false);
                     ConcurrentHashMap<T, Boolean> map = new ConcurrentHashMap<>();
@@ -104,12 +103,10 @@ final class DistinctOps {
                 if (StreamOpFlag.DISTINCT.isKnown(helper.getStreamAndOpFlags())) {
                     // No-op
                     return helper.wrapSpliterator(spliterator);
-                }
-                else if (StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
+                } else if (StreamOpFlag.ORDERED.isKnown(helper.getStreamAndOpFlags())) {
                     // Not lazy, barrier required to preserve order
                     return reduce(helper, spliterator).spliterator();
-                }
-                else {
+                } else {
                     // Lazy
                     return new StreamSpliterators.DistinctSpliterator<>(helper.wrapSpliterator(spliterator));
                 }

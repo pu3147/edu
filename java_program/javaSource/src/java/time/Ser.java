@@ -66,8 +66,7 @@ import java.io.StreamCorruptedException;
 /**
  * The shared serialization delegate for this package.
  *
- * @implNote
- * This class wraps the object being serialized, and takes a byte representing the type of the class to
+ * @implNote This class wraps the object being serialized, and takes a byte representing the type of the class to
  * be serialized.  This byte can also be used for versioning the serialization format.  In this case another
  * byte flag would be used in order to specify an alternative version of the type format.
  * For example {@code LOCAL_DATE_TYPE_VERSION_2 = 21}.
@@ -82,7 +81,6 @@ import java.io.StreamCorruptedException;
  * {@link LocalDateTime} are serialized as one object.
  * <p>
  * This class is mutable and should be created once per serialization.
- *
  * @serial include
  * @since 1.8
  */
@@ -108,9 +106,13 @@ final class Ser implements Externalizable {
     static final byte MONTH_DAY_TYPE = 13;
     static final byte PERIOD_TYPE = 14;
 
-    /** The type being serialized. */
+    /**
+     * The type being serialized.
+     */
     private byte type;
-    /** The object being serialized. */
+    /**
+     * The object being serialized.
+     */
     private Object object;
 
     /**
@@ -122,8 +124,8 @@ final class Ser implements Externalizable {
     /**
      * Creates an instance for serialization.
      *
-     * @param type  the type
-     * @param object  the object
+     * @param type   the type
+     * @param object the object
      */
     Ser(byte type, Object object) {
         this.type = type;
@@ -131,11 +133,12 @@ final class Ser implements Externalizable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
      *
-     * Each serializable class is mapped to a type that is the first byte
+     * @param out the data stream to write to, not null
+     * @serialData Each serializable class is mapped to a type that is the first byte
      * in the stream.  Refer to each class {@code writeReplace}
      * serialized form for the value of the type and sequence of values for the type.
      * <ul>
@@ -154,8 +157,6 @@ final class Ser implements Externalizable {
      * <li><a href="../../serialized-form.html#java.time.ZoneOffset">ZoneOffset.writeReplace</a>
      * <li><a href="../../serialized-form.html#java.time.ZonedDateTime">ZonedDateTime.writeReplace</a>
      * </ul>
-     *
-     * @param out  the data stream to write to, not null
      */
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -213,11 +214,12 @@ final class Ser implements Externalizable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
      *
-     * The streamed type and parameters defined by the type's {@code writeReplace}
+     * @param in the data to read, not null
+     * @serialData The streamed type and parameters defined by the type's {@code writeReplace}
      * method are read and passed to the corresponding static factory for the type
      * to create a new instance.  That instance is returned as the de-serialized
      * {@code Ser} object.
@@ -238,8 +240,6 @@ final class Ser implements Externalizable {
      * <li><a href="../../serialized-form.html#java.time.ZoneId">ZoneId</a> - {@code ZoneId.of(id);}
      * <li><a href="../../serialized-form.html#java.time.ZoneOffset">ZoneOffset</a> - {@code (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));}
      * </ul>
-     *
-     * @param in  the data to read, not null
      */
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         type = in.readByte();
@@ -253,20 +253,34 @@ final class Ser implements Externalizable {
 
     private static Object readInternal(byte type, ObjectInput in) throws IOException, ClassNotFoundException {
         switch (type) {
-            case DURATION_TYPE: return Duration.readExternal(in);
-            case INSTANT_TYPE: return Instant.readExternal(in);
-            case LOCAL_DATE_TYPE: return LocalDate.readExternal(in);
-            case LOCAL_DATE_TIME_TYPE: return LocalDateTime.readExternal(in);
-            case LOCAL_TIME_TYPE: return LocalTime.readExternal(in);
-            case ZONE_DATE_TIME_TYPE: return ZonedDateTime.readExternal(in);
-            case ZONE_OFFSET_TYPE: return ZoneOffset.readExternal(in);
-            case ZONE_REGION_TYPE: return ZoneRegion.readExternal(in);
-            case OFFSET_TIME_TYPE: return OffsetTime.readExternal(in);
-            case OFFSET_DATE_TIME_TYPE: return OffsetDateTime.readExternal(in);
-            case YEAR_TYPE: return Year.readExternal(in);
-            case YEAR_MONTH_TYPE: return YearMonth.readExternal(in);
-            case MONTH_DAY_TYPE: return MonthDay.readExternal(in);
-            case PERIOD_TYPE: return Period.readExternal(in);
+            case DURATION_TYPE:
+                return Duration.readExternal(in);
+            case INSTANT_TYPE:
+                return Instant.readExternal(in);
+            case LOCAL_DATE_TYPE:
+                return LocalDate.readExternal(in);
+            case LOCAL_DATE_TIME_TYPE:
+                return LocalDateTime.readExternal(in);
+            case LOCAL_TIME_TYPE:
+                return LocalTime.readExternal(in);
+            case ZONE_DATE_TIME_TYPE:
+                return ZonedDateTime.readExternal(in);
+            case ZONE_OFFSET_TYPE:
+                return ZoneOffset.readExternal(in);
+            case ZONE_REGION_TYPE:
+                return ZoneRegion.readExternal(in);
+            case OFFSET_TIME_TYPE:
+                return OffsetTime.readExternal(in);
+            case OFFSET_DATE_TIME_TYPE:
+                return OffsetDateTime.readExternal(in);
+            case YEAR_TYPE:
+                return Year.readExternal(in);
+            case YEAR_MONTH_TYPE:
+                return YearMonth.readExternal(in);
+            case MONTH_DAY_TYPE:
+                return MonthDay.readExternal(in);
+            case PERIOD_TYPE:
+                return Period.readExternal(in);
             default:
                 throw new StreamCorruptedException("Unknown serialized type");
         }
@@ -278,7 +292,7 @@ final class Ser implements Externalizable {
      * @return the read object, should never be null
      */
     private Object readResolve() {
-         return object;
+        return object;
     }
 
 }

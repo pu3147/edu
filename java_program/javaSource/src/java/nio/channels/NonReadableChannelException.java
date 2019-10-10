@@ -38,14 +38,14 @@ package java.nio.channels;
  */
 
 public class NonReadableChannelException
-    extends IllegalStateException
-{
+        extends IllegalStateException {
 
     private static final long serialVersionUID = -3200915679294993514L;
 
     /**
      * Constructs an instance of this class.
      */
-    public NonReadableChannelException() { }
+    public NonReadableChannelException() {
+    }
 
 }

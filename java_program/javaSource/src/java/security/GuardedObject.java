@@ -39,11 +39,10 @@ package java.security;
  * guarding access. If access is not allowed,
  * an exception is thrown.
  *
- * @see Guard
- * @see Permission
- *
  * @author Roland Schemers
  * @author Li Gong
+ * @see Guard
+ * @see Permission
  */
 
 public class GuardedObject implements java.io.Serializable {
@@ -59,12 +58,10 @@ public class GuardedObject implements java.io.Serializable {
      * be placed on who can access the object.
      *
      * @param object the object to be guarded.
-     *
-     * @param guard the Guard object that guards access to the object.
+     * @param guard  the Guard object that guards access to the object.
      */
 
-    public GuardedObject(Object object, Guard guard)
-    {
+    public GuardedObject(Object object, Guard guard) {
         this.guard = guard;
         this.object = object;
     }
@@ -74,13 +71,11 @@ public class GuardedObject implements java.io.Serializable {
      * to the guarded object is denied by the guard.
      *
      * @return the guarded object.
-     *
-     * @exception SecurityException if access to the guarded object is
-     * denied.
+     * @throws SecurityException if access to the guarded object is
+     *                           denied.
      */
     public Object getObject()
-        throws SecurityException
-    {
+            throws SecurityException {
         if (guard != null)
             guard.checkGuard(object);
 
@@ -92,8 +87,7 @@ public class GuardedObject implements java.io.Serializable {
      * We check the guard if there is one.
      */
     private void writeObject(java.io.ObjectOutputStream oos)
-        throws java.io.IOException
-    {
+            throws java.io.IOException {
         if (guard != null)
             guard.checkGuard(object);
 

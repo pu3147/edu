@@ -51,6 +51,7 @@ import java.util.logging.Logger;
  * A JDBC driver may create a {@linkplain DriverAction} implementation in order
  * to receive notifications when {@linkplain DriverManager#deregisterDriver} has
  * been called.
+ *
  * @see DriverManager
  * @see Connection
  * @see DriverAction
@@ -78,17 +79,17 @@ public interface Driver {
      * implementation-defined as to which value will take precedence. For
      * maximum portability, an application should only specify a property once.
      *
-     * @param url the URL of the database to which to connect
+     * @param url  the URL of the database to which to connect
      * @param info a list of arbitrary string tag/value pairs as
-     * connection arguments. Normally at least a "user" and
-     * "password" property should be included.
+     *             connection arguments. Normally at least a "user" and
+     *             "password" property should be included.
      * @return a <code>Connection</code> object that represents a
-     *         connection to the URL
-     * @exception SQLException if a database access error occurs or the url is
-     * {@code null}
+     * connection to the URL
+     * @throws SQLException if a database access error occurs or the url is
+     *                      {@code null}
      */
     Connection connect(String url, java.util.Properties info)
-        throws SQLException;
+            throws SQLException;
 
     /**
      * Retrieves whether the driver thinks that it can open a connection
@@ -98,16 +99,16 @@ public interface Driver {
      *
      * @param url the URL of the database
      * @return <code>true</code> if this driver understands the given URL;
-     *         <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs or the url is
-     * {@code null}
+     * <code>false</code> otherwise
+     * @throws SQLException if a database access error occurs or the url is
+     *                      {@code null}
      */
     boolean acceptsURL(String url) throws SQLException;
 
 
     /**
      * Gets information about the possible properties for this driver.
-     * <P>
+     * <p>
      * The <code>getPropertyInfo</code> method is intended to allow a generic
      * GUI tool to discover what properties it should prompt
      * a human for in order to get
@@ -116,16 +117,16 @@ public interface Driver {
      * necessary, so it may be necessary to iterate though several calls
      * to the <code>getPropertyInfo</code> method.
      *
-     * @param url the URL of the database to which to connect
+     * @param url  the URL of the database to which to connect
      * @param info a proposed list of tag/value pairs that will be sent on
-     *          connect open
+     *             connect open
      * @return an array of <code>DriverPropertyInfo</code> objects describing
-     *          possible properties.  This array may be an empty array if
-     *          no properties are required.
-     * @exception SQLException if a database access error occurs
+     * possible properties.  This array may be an empty array if
+     * no properties are required.
+     * @throws SQLException if a database access error occurs
      */
     DriverPropertyInfo[] getPropertyInfo(String url, java.util.Properties info)
-                         throws SQLException;
+            throws SQLException;
 
 
     /**
@@ -137,6 +138,7 @@ public interface Driver {
 
     /**
      * Gets the driver's minor version number. Initially this should be 0.
+     *
      * @return this driver's minor version number
      */
     int getMinorVersion();
@@ -147,19 +149,20 @@ public interface Driver {
      * Compliant&trade; driver.
      * A driver may only report <code>true</code> here if it passes the JDBC
      * compliance tests; otherwise it is required to return <code>false</code>.
-     * <P>
+     * <p>
      * JDBC compliance requires full support for the JDBC API and full support
      * for SQL 92 Entry Level.  It is expected that JDBC compliant drivers will
      * be available for all the major commercial databases.
-     * <P>
+     * <p>
      * This method is not intended to encourage the development of non-JDBC
      * compliant drivers, but is a recognition of the fact that some vendors
      * are interested in using the JDBC API and framework for lightweight
      * databases that do not support full database functionality, or for
      * special databases such as document information retrieval where a SQL
      * implementation may not be feasible.
+     *
      * @return <code>true</code> if this driver is JDBC Compliant; <code>false</code>
-     *         otherwise
+     * otherwise
      */
     boolean jdbcCompliant();
 
@@ -174,7 +177,7 @@ public interface Driver {
      *
      * @return the parent Logger for this driver
      * @throws SQLFeatureNotSupportedException if the driver does not use
-     * {@code java.util.logging}.
+     *                                         {@code java.util.logging}.
      * @since 1.7
      */
     public Logger getParentLogger() throws SQLFeatureNotSupportedException;

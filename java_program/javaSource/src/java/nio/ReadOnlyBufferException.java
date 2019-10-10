@@ -38,14 +38,14 @@ package java.nio;
  */
 
 public class ReadOnlyBufferException
-    extends UnsupportedOperationException
-{
+        extends UnsupportedOperationException {
 
     private static final long serialVersionUID = -1210063976496234090L;
 
     /**
      * Constructs an instance of this class.
      */
-    public ReadOnlyBufferException() { }
+    public ReadOnlyBufferException() {
+    }
 
 }

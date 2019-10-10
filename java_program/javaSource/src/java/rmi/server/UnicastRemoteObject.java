@@ -25,6 +25,7 @@
 package java.rmi.server;
 
 import java.rmi.*;
+
 import sun.rmi.server.UnicastServerRef;
 import sun.rmi.server.UnicastServerRef2;
 
@@ -130,8 +131,9 @@ import sun.rmi.server.UnicastServerRef2;
  *
  * </ul>
  *
- * @implNote
- * Depending upon which constructor or static method is used for exporting an
+ * @author Ann Wollrath
+ * @author Peter Jones
+ * @implNote Depending upon which constructor or static method is used for exporting an
  * object, {@link RMISocketFactory} may be used for creating sockets.
  * By default, server sockets created by {@link RMISocketFactory}
  * listen on all network interfaces. See the
@@ -139,10 +141,7 @@ import sun.rmi.server.UnicastServerRef2;
  * <a href="{@docRoot}/../platform/rmi/spec/rmi-server29.html">RMI Socket Factories</a>
  * in the
  * <a href="{@docRoot}/../platform/rmi/spec/rmiTOC.html">Java RMI Specification</a>.
- *
- * @author  Ann Wollrath
- * @author  Peter Jones
- * @since   JDK1.1
+ * @since JDK1.1
  **/
 public class UnicastRemoteObject extends RemoteServer {
 
@@ -175,8 +174,7 @@ public class UnicastRemoteObject extends RemoteServer {
      * @throws RemoteException if failed to export object
      * @since JDK1.1
      */
-    protected UnicastRemoteObject() throws RemoteException
-    {
+    protected UnicastRemoteObject() throws RemoteException {
         this(0);
     }
 
@@ -188,12 +186,11 @@ public class UnicastRemoteObject extends RemoteServer {
      * created using the {@link RMISocketFactory} class.
      *
      * @param port the port number on which the remote object receives calls
-     * (if <code>port</code> is zero, an anonymous port is chosen)
+     *             (if <code>port</code> is zero, an anonymous port is chosen)
      * @throws RemoteException if failed to export object
      * @since 1.2
      */
-    protected UnicastRemoteObject(int port) throws RemoteException
-    {
+    protected UnicastRemoteObject(int port) throws RemoteException {
         this.port = port;
         exportObject((Remote) this, port);
     }
@@ -207,18 +204,17 @@ public class UnicastRemoteObject extends RemoteServer {
      * {@link RMISocketFactory} is used instead.
      *
      * @param port the port number on which the remote object receives calls
-     * (if <code>port</code> is zero, an anonymous port is chosen)
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
+     *             (if <code>port</code> is zero, an anonymous port is chosen)
+     * @param csf  the client-side socket factory for making calls to the
+     *             remote object
+     * @param ssf  the server-side socket factory for receiving remote calls
      * @throws RemoteException if failed to export object
      * @since 1.2
      */
     protected UnicastRemoteObject(int port,
                                   RMIClientSocketFactory csf,
                                   RMIServerSocketFactory ssf)
-        throws RemoteException
-    {
+            throws RemoteException {
         this.port = port;
         this.csf = csf;
         this.ssf = ssf;
@@ -229,8 +225,7 @@ public class UnicastRemoteObject extends RemoteServer {
      * Re-export the remote object when it is deserialized.
      */
     private void readObject(java.io.ObjectInputStream in)
-        throws java.io.IOException, java.lang.ClassNotFoundException
-    {
+            throws java.io.IOException, java.lang.ClassNotFoundException {
         in.defaultReadObject();
         reexport();
     }
@@ -239,13 +234,12 @@ public class UnicastRemoteObject extends RemoteServer {
      * Returns a clone of the remote object that is distinct from
      * the original.
      *
-     * @exception CloneNotSupportedException if clone failed due to
-     * a RemoteException.
      * @return the new remote object
+     * @throws CloneNotSupportedException if clone failed due to
+     *                                    a RemoteException.
      * @since JDK1.1
      */
-    public Object clone() throws CloneNotSupportedException
-    {
+    public Object clone() throws CloneNotSupportedException {
         try {
             UnicastRemoteObject cloned = (UnicastRemoteObject) super.clone();
             cloned.reexport();
@@ -260,8 +254,7 @@ public class UnicastRemoteObject extends RemoteServer {
      * its creation bypassed running its constructors (via deserialization
      * or cloning, for example).
      */
-    private void reexport() throws RemoteException
-    {
+    private void reexport() throws RemoteException {
         if (csf == null && ssf == null) {
             exportObject((Remote) this, port);
         } else {
@@ -279,7 +272,7 @@ public class UnicastRemoteObject extends RemoteServer {
      *
      * @param obj the remote object to be exported
      * @return remote object stub
-     * @exception RemoteException if export fails
+     * @throws RemoteException if export fails
      * @since JDK1.1
      * @deprecated This method is deprecated because it supports only static stubs.
      * Use {@link #exportObject(Remote, int) exportObject(Remote, port)} or
@@ -289,8 +282,7 @@ public class UnicastRemoteObject extends RemoteServer {
      */
     @Deprecated
     public static RemoteStub exportObject(Remote obj)
-        throws RemoteException
-    {
+            throws RemoteException {
         /*
          * Use UnicastServerRef constructor passing the boolean value true
          * to indicate that only a generated stub class should be used.  A
@@ -308,15 +300,14 @@ public class UnicastRemoteObject extends RemoteServer {
      * <p>The object is exported with a server socket
      * created using the {@link RMISocketFactory} class.
      *
-     * @param obj the remote object to be exported
+     * @param obj  the remote object to be exported
      * @param port the port to export the object on
      * @return remote object stub
-     * @exception RemoteException if export fails
+     * @throws RemoteException if export fails
      * @since 1.2
      */
     public static Remote exportObject(Remote obj, int port)
-        throws RemoteException
-    {
+            throws RemoteException {
         return exportObject(obj, new UnicastServerRef(port));
     }
 
@@ -328,20 +319,19 @@ public class UnicastRemoteObject extends RemoteServer {
      * the corresponding client or server socket creation method of
      * {@link RMISocketFactory} is used instead.
      *
-     * @param obj the remote object to be exported
+     * @param obj  the remote object to be exported
      * @param port the port to export the object on
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
+     * @param csf  the client-side socket factory for making calls to the
+     *             remote object
+     * @param ssf  the server-side socket factory for receiving remote calls
      * @return remote object stub
-     * @exception RemoteException if export fails
+     * @throws RemoteException if export fails
      * @since 1.2
      */
     public static Remote exportObject(Remote obj, int port,
                                       RMIClientSocketFactory csf,
                                       RMIServerSocketFactory ssf)
-        throws RemoteException
-    {
+            throws RemoteException {
 
         return exportObject(obj, new UnicastServerRef2(port, csf, ssf));
     }
@@ -355,18 +345,17 @@ public class UnicastRemoteObject extends RemoteServer {
      * parameter is false, the object is only unexported if there are
      * no pending or in progress calls to the object.
      *
-     * @param obj the remote object to be unexported
+     * @param obj   the remote object to be unexported
      * @param force if true, unexports the object even if there are
-     * pending or in-progress calls; if false, only unexports the object
-     * if there are no pending or in-progress calls
+     *              pending or in-progress calls; if false, only unexports the object
+     *              if there are no pending or in-progress calls
      * @return true if operation is successful, false otherwise
-     * @exception NoSuchObjectException if the remote object is not
-     * currently exported
+     * @throws NoSuchObjectException if the remote object is not
+     *                               currently exported
      * @since 1.2
      */
     public static boolean unexportObject(Remote obj, boolean force)
-        throws java.rmi.NoSuchObjectException
-    {
+            throws java.rmi.NoSuchObjectException {
         return sun.rmi.transport.ObjectTable.unexportObject(obj, force);
     }
 
@@ -374,8 +363,7 @@ public class UnicastRemoteObject extends RemoteServer {
      * Exports the specified object using the specified server ref.
      */
     private static Remote exportObject(Remote obj, UnicastServerRef sref)
-        throws RemoteException
-    {
+            throws RemoteException {
         // if obj extends UnicastRemoteObject, set its ref.
         if (obj instanceof UnicastRemoteObject) {
             ((UnicastRemoteObject) obj).ref = sref;

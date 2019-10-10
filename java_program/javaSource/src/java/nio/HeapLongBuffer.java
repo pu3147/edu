@@ -29,19 +29,11 @@ package java.nio;
 
 
 /**
-
  * A read/write HeapLongBuffer.
-
-
-
-
-
-
  */
 
 class HeapLongBuffer
-    extends LongBuffer
-{
+        extends LongBuffer {
 
     // For speed these fields are actually declared in X-Buffer;
     // these declarations are here as documentation
@@ -61,8 +53,6 @@ class HeapLongBuffer
         */
 
 
-
-
     }
 
     HeapLongBuffer(long[] buf, int off, int len) { // package-private
@@ -74,14 +64,11 @@ class HeapLongBuffer
         */
 
 
-
-
     }
 
     protected HeapLongBuffer(long[] buf,
-                                   int mark, int pos, int lim, int cap,
-                                   int off)
-    {
+                             int mark, int pos, int lim, int cap,
+                             int off) {
 
         super(mark, pos, lim, cap, buf, off);
         /*
@@ -90,41 +77,37 @@ class HeapLongBuffer
         */
 
 
-
-
     }
 
     public LongBuffer slice() {
         return new HeapLongBuffer(hb,
-                                        -1,
-                                        0,
-                                        this.remaining(),
-                                        this.remaining(),
-                                        this.position() + offset);
+                -1,
+                0,
+                this.remaining(),
+                this.remaining(),
+                this.position() + offset);
     }
 
     public LongBuffer duplicate() {
         return new HeapLongBuffer(hb,
-                                        this.markValue(),
-                                        this.position(),
-                                        this.limit(),
-                                        this.capacity(),
-                                        offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public LongBuffer asReadOnlyBuffer() {
 
         return new HeapLongBufferR(hb,
-                                     this.markValue(),
-                                     this.position(),
-                                     this.limit(),
-                                     this.capacity(),
-                                     offset);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
 
 
     }
-
 
 
     protected int ix(int i) {
@@ -138,11 +121,6 @@ class HeapLongBuffer
     public long get(int i) {
         return hb[ix(checkIndex(i))];
     }
-
-
-
-
-
 
 
     public LongBuffer get(long[] dst, int offset, int length) {
@@ -159,7 +137,6 @@ class HeapLongBuffer
     }
 
 
-
     public boolean isReadOnly() {
         return false;
     }
@@ -170,14 +147,12 @@ class HeapLongBuffer
         return this;
 
 
-
     }
 
     public LongBuffer put(int i, long x) {
 
         hb[ix(checkIndex(i))] = x;
         return this;
-
 
 
     }
@@ -192,7 +167,6 @@ class HeapLongBuffer
         return this;
 
 
-
     }
 
     public LongBuffer put(LongBuffer src) {
@@ -200,12 +174,12 @@ class HeapLongBuffer
         if (src instanceof HeapLongBuffer) {
             if (src == this)
                 throw new IllegalArgumentException();
-            HeapLongBuffer sb = (HeapLongBuffer)src;
+            HeapLongBuffer sb = (HeapLongBuffer) src;
             int n = sb.remaining();
             if (n > remaining())
                 throw new BufferOverflowException();
             System.arraycopy(sb.hb, sb.ix(sb.position()),
-                             hb, ix(position()), n);
+                    hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
@@ -220,7 +194,6 @@ class HeapLongBuffer
         return this;
 
 
-
     }
 
     public LongBuffer compact() {
@@ -232,370 +205,12 @@ class HeapLongBuffer
         return this;
 
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }
-
 
 
 }

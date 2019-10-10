@@ -34,6 +34,7 @@
  */
 
 package java.util.concurrent;
+
 import java.util.Collection;
 import java.util.Set;
 import java.util.AbstractSet;
@@ -88,10 +89,10 @@ import java.util.function.Consumer;
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
  * Java Collections Framework</a>.
  *
+ * @param <E> the type of elements held in this collection
+ * @author Doug Lea
  * @see CopyOnWriteArrayList
  * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
  */
 public class CopyOnWriteArraySet<E> extends AbstractSet<E>
         implements java.io.Serializable {
@@ -116,10 +117,9 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
     public CopyOnWriteArraySet(Collection<? extends E> c) {
         if (c.getClass() == CopyOnWriteArraySet.class) {
             @SuppressWarnings("unchecked") CopyOnWriteArraySet<E> cc =
-                (CopyOnWriteArraySet<E>)c;
+                    (CopyOnWriteArraySet<E>) c;
             al = new CopyOnWriteArrayList<E>(cc.al);
-        }
-        else {
+        } else {
             al = new CopyOnWriteArrayList<E>();
             al.addAllAbsent(c);
         }
@@ -203,18 +203,18 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * The following code can be used to dump the set into a newly allocated
      * array of {@code String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
-     *
+     * <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     * <p>
      * Note that {@code toArray(new Object[0])} is identical in function to
      * {@code toArray()}.
      *
      * @param a the array into which the elements of this set are to be
-     *        stored, if it is big enough; otherwise, a new array of the same
-     *        runtime type is allocated for this purpose.
+     *          stored, if it is big enough; otherwise, a new array of the same
+     *          runtime type is allocated for this purpose.
      * @return an array containing all the elements in this set
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in this
-     *         set
+     * @throws ArrayStoreException  if the runtime type of the specified array
+     *                              is not a supertype of the runtime type of every element in this
+     *                              set
      * @throws NullPointerException if the specified array is null
      */
     public <T> T[] toArray(T[] a) {
@@ -255,7 +255,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      *
      * @param e element to be added to this set
      * @return {@code true} if this set did not already contain the specified
-     *         element
+     * element
      */
     public boolean add(E e) {
         return al.addIfAbsent(e);
@@ -266,9 +266,9 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * specified collection.  If the specified collection is also a set, this
      * method returns {@code true} if it is a <i>subset</i> of this set.
      *
-     * @param  c collection to be checked for containment in this set
+     * @param c collection to be checked for containment in this set
      * @return {@code true} if this set contains all of the elements of the
-     *         specified collection
+     * specified collection
      * @throws NullPointerException if the specified collection is null
      * @see #contains(Object)
      */
@@ -284,7 +284,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * this operation is undefined if the specified collection is modified
      * while the operation is in progress.
      *
-     * @param  c collection containing elements to be added to this set
+     * @param c collection containing elements to be added to this set
      * @return {@code true} if this set changed as a result of the call
      * @throws NullPointerException if the specified collection is null
      * @see #add(Object)
@@ -299,13 +299,13 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * this operation effectively modifies this set so that its value is the
      * <i>asymmetric set difference</i> of the two sets.
      *
-     * @param  c collection containing elements to be removed from this set
+     * @param c collection containing elements to be removed from this set
      * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection (optional)
+     * @throws ClassCastException   if the class of an element of this set
+     *                              is incompatible with the specified collection (optional)
      * @throws NullPointerException if this set contains a null element and the
-     *         specified collection does not permit null elements (optional),
-     *         or if the specified collection is null
+     *                              specified collection does not permit null elements (optional),
+     *                              or if the specified collection is null
      * @see #remove(Object)
      */
     public boolean removeAll(Collection<?> c) {
@@ -320,13 +320,13 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      * modifies this set so that its value is the <i>intersection</i> of the
      * two sets.
      *
-     * @param  c collection containing elements to be retained in this set
+     * @param c collection containing elements to be retained in this set
      * @return {@code true} if this set changed as a result of the call
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection (optional)
+     * @throws ClassCastException   if the class of an element of this set
+     *                              is incompatible with the specified collection (optional)
      * @throws NullPointerException if this set contains a null element and the
-     *         specified collection does not permit null elements (optional),
-     *         or if the specified collection is null
+     *                              specified collection does not permit null elements (optional),
+     *                              or if the specified collection is null
      * @see #remove(Object)
      */
     public boolean retainAll(Collection<?> c) {
@@ -369,7 +369,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
             return true;
         if (!(o instanceof Set))
             return false;
-        Set<?> set = (Set<?>)(o);
+        Set<?> set = (Set<?>) (o);
         Iterator<?> it = set.iterator();
 
         // Uses O(n^2) algorithm that is only appropriate
@@ -381,7 +381,8 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
         // Mark matched elements to avoid re-checking
         boolean[] matched = new boolean[len];
         int k = 0;
-        outer: while (it.hasNext()) {
+        outer:
+        while (it.hasNext()) {
             if (++k > len)
                 return false;
             Object x = it.next();
@@ -421,7 +422,7 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
      */
     public Spliterator<E> spliterator() {
         return Spliterators.spliterator
-            (al.getArray(), Spliterator.IMMUTABLE | Spliterator.DISTINCT);
+                (al.getArray(), Spliterator.IMMUTABLE | Spliterator.DISTINCT);
     }
 
     /**

@@ -68,8 +68,7 @@ import java.time.LocalDateTime;
 /**
  * The shared serialization delegate for this package.
  *
- * @implNote
- * This class wraps the object being serialized, and takes a byte representing the type of the class to
+ * @implNote This class wraps the object being serialized, and takes a byte representing the type of the class to
  * be serialized.  This byte can also be used for versioning the serialization format.  In this case another
  * byte flag would be used in order to specify an alternative version of the type format.
  * For example {@code CHRONO_TYPE_VERSION_2 = 21}
@@ -85,7 +84,6 @@ import java.time.LocalDateTime;
  * element.
  * <p>
  * This class is mutable and should be created once per serialization.
- *
  * @serial include
  * @since 1.8
  */
@@ -106,9 +104,13 @@ final class Ser implements Externalizable {
     static final byte THAIBUDDHIST_DATE_TYPE = 8;
     static final byte CHRONO_PERIOD_TYPE = 9;
 
-    /** The type being serialized. */
+    /**
+     * The type being serialized.
+     */
     private byte type;
-    /** The object being serialized. */
+    /**
+     * The object being serialized.
+     */
     private Object object;
 
     /**
@@ -120,8 +122,8 @@ final class Ser implements Externalizable {
     /**
      * Creates an instance for serialization.
      *
-     * @param type  the type
-     * @param object  the object
+     * @param type   the type
+     * @param object the object
      */
     Ser(byte type, Object object) {
         this.type = type;
@@ -129,10 +131,12 @@ final class Ser implements Externalizable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
-     * Each serializable class is mapped to a type that is the first byte
+     *
+     * @param out the data stream to write to, not null
+     * @serialData Each serializable class is mapped to a type that is the first byte
      * in the stream.  Refer to each class {@code writeReplace}
      * serialized form for the value of the type and sequence of values for the type.
      * <ul>
@@ -149,8 +153,6 @@ final class Ser implements Externalizable {
      * <li><a href="../../../serialized-form.html#java.time.chrono.MinguoDate">MinguoDate.writeReplace</a>
      * <li><a href="../../../serialized-form.html#java.time.chrono.ThaiBuddhistDate">ThaiBuddhistDate.writeReplace</a>
      * </ul>
-     *
-     * @param out  the data stream to write to, not null
      */
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -193,10 +195,12 @@ final class Ser implements Externalizable {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
-     * The streamed type and parameters defined by the type's {@code writeReplace}
+     *
+     * @param in the data stream to read from, not null
+     * @serialData The streamed type and parameters defined by the type's {@code writeReplace}
      * method are read and passed to the corresponding static factory for the type
      * to create a new instance.  That instance is returned as the de-serialized
      * {@code Ser} object.
@@ -215,8 +219,6 @@ final class Ser implements Externalizable {
      * <li><a href="../../../serialized-form.html#java.time.chrono.MinguoDate">MinguoDate</a> - MinguoChronology.INSTANCE.date(year, month, dayOfMonth)
      * <li><a href="../../../serialized-form.html#java.time.chrono.ThaiBuddhistDate">ThaiBuddhistDate</a> - ThaiBuddhistChronology.INSTANCE.date(year, month, dayOfMonth)
      * </ul>
-     *
-     * @param in  the data stream to read from, not null
      */
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
@@ -231,16 +233,26 @@ final class Ser implements Externalizable {
 
     private static Object readInternal(byte type, ObjectInput in) throws IOException, ClassNotFoundException {
         switch (type) {
-            case CHRONO_TYPE: return AbstractChronology.readExternal(in);
-            case CHRONO_LOCAL_DATE_TIME_TYPE: return ChronoLocalDateTimeImpl.readExternal(in);
-            case CHRONO_ZONE_DATE_TIME_TYPE: return ChronoZonedDateTimeImpl.readExternal(in);
-            case JAPANESE_DATE_TYPE:  return JapaneseDate.readExternal(in);
-            case JAPANESE_ERA_TYPE: return JapaneseEra.readExternal(in);
-            case HIJRAH_DATE_TYPE: return HijrahDate.readExternal(in);
-            case MINGUO_DATE_TYPE: return MinguoDate.readExternal(in);
-            case THAIBUDDHIST_DATE_TYPE: return ThaiBuddhistDate.readExternal(in);
-            case CHRONO_PERIOD_TYPE: return ChronoPeriodImpl.readExternal(in);
-            default: throw new StreamCorruptedException("Unknown serialized type");
+            case CHRONO_TYPE:
+                return AbstractChronology.readExternal(in);
+            case CHRONO_LOCAL_DATE_TIME_TYPE:
+                return ChronoLocalDateTimeImpl.readExternal(in);
+            case CHRONO_ZONE_DATE_TIME_TYPE:
+                return ChronoZonedDateTimeImpl.readExternal(in);
+            case JAPANESE_DATE_TYPE:
+                return JapaneseDate.readExternal(in);
+            case JAPANESE_ERA_TYPE:
+                return JapaneseEra.readExternal(in);
+            case HIJRAH_DATE_TYPE:
+                return HijrahDate.readExternal(in);
+            case MINGUO_DATE_TYPE:
+                return MinguoDate.readExternal(in);
+            case THAIBUDDHIST_DATE_TYPE:
+                return ThaiBuddhistDate.readExternal(in);
+            case CHRONO_PERIOD_TYPE:
+                return ChronoPeriodImpl.readExternal(in);
+            default:
+                throw new StreamCorruptedException("Unknown serialized type");
         }
     }
 
@@ -250,7 +262,7 @@ final class Ser implements Externalizable {
      * @return the read object, should never be null
      */
     private Object readResolve() {
-         return object;
+        return object;
     }
 
 }

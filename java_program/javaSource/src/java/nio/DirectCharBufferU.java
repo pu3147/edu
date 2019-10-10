@@ -28,6 +28,7 @@
 package java.nio;
 
 import java.io.FileDescriptor;
+
 import sun.misc.Cleaner;
 import sun.misc.Unsafe;
 import sun.misc.VM;
@@ -36,20 +37,17 @@ import sun.nio.ch.DirectBuffer;
 
 class DirectCharBufferU
 
-    extends CharBuffer
+        extends CharBuffer
 
 
-
-    implements DirectBuffer
-{
-
+        implements DirectBuffer {
 
 
     // Cached unsafe-access object
     protected static final Unsafe unsafe = Bits.unsafe();
 
     // Cached array base offset
-    private static final long arrayBaseOffset = (long)unsafe.arrayBaseOffset(char[].class);
+    private static final long arrayBaseOffset = (long) unsafe.arrayBaseOffset(char[].class);
 
     // Cached unaligned-access capability
     protected static final boolean unaligned = Bits.unaligned();
@@ -68,137 +66,22 @@ class DirectCharBufferU
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public Cleaner cleaner() { return null; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public Cleaner cleaner() {
+        return null;
+    }
 
 
     // For duplicates and slices
     //
     DirectCharBufferU(DirectBuffer db,         // package-private
-                               int mark, int pos, int lim, int cap,
-                               int off)
-    {
+                      int mark, int pos, int lim, int cap,
+                      int off) {
 
         super(mark, pos, lim, cap);
         address = db.address() + off;
 
 
-
         att = db;
-
 
 
     }
@@ -215,26 +98,24 @@ class DirectCharBufferU
 
     public CharBuffer duplicate() {
         return new DirectCharBufferU(this,
-                                              this.markValue(),
-                                              this.position(),
-                                              this.limit(),
-                                              this.capacity(),
-                                              0);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                0);
     }
 
     public CharBuffer asReadOnlyBuffer() {
 
         return new DirectCharBufferRU(this,
-                                           this.markValue(),
-                                           this.position(),
-                                           this.limit(),
-                                           this.capacity(),
-                                           0);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                0);
 
 
     }
-
 
 
     public long address() {
@@ -273,13 +154,13 @@ class DirectCharBufferU
 
             if (order() != ByteOrder.nativeOrder())
                 Bits.copyToCharArray(ix(pos), dst,
-                                          offset << 1,
-                                          length << 1);
+                        offset << 1,
+                        length << 1);
             else
 
                 Bits.copyToArray(ix(pos), dst, arrayBaseOffset,
-                                 offset << 1,
-                                 length << 1);
+                        offset << 1,
+                        length << 1);
             position(pos + length);
         } else {
             super.get(dst, offset, length);
@@ -287,16 +168,13 @@ class DirectCharBufferU
         return this;
 
 
-
     }
-
 
 
     public CharBuffer put(char x) {
 
         unsafe.putChar(ix(nextPutIndex()), ((x)));
         return this;
-
 
 
     }
@@ -307,7 +185,6 @@ class DirectCharBufferU
         return this;
 
 
-
     }
 
     public CharBuffer put(CharBuffer src) {
@@ -315,7 +192,7 @@ class DirectCharBufferU
         if (src instanceof DirectCharBufferU) {
             if (src == this)
                 throw new IllegalArgumentException();
-            DirectCharBufferU sb = (DirectCharBufferU)src;
+            DirectCharBufferU sb = (DirectCharBufferU) src;
 
             int spos = sb.position();
             int slim = sb.limit();
@@ -348,7 +225,6 @@ class DirectCharBufferU
         return this;
 
 
-
     }
 
     public CharBuffer put(char[] src, int offset, int length) {
@@ -365,17 +241,16 @@ class DirectCharBufferU
 
             if (order() != ByteOrder.nativeOrder())
                 Bits.copyFromCharArray(src, offset << 1,
-                                            ix(pos), length << 1);
+                        ix(pos), length << 1);
             else
 
                 Bits.copyFromArray(src, arrayBaseOffset, offset << 1,
-                                   ix(pos), length << 1);
+                        ix(pos), length << 1);
             position(pos + length);
         } else {
             super.put(src, offset, length);
         }
         return this;
-
 
 
     }
@@ -394,7 +269,6 @@ class DirectCharBufferU
         return this;
 
 
-
     }
 
     public boolean isDirect() {
@@ -404,8 +278,6 @@ class DirectCharBufferU
     public boolean isReadOnly() {
         return false;
     }
-
-
 
 
     public String toString(int start, int end) {
@@ -438,53 +310,21 @@ class DirectCharBufferU
         if ((start < 0) || (end > len) || (start > end))
             throw new IndexOutOfBoundsException();
         return new DirectCharBufferU(this,
-                                            -1,
-                                            pos + start,
-                                            pos + end,
-                                            capacity(),
-                                            offset);
+                -1,
+                pos + start,
+                pos + end,
+                capacity(),
+                offset);
     }
 
 
-
-
-
-
-
     public ByteOrder order() {
-
-
-
 
 
         return ((ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN)
                 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

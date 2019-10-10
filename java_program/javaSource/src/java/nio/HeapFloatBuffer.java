@@ -29,19 +29,11 @@ package java.nio;
 
 
 /**
-
  * A read/write HeapFloatBuffer.
-
-
-
-
-
-
  */
 
 class HeapFloatBuffer
-    extends FloatBuffer
-{
+        extends FloatBuffer {
 
     // For speed these fields are actually declared in X-Buffer;
     // these declarations are here as documentation
@@ -61,8 +53,6 @@ class HeapFloatBuffer
         */
 
 
-
-
     }
 
     HeapFloatBuffer(float[] buf, int off, int len) { // package-private
@@ -74,14 +64,11 @@ class HeapFloatBuffer
         */
 
 
-
-
     }
 
     protected HeapFloatBuffer(float[] buf,
-                                   int mark, int pos, int lim, int cap,
-                                   int off)
-    {
+                              int mark, int pos, int lim, int cap,
+                              int off) {
 
         super(mark, pos, lim, cap, buf, off);
         /*
@@ -90,41 +77,37 @@ class HeapFloatBuffer
         */
 
 
-
-
     }
 
     public FloatBuffer slice() {
         return new HeapFloatBuffer(hb,
-                                        -1,
-                                        0,
-                                        this.remaining(),
-                                        this.remaining(),
-                                        this.position() + offset);
+                -1,
+                0,
+                this.remaining(),
+                this.remaining(),
+                this.position() + offset);
     }
 
     public FloatBuffer duplicate() {
         return new HeapFloatBuffer(hb,
-                                        this.markValue(),
-                                        this.position(),
-                                        this.limit(),
-                                        this.capacity(),
-                                        offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public FloatBuffer asReadOnlyBuffer() {
 
         return new HeapFloatBufferR(hb,
-                                     this.markValue(),
-                                     this.position(),
-                                     this.limit(),
-                                     this.capacity(),
-                                     offset);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
 
 
     }
-
 
 
     protected int ix(int i) {
@@ -138,11 +121,6 @@ class HeapFloatBuffer
     public float get(int i) {
         return hb[ix(checkIndex(i))];
     }
-
-
-
-
-
 
 
     public FloatBuffer get(float[] dst, int offset, int length) {
@@ -159,7 +137,6 @@ class HeapFloatBuffer
     }
 
 
-
     public boolean isReadOnly() {
         return false;
     }
@@ -170,14 +147,12 @@ class HeapFloatBuffer
         return this;
 
 
-
     }
 
     public FloatBuffer put(int i, float x) {
 
         hb[ix(checkIndex(i))] = x;
         return this;
-
 
 
     }
@@ -192,7 +167,6 @@ class HeapFloatBuffer
         return this;
 
 
-
     }
 
     public FloatBuffer put(FloatBuffer src) {
@@ -200,12 +174,12 @@ class HeapFloatBuffer
         if (src instanceof HeapFloatBuffer) {
             if (src == this)
                 throw new IllegalArgumentException();
-            HeapFloatBuffer sb = (HeapFloatBuffer)src;
+            HeapFloatBuffer sb = (HeapFloatBuffer) src;
             int n = sb.remaining();
             if (n > remaining())
                 throw new BufferOverflowException();
             System.arraycopy(sb.hb, sb.ix(sb.position()),
-                             hb, ix(position()), n);
+                    hb, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
         } else if (src.isDirect()) {
@@ -220,7 +194,6 @@ class HeapFloatBuffer
         return this;
 
 
-
     }
 
     public FloatBuffer compact() {
@@ -232,370 +205,12 @@ class HeapFloatBuffer
         return this;
 
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public ByteOrder order() {
         return ByteOrder.nativeOrder();
     }
-
 
 
 }

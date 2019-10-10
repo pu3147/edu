@@ -39,7 +39,7 @@ import javax.crypto.spec.SecretKeySpec;
  * Standardized representation for serialized Key objects.
  *
  * <p>
- *
+ * <p>
  * Note that a serialized Key may contain sensitive information
  * which should not be exposed in untrusted environments.  See the
  * <a href="../../../platform/serialization/spec/security.html">
@@ -51,7 +51,6 @@ import javax.crypto.spec.SecretKeySpec;
  * @see javax.crypto.spec.SecretKeySpec
  * @see java.security.spec.X509EncodedKeySpec
  * @see java.security.spec.PKCS8EncodedKeySpec
- *
  * @since 1.5
  */
 
@@ -66,13 +65,19 @@ public class KeyRep implements Serializable {
      */
     public static enum Type {
 
-        /** Type for secret keys. */
+        /**
+         * Type for secret keys.
+         */
         SECRET,
 
-        /** Type for public keys. */
+        /**
+         * Type for public keys.
+         */
         PUBLIC,
 
-        /** Type for private keys. */
+        /**
+         * Type for private keys.
+         */
         PRIVATE,
 
     }
@@ -114,25 +119,23 @@ public class KeyRep implements Serializable {
      *
      * <p>
      *
-     * @param type either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
+     * @param type      either one of Type.SECRET, Type.PUBLIC, or Type.PRIVATE
      * @param algorithm the algorithm returned from
-     *          {@code Key.getAlgorithm()}
-     * @param format the encoding format returned from
-     *          {@code Key.getFormat()}
-     * @param encoded the encoded bytes returned from
-     *          {@code Key.getEncoded()}
-     *
-     * @exception NullPointerException
-     *          if type is {@code null},
-     *          if algorithm is {@code null},
-     *          if format is {@code null},
-     *          or if encoded is {@code null}
+     *                  {@code Key.getAlgorithm()}
+     * @param format    the encoding format returned from
+     *                  {@code Key.getFormat()}
+     * @param encoded   the encoded bytes returned from
+     *                  {@code Key.getEncoded()}
+     * @throws NullPointerException if type is {@code null},
+     *                              if algorithm is {@code null},
+     *                              if format is {@code null},
+     *                              or if encoded is {@code null}
      */
     public KeyRep(Type type, String algorithm,
-                String format, byte[] encoded) {
+                  String format, byte[] encoded) {
 
         if (type == null || algorithm == null ||
-            format == null || encoded == null) {
+                format == null || encoded == null) {
             throw new NullPointerException("invalid null input(s)");
         }
 
@@ -160,11 +163,10 @@ public class KeyRep implements Serializable {
      * <p>
      *
      * @return the resolved Key object
-     *
-     * @exception ObjectStreamException if the Type/format
-     *  combination is unrecognized, if the algorithm, key format, or
-     *  encoded key bytes are unrecognized/invalid, of if the
-     *  resolution of the key fails for any reason
+     * @throws ObjectStreamException if the Type/format
+     *                               combination is unrecognized, if the algorithm, key format, or
+     *                               encoded key bytes are unrecognized/invalid, of if the
+     *                               resolution of the key fails for any reason
      */
     protected Object readResolve() throws ObjectStreamException {
         try {
@@ -179,16 +181,16 @@ public class KeyRep implements Serializable {
             } else {
                 throw new NotSerializableException
                         ("unrecognized type/format combination: " +
-                        type + "/" + format);
+                                type + "/" + format);
             }
         } catch (NotSerializableException nse) {
             throw nse;
         } catch (Exception e) {
             NotSerializableException nse = new NotSerializableException
-                                        ("java.security.Key: " +
-                                        "[" + type + "] " +
-                                        "[" + algorithm + "] " +
-                                        "[" + format + "]");
+                    ("java.security.Key: " +
+                            "[" + type + "] " +
+                            "[" + algorithm + "] " +
+                            "[" + format + "]");
             nse.initCause(e);
             throw nse;
         }

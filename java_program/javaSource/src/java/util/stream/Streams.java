@@ -88,8 +88,7 @@ final class Streams {
                 from++;
                 consumer.accept(i);
                 return true;
-            }
-            else if (last > 0) {
+            } else if (last > 0) {
                 last = 0;
                 consumer.accept(i);
                 return true;
@@ -124,8 +123,8 @@ final class Streams {
         @Override
         public int characteristics() {
             return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED |
-                   Spliterator.IMMUTABLE | Spliterator.NONNULL |
-                   Spliterator.DISTINCT | Spliterator.SORTED;
+                    Spliterator.IMMUTABLE | Spliterator.NONNULL |
+                    Spliterator.DISTINCT | Spliterator.SORTED;
         }
 
         @Override
@@ -137,9 +136,9 @@ final class Streams {
         public Spliterator.OfInt trySplit() {
             long size = estimateSize();
             return size <= 1
-                   ? null
-                   // Left split always has a half-open range
-                   : new RangeIntSpliterator(from, from = from + splitPoint(size), 0);
+                    ? null
+                    // Left split always has a half-open range
+                    : new RangeIntSpliterator(from, from = from + splitPoint(size), 0);
         }
 
         /**
@@ -178,7 +177,7 @@ final class Streams {
 
     /**
      * A {@code long} range spliterator.
-     *
+     * <p>
      * This implementation cannot be used for ranges whose size is greater
      * than Long.MAX_VALUE
      */
@@ -213,8 +212,7 @@ final class Streams {
                 from++;
                 consumer.accept(i);
                 return true;
-            }
-            else if (last > 0) {
+            } else if (last > 0) {
                 last = 0;
                 consumer.accept(i);
                 return true;
@@ -248,8 +246,8 @@ final class Streams {
         @Override
         public int characteristics() {
             return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED |
-                   Spliterator.IMMUTABLE | Spliterator.NONNULL |
-                   Spliterator.DISTINCT | Spliterator.SORTED;
+                    Spliterator.IMMUTABLE | Spliterator.NONNULL |
+                    Spliterator.DISTINCT | Spliterator.SORTED;
         }
 
         @Override
@@ -261,9 +259,9 @@ final class Streams {
         public Spliterator.OfLong trySplit() {
             long size = estimateSize();
             return size <= 1
-                   ? null
-                   // Left split always has a half-open range
-                   : new RangeLongSpliterator(from, from = from + splitPoint(size), 0);
+                    ? null
+                    // Left split always has a half-open range
+                    : new RangeLongSpliterator(from, from = from + splitPoint(size), 0);
         }
 
         /**
@@ -322,7 +320,7 @@ final class Streams {
         @Override
         public int characteristics() {
             return Spliterator.SIZED | Spliterator.SUBSIZED |
-                   Spliterator.ORDERED | Spliterator.IMMUTABLE;
+                    Spliterator.ORDERED | Spliterator.IMMUTABLE;
         }
     }
 
@@ -340,7 +338,8 @@ final class Streams {
         /**
          * Constructor for building a stream of 0 or more elements.
          */
-        StreamBuilderImpl() { }
+        StreamBuilderImpl() {
+        }
 
         /**
          * Constructor for a singleton stream.
@@ -359,8 +358,7 @@ final class Streams {
             if (count == 0) {
                 first = t;
                 count++;
-            }
-            else if (count > 0) {
+            } else if (count > 0) {
                 if (buffer == null) {
                     buffer = new SpinedBuffer<>();
                     buffer.accept(first);
@@ -368,8 +366,7 @@ final class Streams {
                 }
 
                 buffer.accept(t);
-            }
-            else {
+            } else {
                 throw new IllegalStateException();
             }
         }
@@ -405,8 +402,7 @@ final class Streams {
                 action.accept(first);
                 count = -1;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -436,7 +432,8 @@ final class Streams {
         /**
          * Constructor for building a stream of 0 or more elements.
          */
-        IntStreamBuilderImpl() { }
+        IntStreamBuilderImpl() {
+        }
 
         /**
          * Constructor for a singleton stream.
@@ -455,8 +452,7 @@ final class Streams {
             if (count == 0) {
                 first = t;
                 count++;
-            }
-            else if (count > 0) {
+            } else if (count > 0) {
                 if (buffer == null) {
                     buffer = new SpinedBuffer.OfInt();
                     buffer.accept(first);
@@ -464,8 +460,7 @@ final class Streams {
                 }
 
                 buffer.accept(t);
-            }
-            else {
+            } else {
                 throw new IllegalStateException();
             }
         }
@@ -496,8 +491,7 @@ final class Streams {
                 action.accept(first);
                 count = -1;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -527,7 +521,8 @@ final class Streams {
         /**
          * Constructor for building a stream of 0 or more elements.
          */
-        LongStreamBuilderImpl() { }
+        LongStreamBuilderImpl() {
+        }
 
         /**
          * Constructor for a singleton stream.
@@ -546,8 +541,7 @@ final class Streams {
             if (count == 0) {
                 first = t;
                 count++;
-            }
-            else if (count > 0) {
+            } else if (count > 0) {
                 if (buffer == null) {
                     buffer = new SpinedBuffer.OfLong();
                     buffer.accept(first);
@@ -555,8 +549,7 @@ final class Streams {
                 }
 
                 buffer.accept(t);
-            }
-            else {
+            } else {
                 throw new IllegalStateException();
             }
         }
@@ -587,8 +580,7 @@ final class Streams {
                 action.accept(first);
                 count = -1;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -618,7 +610,8 @@ final class Streams {
         /**
          * Constructor for building a stream of 0 or more elements.
          */
-        DoubleStreamBuilderImpl() { }
+        DoubleStreamBuilderImpl() {
+        }
 
         /**
          * Constructor for a singleton stream.
@@ -637,8 +630,7 @@ final class Streams {
             if (count == 0) {
                 first = t;
                 count++;
-            }
-            else if (count > 0) {
+            } else if (count > 0) {
                 if (buffer == null) {
                     buffer = new SpinedBuffer.OfDouble();
                     buffer.accept(first);
@@ -646,8 +638,7 @@ final class Streams {
                 }
 
                 buffer.accept(t);
-            }
-            else {
+            } else {
                 throw new IllegalStateException();
             }
         }
@@ -678,8 +669,7 @@ final class Streams {
                 action.accept(first);
                 count = -1;
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -730,8 +720,7 @@ final class Streams {
                     beforeSplit = false;
                     hasNext = bSpliterator.tryAdvance(consumer);
                 }
-            }
-            else
+            } else
                 hasNext = bSpliterator.tryAdvance(consumer);
             return hasNext;
         }
@@ -750,8 +739,7 @@ final class Streams {
                 // will either be Long.MAX_VALUE or overflow to a negative value
                 long size = aSpliterator.estimateSize() + bSpliterator.estimateSize();
                 return (size >= 0) ? size : Long.MAX_VALUE;
-            }
-            else {
+            } else {
                 return bSpliterator.estimateSize();
             }
         }
@@ -761,10 +749,9 @@ final class Streams {
             if (beforeSplit) {
                 // Concatenation loses DISTINCT and SORTED characteristics
                 return aSpliterator.characteristics() & bSpliterator.characteristics()
-                       & ~(Spliterator.DISTINCT | Spliterator.SORTED
-                           | (unsized ? Spliterator.SIZED | Spliterator.SUBSIZED : 0));
-            }
-            else {
+                        & ~(Spliterator.DISTINCT | Spliterator.SORTED
+                        | (unsized ? Spliterator.SIZED | Spliterator.SUBSIZED : 0));
+            } else {
                 return bSpliterator.characteristics();
             }
         }
@@ -798,8 +785,7 @@ final class Streams {
                         beforeSplit = false;
                         hasNext = bSpliterator.tryAdvance(action);
                     }
-                }
-                else
+                } else
                     hasNext = bSpliterator.tryAdvance(action);
                 return hasNext;
             }
@@ -848,15 +834,14 @@ final class Streams {
             public void run() {
                 try {
                     a.run();
-                }
-                catch (Throwable e1) {
+                } catch (Throwable e1) {
                     try {
                         b.run();
-                    }
-                    catch (Throwable e2) {
+                    } catch (Throwable e2) {
                         try {
                             e1.addSuppressed(e2);
-                        } catch (Throwable ignore) {}
+                        } catch (Throwable ignore) {
+                        }
                     }
                     throw e1;
                 }
@@ -877,15 +862,14 @@ final class Streams {
             public void run() {
                 try {
                     a.close();
-                }
-                catch (Throwable e1) {
+                } catch (Throwable e1) {
                     try {
                         b.close();
-                    }
-                    catch (Throwable e2) {
+                    } catch (Throwable e2) {
                         try {
                             e1.addSuppressed(e2);
-                        } catch (Throwable ignore) {}
+                        } catch (Throwable ignore) {
+                        }
                     }
                     throw e1;
                 }

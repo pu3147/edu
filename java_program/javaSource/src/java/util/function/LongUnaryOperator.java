@@ -58,7 +58,6 @@ public interface LongUnaryOperator {
      * @return a composed operator that first applies the {@code before}
      * operator and then applies this operator
      * @throws NullPointerException if before is null
-     *
      * @see #andThen(LongUnaryOperator)
      */
     default LongUnaryOperator compose(LongUnaryOperator before) {
@@ -76,7 +75,6 @@ public interface LongUnaryOperator {
      * @return a composed operator that first applies this operator and then
      * applies the {@code after} operator
      * @throws NullPointerException if after is null
-     *
      * @see #compose(LongUnaryOperator)
      */
     default LongUnaryOperator andThen(LongUnaryOperator after) {

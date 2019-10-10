@@ -82,9 +82,7 @@ import java.util.Map;
  * The fields are supported, and can be queried and set if {@code EPOCH_DAY} is available.
  * The fields work with all chronologies.
  *
- * @implSpec
- * This is an immutable and thread-safe class.
- *
+ * @implSpec This is an immutable and thread-safe class.
  * @since 1.8
  */
 public final class JulianFields {
@@ -174,7 +172,7 @@ public final class JulianFields {
      *  | 1970-01-02T06:00  |             40,588  |       40,588.25  |
      *  | 1970-01-02T12:00  |             40,588  |       40,588.5   |
      * </pre>
-     *
+     * <p>
      * Modified Julian Days are sometimes taken to imply Universal Time or UTC, but this
      * implementation always uses the Modified Julian Day for the local date,
      * regardless of the offset or time-zone.

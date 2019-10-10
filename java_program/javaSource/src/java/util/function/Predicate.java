@@ -33,7 +33,6 @@ import java.util.Objects;
  * whose functional method is {@link #test(Object)}.
  *
  * @param <T> the type of the input to the predicate
- *
  * @since 1.8
  */
 @FunctionalInterface
@@ -105,9 +104,9 @@ public interface Predicate<T> {
      * Returns a predicate that tests if two arguments are equal according
      * to {@link Objects#equals(Object, Object)}.
      *
-     * @param <T> the type of arguments to the predicate
+     * @param <T>       the type of arguments to the predicate
      * @param targetRef the object reference with which to compare for equality,
-     *               which may be {@code null}
+     *                  which may be {@code null}
      * @return a predicate that tests if two arguments are equal according
      * to {@link Objects#equals(Object, Object)}
      */

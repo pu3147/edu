@@ -29,27 +29,10 @@ package java.nio;
 
 
 class ByteBufferAsIntBufferRL                  // package-private
-    extends ByteBufferAsIntBufferL
-{
-
-
-
-
-
-
+        extends ByteBufferAsIntBufferL {
 
 
     ByteBufferAsIntBufferRL(ByteBuffer bb) {   // package-private
-
-
-
-
-
-
-
-
-
-
 
 
         super(bb);
@@ -57,12 +40,8 @@ class ByteBufferAsIntBufferRL                  // package-private
     }
 
     ByteBufferAsIntBufferRL(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
-
-
-
+                            int mark, int pos, int lim, int cap,
+                            int off) {
 
 
         super(bb, mark, pos, lim, cap, off);
@@ -81,20 +60,14 @@ class ByteBufferAsIntBufferRL                  // package-private
 
     public IntBuffer duplicate() {
         return new ByteBufferAsIntBufferRL(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public IntBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -102,30 +75,7 @@ class ByteBufferAsIntBufferRL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public IntBuffer put(int x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -135,28 +85,11 @@ class ByteBufferAsIntBufferRL                  // package-private
     public IntBuffer put(int i, int x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public IntBuffer compact() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -172,50 +105,7 @@ class ByteBufferAsIntBufferRL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
 
 
         return ByteOrder.LITTLE_ENDIAN;

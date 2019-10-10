@@ -33,7 +33,6 @@ package java.util.function;
  * whose functional method is {@link #apply(int)}.
  *
  * @param <R> the type of the result of the function
- *
  * @see Function
  * @since 1.8
  */

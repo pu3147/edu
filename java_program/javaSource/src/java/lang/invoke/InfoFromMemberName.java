@@ -29,6 +29,7 @@ import java.security.*;
 import java.lang.reflect.*;
 import java.lang.invoke.MethodHandleNatives.Constants;
 import java.lang.invoke.MethodHandles.Lookup;
+
 import static java.lang.invoke.MethodHandleStatics.*;
 
 /*
@@ -41,8 +42,8 @@ class InfoFromMemberName implements MethodHandleInfo {
     private final int referenceKind;
 
     InfoFromMemberName(Lookup lookup, MemberName member, byte referenceKind) {
-        assert(member.isResolved() || member.isMethodHandleInvoke());
-        assert(member.referenceKindIsConsistentWith(referenceKind));
+        assert (member.isResolved() || member.isMethodHandleInvoke());
+        assert (member.referenceKindIsConsistentWith(referenceKind));
         this.member = member;
         this.referenceKind = referenceKind;
     }
@@ -88,14 +89,14 @@ class InfoFromMemberName implements MethodHandleInfo {
             throw new IllegalArgumentException("cannot reflect signature polymorphic method");
         }
         Member mem = AccessController.doPrivileged(new PrivilegedAction<Member>() {
-                public Member run() {
-                    try {
-                        return reflectUnchecked();
-                    } catch (ReflectiveOperationException ex) {
-                        throw new IllegalArgumentException(ex);
-                    }
+            public Member run() {
+                try {
+                    return reflectUnchecked();
+                } catch (ReflectiveOperationException ex) {
+                    throw new IllegalArgumentException(ex);
                 }
-            });
+            }
+        });
         try {
             Class<?> defc = getDeclaringClass();
             byte refKind = (byte) getReferenceKind();
@@ -126,7 +127,7 @@ class InfoFromMemberName implements MethodHandleInfo {
             else
                 return defc.getDeclaredField(getName());
         } else {
-            throw new IllegalArgumentException("referenceKind="+refKind);
+            throw new IllegalArgumentException("referenceKind=" + refKind);
         }
     }
 

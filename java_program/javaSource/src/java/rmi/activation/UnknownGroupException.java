@@ -34,17 +34,19 @@ package java.rmi.activation;
  * <code>ActivationGroupID</code> in an <code>ActivationDesc</code> refers to
  * a group that is not registered with the <code>ActivationSystem</code>
  *
- * @author  Ann Wollrath
- * @since   1.2
- * @see     java.rmi.activation.Activatable
- * @see     java.rmi.activation.ActivationGroup
- * @see     java.rmi.activation.ActivationGroupID
- * @see     java.rmi.activation.ActivationMonitor
- * @see     java.rmi.activation.ActivationSystem
+ * @author Ann Wollrath
+ * @see java.rmi.activation.Activatable
+ * @see java.rmi.activation.ActivationGroup
+ * @see java.rmi.activation.ActivationGroupID
+ * @see java.rmi.activation.ActivationMonitor
+ * @see java.rmi.activation.ActivationSystem
+ * @since 1.2
  */
 public class UnknownGroupException extends ActivationException {
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
+    /**
+     * indicate compatibility with the Java 2 SDK v1.2 version of class
+     */
     private static final long serialVersionUID = 7056094974750002460L;
 
     /**

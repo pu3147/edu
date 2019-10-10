@@ -38,14 +38,14 @@ package java.nio.channels;
  */
 
 public class NotYetBoundException
-    extends IllegalStateException
-{
+        extends IllegalStateException {
 
     private static final long serialVersionUID = 4640999303950202242L;
 
     /**
      * Constructs an instance of this class.
      */
-    public NotYetBoundException() { }
+    public NotYetBoundException() {
+    }
 
 }

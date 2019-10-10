@@ -62,6 +62,9 @@ public interface DoubleConsumer {
      */
     default DoubleConsumer andThen(DoubleConsumer after) {
         Objects.requireNonNull(after);
-        return (double t) -> { accept(t); after.accept(t); };
+        return (double t) -> {
+            accept(t);
+            after.accept(t);
+        };
     }
 }

@@ -50,8 +50,8 @@ package java.text;
  * you can use the same <code>ParsePosition</code>, since the index parameter
  * records the current position.
  *
- * @author      Mark Davis
- * @see         java.text.Format
+ * @author Mark Davis
+ * @see java.text.Format
  */
 
 public class ParsePosition {
@@ -93,6 +93,7 @@ public class ParsePosition {
     public ParsePosition(int index) {
         this.index = index;
     }
+
     /**
      * Set the index at which a parse error occurred.  Formatters
      * should set this before returning an error code from their
@@ -101,8 +102,7 @@ public class ParsePosition {
      * @param ei the index at which an error occurred
      * @since 1.2
      */
-    public void setErrorIndex(int ei)
-    {
+    public void setErrorIndex(int ei) {
         errorIndex = ei;
     }
 
@@ -113,16 +113,14 @@ public class ParsePosition {
      * @return the index at which an error occurred
      * @since 1.2
      */
-    public int getErrorIndex()
-    {
+    public int getErrorIndex() {
         return errorIndex;
     }
 
     /**
      * Overrides equals
      */
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null) return false;
         if (!(obj instanceof ParsePosition))
             return false;
@@ -132,6 +130,7 @@ public class ParsePosition {
 
     /**
      * Returns a hash code for this ParsePosition.
+     *
      * @return a hash code value for this object
      */
     public int hashCode() {
@@ -140,11 +139,12 @@ public class ParsePosition {
 
     /**
      * Return a string representation of this ParsePosition.
-     * @return  a string representation of this object
+     *
+     * @return a string representation of this object
      */
     public String toString() {
         return getClass().getName() +
-            "[index=" + index +
-            ",errorIndex=" + errorIndex + ']';
+                "[index=" + index +
+                ",errorIndex=" + errorIndex + ']';
     }
 }

@@ -41,7 +41,7 @@ import java.security.*;
  * or the <code>Connection.abort</code> method.
  * If there is no <code>SQLPermission</code> object, these methods
  * throw a <code>java.lang.SecurityException</code> as a runtime exception.
- * <P>
+ * <p>
  * A <code>SQLPermission</code> object contains
  * a name (also referred to as a "target name") but no actions
  * list; there is either a named permission or there is not.
@@ -52,7 +52,7 @@ import java.security.*;
  * signify a wildcard match. For example: <code>loadLibrary.*</code>
  * and <code>*</code> signify a wildcard match,
  * while <code>*loadLibrary</code> and <code>a*b</code> do not.
- * <P>
+ * <p>
  * The following table lists all the possible <code>SQLPermission</code> target names.
  * The table gives a description of what the permission allows
  * and a discussion of the risks of granting code the permission.
@@ -104,14 +104,14 @@ import java.security.*;
  * registered Drivers and release its resources.</td>
  * </tr>
  * </table>
- *<p>
- * @since 1.3
+ * <p>
+ *
  * @see java.security.BasicPermission
  * @see java.security.Permission
  * @see java.security.Permissions
  * @see java.security.PermissionCollection
  * @see java.lang.SecurityManager
- *
+ * @since 1.3
  */
 
 public final class SQLPermission extends BasicPermission {
@@ -121,11 +121,10 @@ public final class SQLPermission extends BasicPermission {
      * The name is the symbolic name of the <code>SQLPermission</code>.
      *
      * @param name the name of this <code>SQLPermission</code> object, which must
-     * be either {@code  setLog}, {@code callAbort}, {@code setSyncFactory},
-     *  {@code deregisterDriver}, or {@code setNetworkTimeout}
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
+     *             be either {@code  setLog}, {@code callAbort}, {@code setSyncFactory},
+     *             {@code deregisterDriver}, or {@code setNetworkTimeout}
+     * @throws NullPointerException     if <code>name</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>name</code> is empty.
-
      */
 
     public SQLPermission(String name) {
@@ -138,13 +137,12 @@ public final class SQLPermission extends BasicPermission {
      * actions <code>String</code> is currently unused and should be
      * <code>null</code>.
      *
-     * @param name the name of this <code>SQLPermission</code> object, which must
-     * be either {@code  setLog}, {@code callAbort}, {@code setSyncFactory},
-     *  {@code deregisterDriver}, or {@code setNetworkTimeout}
+     * @param name    the name of this <code>SQLPermission</code> object, which must
+     *                be either {@code  setLog}, {@code callAbort}, {@code setSyncFactory},
+     *                {@code deregisterDriver}, or {@code setNetworkTimeout}
      * @param actions should be <code>null</code>
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
+     * @throws NullPointerException     if <code>name</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>name</code> is empty.
-
      */
 
     public SQLPermission(String name, String actions) {

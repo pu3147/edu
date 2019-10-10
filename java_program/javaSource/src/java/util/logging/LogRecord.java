@@ -24,6 +24,7 @@
  */
 
 package java.util.logging;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -70,7 +71,7 @@ import sun.misc.SharedSecrets;
 
 public class LogRecord implements java.io.Serializable {
     private static final AtomicLong globalSequenceNumber
-        = new AtomicLong(0);
+            = new AtomicLong(0);
 
     /**
      * The default value of threadID will be the current thread's
@@ -83,7 +84,7 @@ public class LogRecord implements java.io.Serializable {
     private static final int MIN_SEQUENTIAL_THREAD_ID = Integer.MAX_VALUE / 2;
 
     private static final AtomicInteger nextThreadId
-        = new AtomicInteger(MIN_SEQUENTIAL_THREAD_ID);
+            = new AtomicInteger(MIN_SEQUENTIAL_THREAD_ID);
 
     private static final ThreadLocal<Integer> threadIds = new ThreadLocal<>();
 
@@ -171,8 +172,8 @@ public class LogRecord implements java.io.Serializable {
      * <p>
      * All other properties will be initialized to "null".
      *
-     * @param level  a logging level value
-     * @param msg  the raw non-localized logging message (may be null)
+     * @param level a logging level value
+     * @param msg   the raw non-localized logging message (may be null)
      */
     public LogRecord(Level level, String msg) {
         // Make sure level isn't null, by calling random method.
@@ -184,7 +185,7 @@ public class LogRecord implements java.io.Serializable {
         threadID = defaultThreadID();
         millis = System.currentTimeMillis();
         needToInferCaller = true;
-   }
+    }
 
     /**
      * Get the source Logger's name.
@@ -198,7 +199,7 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Set the source Logger's name.
      *
-     * @param name   the source logger name (may be null)
+     * @param name the source logger name (may be null)
      */
     public void setLoggerName(String name) {
         loggerName = name;
@@ -211,6 +212,7 @@ public class LogRecord implements java.io.Serializable {
      * the message string before formatting it.  The result may
      * be null if the message is not localizable, or if no suitable
      * ResourceBundle is available.
+     *
      * @return the localization resource bundle
      */
     public ResourceBundle getResourceBundle() {
@@ -220,7 +222,7 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Set the localization resource bundle.
      *
-     * @param bundle  localization bundle (may be null)
+     * @param bundle localization bundle (may be null)
      */
     public void setResourceBundle(ResourceBundle bundle) {
         resourceBundle = bundle;
@@ -232,6 +234,7 @@ public class LogRecord implements java.io.Serializable {
      * This is the name for the ResourceBundle that should be
      * used to localize the message string before formatting it.
      * The result may be null if the message is not localizable.
+     *
      * @return the localization resource bundle name
      */
     public String getResourceBundleName() {
@@ -241,7 +244,7 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Set the localization resource bundle name.
      *
-     * @param name  localization bundle name (may be null)
+     * @param name localization bundle name (may be null)
      */
     public void setResourceBundleName(String name) {
         resourceBundleName = name;
@@ -249,6 +252,7 @@ public class LogRecord implements java.io.Serializable {
 
     /**
      * Get the logging message level, for example Level.SEVERE.
+     *
      * @return the logging message level
      */
     public Level getLevel() {
@@ -257,6 +261,7 @@ public class LogRecord implements java.io.Serializable {
 
     /**
      * Set the logging message level, for example Level.SEVERE.
+     *
      * @param level the logging message level
      */
     public void setLevel(Level level) {
@@ -272,6 +277,7 @@ public class LogRecord implements java.io.Serializable {
      * Sequence numbers are normally assigned in the LogRecord
      * constructor, which assigns unique sequence numbers to
      * each new LogRecord in increasing order.
+     *
      * @return the sequence number
      */
     public long getSequenceNumber() {
@@ -283,6 +289,7 @@ public class LogRecord implements java.io.Serializable {
      * <p>
      * Sequence numbers are normally assigned in the LogRecord constructor,
      * so it should not normally be necessary to use this method.
+     *
      * @param seq the sequence number
      */
     public void setSequenceNumber(long seq) {
@@ -382,7 +389,7 @@ public class LogRecord implements java.io.Serializable {
      * Get the parameters to the log message.
      *
      * @return the log message parameters.  May be null if
-     *                  there are no parameters.
+     * there are no parameters.
      */
     public Object[] getParameters() {
         return parameters;
@@ -411,7 +418,8 @@ public class LogRecord implements java.io.Serializable {
 
     /**
      * Set an identifier for the thread where the message originated.
-     * @param threadID  the thread ID
+     *
+     * @param threadID the thread ID
      */
     public void setThreadID(int threadID) {
         this.threadID = threadID;
@@ -450,7 +458,7 @@ public class LogRecord implements java.io.Serializable {
     /**
      * Set a throwable associated with the log event.
      *
-     * @param thrown  a throwable (may be null)
+     * @param thrown a throwable (may be null)
      */
     public void setThrown(Throwable thrown) {
         this.thrown = thrown;
@@ -491,7 +499,7 @@ public class LogRecord implements java.io.Serializable {
     }
 
     private void readObject(ObjectInputStream in)
-                        throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException {
         // We have to call defaultReadObject first.
         in.defaultReadObject();
 
@@ -542,7 +550,7 @@ public class LogRecord implements java.io.Serializable {
             // Calling getStackTraceElement directly prevents the VM
             // from paying the cost of building the entire stack frame.
             StackTraceElement frame =
-                access.getStackTraceElement(throwable, ix);
+                    access.getStackTraceElement(throwable, ix);
             String cname = frame.getClassName();
             boolean isLoggerImpl = isLoggerImplFrame(cname);
             if (lookingForLogger) {
@@ -554,10 +562,10 @@ public class LogRecord implements java.io.Serializable {
                 if (!isLoggerImpl) {
                     // skip reflection call
                     if (!cname.startsWith("java.lang.reflect.") && !cname.startsWith("sun.reflect.")) {
-                       // We've found the relevant frame.
-                       setSourceClassName(cname);
-                       setSourceMethodName(frame.getMethodName());
-                       return;
+                        // We've found the relevant frame.
+                        setSourceClassName(cname);
+                        setSourceMethodName(frame.getMethodName());
+                        return;
                     }
                 }
             }

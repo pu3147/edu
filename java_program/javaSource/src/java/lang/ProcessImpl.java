@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 
 final class ProcessImpl extends Process {
     private static final sun.misc.JavaIOFileDescriptorAccess fdAccess
-        = sun.misc.SharedSecrets.getJavaIOFileDescriptorAccess();
+            = sun.misc.SharedSecrets.getJavaIOFileDescriptorAccess();
 
     /**
      * Open a file for writing. If {@code append} is {@code true} then the file
@@ -61,8 +61,7 @@ final class ProcessImpl extends Process {
      * that writes by the child process will be atomic.
      */
     private static FileOutputStream newFileOutputStream(File f, boolean append)
-        throws IOException
-    {
+            throws IOException {
         if (append) {
             String path = f.getPath();
             SecurityManager sm = System.getSecurityManager();
@@ -72,11 +71,11 @@ final class ProcessImpl extends Process {
             final FileDescriptor fd = new FileDescriptor();
             fdAccess.setHandle(fd, handle);
             return AccessController.doPrivileged(
-                new PrivilegedAction<FileOutputStream>() {
-                    public FileOutputStream run() {
-                        return new FileOutputStream(fd);
+                    new PrivilegedAction<FileOutputStream>() {
+                        public FileOutputStream run() {
+                            return new FileOutputStream(fd);
+                        }
                     }
-                }
             );
         } else {
             return new FileOutputStream(f);
@@ -85,22 +84,21 @@ final class ProcessImpl extends Process {
 
     // System-dependent portion of ProcessBuilder.start()
     static Process start(String cmdarray[],
-                         java.util.Map<String,String> environment,
+                         java.util.Map<String, String> environment,
                          String dir,
                          ProcessBuilder.Redirect[] redirects,
                          boolean redirectErrorStream)
-        throws IOException
-    {
+            throws IOException {
         String envblock = ProcessEnvironment.toEnvironmentBlock(environment);
 
-        FileInputStream  f0 = null;
+        FileInputStream f0 = null;
         FileOutputStream f1 = null;
         FileOutputStream f2 = null;
 
         try {
             long[] stdHandles;
             if (redirects == null) {
-                stdHandles = new long[] { -1L, -1L, -1L };
+                stdHandles = new long[]{-1L, -1L, -1L};
             } else {
                 stdHandles = new long[3];
 
@@ -119,7 +117,7 @@ final class ProcessImpl extends Process {
                     stdHandles[1] = fdAccess.getHandle(FileDescriptor.out);
                 else {
                     f1 = newFileOutputStream(redirects[1].file(),
-                                             redirects[1].append());
+                            redirects[1].append());
                     stdHandles[1] = fdAccess.getHandle(f1.getFD());
                 }
 
@@ -129,20 +127,24 @@ final class ProcessImpl extends Process {
                     stdHandles[2] = fdAccess.getHandle(FileDescriptor.err);
                 else {
                     f2 = newFileOutputStream(redirects[2].file(),
-                                             redirects[2].append());
+                            redirects[2].append());
                     stdHandles[2] = fdAccess.getHandle(f2.getFD());
                 }
             }
 
             return new ProcessImpl(cmdarray, envblock, dir,
-                                   stdHandles, redirectErrorStream);
+                    stdHandles, redirectErrorStream);
         } finally {
             // In theory, close() can throw IOException
             // (although it is rather unlikely to happen here)
-            try { if (f0 != null) f0.close(); }
-            finally {
-                try { if (f1 != null) f1.close(); }
-                finally { if (f2 != null) f2.close(); }
+            try {
+                if (f0 != null) f0.close();
+            } finally {
+                try {
+                    if (f1 != null) f1.close();
+                } finally {
+                    if (f2 != null) f2.close();
+                }
             }
         }
 
@@ -152,8 +154,10 @@ final class ProcessImpl extends Process {
         // Escape-support version:
         //    "(\")((?:\\\\\\1|.)+?)\\1|([^\\s\"]+)";
         private static final Pattern PATTERN =
-            Pattern.compile("[^\\s\"]+|\"[^\"]*\"");
-    };
+                Pattern.compile("[^\\s\"]+|\"[^\"]*\"");
+    }
+
+    ;
 
     /* Parses the command string parameter into the executable name and
      * program arguments.
@@ -174,18 +178,17 @@ final class ProcessImpl extends Process {
     private static final int VERIFICATION_WIN32 = 1;
     private static final int VERIFICATION_LEGACY = 2;
     private static final char ESCAPE_VERIFICATION[][] = {
-        // We guarantee the only command file execution for implicit [cmd.exe] run.
-        //    http://technet.microsoft.com/en-us/library/bb490954.aspx
-        {' ', '\t', '<', '>', '&', '|', '^'},
+            // We guarantee the only command file execution for implicit [cmd.exe] run.
+            //    http://technet.microsoft.com/en-us/library/bb490954.aspx
+            {' ', '\t', '<', '>', '&', '|', '^'},
 
-        {' ', '\t', '<', '>'},
-        {' ', '\t'}
+            {' ', '\t', '<', '>'},
+            {' ', '\t'}
     };
 
     private static String createCommandLine(int verificationType,
-                                     final String executablePath,
-                                     final String cmd[])
-    {
+                                            final String executablePath,
+                                            final String cmd[]) {
         StringBuilder cmdbuf = new StringBuilder(80);
 
         cmdbuf.append(executablePath);
@@ -220,9 +223,9 @@ final class ProcessImpl extends Process {
     }
 
     private static boolean isQuoted(boolean noQuotesInside, String arg,
-            String errorMessage) {
+                                    String errorMessage) {
         int lastPos = arg.length() - 1;
-        if (lastPos >=1 && arg.charAt(0) == '"' && arg.charAt(lastPos) == '"') {
+        if (lastPos >= 1 && arg.charAt(0) == '"' && arg.charAt(lastPos) == '"') {
             // The argument has already been quoted.
             if (noQuotesInside) {
                 if (arg.indexOf('"', 1) != lastPos) {
@@ -250,8 +253,8 @@ final class ProcessImpl extends Process {
         // For [.exe] or [.com] file the unpaired/internal ["]
         // in the argument is not a problem.
         boolean argIsQuoted = isQuoted(
-            (verificationType == VERIFICATION_CMD_BAT),
-            arg, "Argument has embedded quote, use the explicit CMD.EXE call.");
+                (verificationType == VERIFICATION_CMD_BAT),
+                arg, "Argument has embedded quote, use the explicit CMD.EXE call.");
 
         if (!argIsQuoted) {
             char testEscape[] = ESCAPE_VERIFICATION[verificationType];
@@ -265,15 +268,14 @@ final class ProcessImpl extends Process {
     }
 
     private static String getExecutablePath(String path)
-        throws IOException
-    {
+            throws IOException {
         boolean pathIsQuoted = isQuoted(true, path,
                 "Executable name has embedded quote, split the arguments");
 
         // Win32 CreateProcess requires path to be normalized
         File fileToRun = new File(pathIsQuoted
-            ? path.substring(1, path.length() - 1)
-            : path);
+                ? path.substring(1, path.length() - 1)
+                : path);
 
         // From the [CreateProcess] function documentation:
         //
@@ -316,8 +318,7 @@ final class ProcessImpl extends Process {
                         final String path,
                         final long[] stdHandles,
                         final boolean redirectErrorStream)
-        throws IOException
-    {
+            throws IOException {
         String cmdstr;
         SecurityManager security = System.getSecurityManager();
         boolean allowAmbiguousCommands = false;
@@ -334,14 +335,14 @@ final class ProcessImpl extends Process {
             String executablePath = new File(cmd[0]).getPath();
 
             // No worry about internal, unpaired ["], and redirection/piping.
-            if (needsEscaping(VERIFICATION_LEGACY, executablePath) )
+            if (needsEscaping(VERIFICATION_LEGACY, executablePath))
                 executablePath = quoteString(executablePath);
 
             cmdstr = createCommandLine(
-                //legacy mode doesn't worry about extended verification
-                VERIFICATION_LEGACY,
-                executablePath,
-                cmd);
+                    //legacy mode doesn't worry about extended verification
+                    VERIFICATION_LEGACY,
+                    executablePath,
+                    cmd);
         } else {
             String executablePath;
             try {
@@ -377,45 +378,47 @@ final class ProcessImpl extends Process {
             cmdstr = createCommandLine(
                     // We need the extended verification procedure for CMD files.
                     isShellFile(executablePath)
-                        ? VERIFICATION_CMD_BAT
-                        : VERIFICATION_WIN32,
+                            ? VERIFICATION_CMD_BAT
+                            : VERIFICATION_WIN32,
                     quoteString(executablePath),
                     cmd);
         }
 
         handle = create(cmdstr, envblock, path,
-                        stdHandles, redirectErrorStream);
+                stdHandles, redirectErrorStream);
 
         java.security.AccessController.doPrivileged(
-        new java.security.PrivilegedAction<Void>() {
-        public Void run() {
-            if (stdHandles[0] == -1L)
-                stdin_stream = ProcessBuilder.NullOutputStream.INSTANCE;
-            else {
-                FileDescriptor stdin_fd = new FileDescriptor();
-                fdAccess.setHandle(stdin_fd, stdHandles[0]);
-                stdin_stream = new BufferedOutputStream(
-                    new FileOutputStream(stdin_fd));
-            }
+                new java.security.PrivilegedAction<Void>() {
+                    public Void run() {
+                        if (stdHandles[0] == -1L)
+                            stdin_stream = ProcessBuilder.NullOutputStream.INSTANCE;
+                        else {
+                            FileDescriptor stdin_fd = new FileDescriptor();
+                            fdAccess.setHandle(stdin_fd, stdHandles[0]);
+                            stdin_stream = new BufferedOutputStream(
+                                    new FileOutputStream(stdin_fd));
+                        }
 
-            if (stdHandles[1] == -1L)
-                stdout_stream = ProcessBuilder.NullInputStream.INSTANCE;
-            else {
-                FileDescriptor stdout_fd = new FileDescriptor();
-                fdAccess.setHandle(stdout_fd, stdHandles[1]);
-                stdout_stream = new BufferedInputStream(
-                    new FileInputStream(stdout_fd));
-            }
+                        if (stdHandles[1] == -1L)
+                            stdout_stream = ProcessBuilder.NullInputStream.INSTANCE;
+                        else {
+                            FileDescriptor stdout_fd = new FileDescriptor();
+                            fdAccess.setHandle(stdout_fd, stdHandles[1]);
+                            stdout_stream = new BufferedInputStream(
+                                    new FileInputStream(stdout_fd));
+                        }
 
-            if (stdHandles[2] == -1L)
-                stderr_stream = ProcessBuilder.NullInputStream.INSTANCE;
-            else {
-                FileDescriptor stderr_fd = new FileDescriptor();
-                fdAccess.setHandle(stderr_fd, stdHandles[2]);
-                stderr_stream = new FileInputStream(stderr_fd);
-            }
+                        if (stdHandles[2] == -1L)
+                            stderr_stream = ProcessBuilder.NullInputStream.INSTANCE;
+                        else {
+                            FileDescriptor stderr_fd = new FileDescriptor();
+                            fdAccess.setHandle(stderr_fd, stdHandles[2]);
+                            stderr_stream = new FileInputStream(stderr_fd);
+                        }
 
-            return null; }});
+                        return null;
+                    }
+                });
     }
 
     public OutputStream getOutputStream() {
@@ -435,6 +438,7 @@ final class ProcessImpl extends Process {
     }
 
     private static final int STILL_ACTIVE = getStillActive();
+
     private static native int getStillActive();
 
     public int exitValue() {
@@ -443,6 +447,7 @@ final class ProcessImpl extends Process {
             throw new IllegalThreadStateException("process has not exited");
         return exitCode;
     }
+
     private static native int getExitCodeProcess(long handle);
 
     public int waitFor() throws InterruptedException {
@@ -456,8 +461,7 @@ final class ProcessImpl extends Process {
 
     @Override
     public boolean waitFor(long timeout, TimeUnit unit)
-        throws InterruptedException
-    {
+            throws InterruptedException {
         if (getExitCodeProcess(handle) != STILL_ACTIVE) return true;
         if (timeout <= 0) return false;
 
@@ -470,9 +474,11 @@ final class ProcessImpl extends Process {
     }
 
     private static native void waitForTimeoutInterruptibly(
-        long handle, long timeout);
+            long handle, long timeout);
 
-    public void destroy() { terminateProcess(handle); }
+    public void destroy() {
+        terminateProcess(handle);
+    }
 
     @Override
     public Process destroyForcibly() {
@@ -494,28 +500,28 @@ final class ProcessImpl extends Process {
      * The method is synchronized due to MS kb315939 problem.
      * All native handles should restore the inherit flag at the end of call.
      *
-     * @param cmdstr the Windows command line
-     * @param envblock NUL-separated, double-NUL-terminated list of
-     *        environment strings in VAR=VALUE form
-     * @param dir the working directory of the process, or null if
-     *        inheriting the current directory from the parent process
-     * @param stdHandles array of windows HANDLEs.  Indexes 0, 1, and
-     *        2 correspond to standard input, standard output and
-     *        standard error, respectively.  On input, a value of -1
-     *        means to create a pipe to connect child and parent
-     *        processes.  On output, a value which is not -1 is the
-     *        parent pipe handle corresponding to the pipe which has
-     *        been created.  An element of this array is -1 on input
-     *        if and only if it is <em>not</em> -1 on output.
+     * @param cmdstr              the Windows command line
+     * @param envblock            NUL-separated, double-NUL-terminated list of
+     *                            environment strings in VAR=VALUE form
+     * @param dir                 the working directory of the process, or null if
+     *                            inheriting the current directory from the parent process
+     * @param stdHandles          array of windows HANDLEs.  Indexes 0, 1, and
+     *                            2 correspond to standard input, standard output and
+     *                            standard error, respectively.  On input, a value of -1
+     *                            means to create a pipe to connect child and parent
+     *                            processes.  On output, a value which is not -1 is the
+     *                            parent pipe handle corresponding to the pipe which has
+     *                            been created.  An element of this array is -1 on input
+     *                            if and only if it is <em>not</em> -1 on output.
      * @param redirectErrorStream redirectErrorStream attribute
      * @return the native subprocess HANDLE returned by CreateProcess
      */
     private static synchronized native long create(String cmdstr,
-                                      String envblock,
-                                      String dir,
-                                      long[] stdHandles,
-                                      boolean redirectErrorStream)
-        throws IOException;
+                                                   String envblock,
+                                                   String dir,
+                                                   long[] stdHandles,
+                                                   boolean redirectErrorStream)
+            throws IOException;
 
     /**
      * Opens a file for atomic append. The file is created if it doesn't
@@ -525,7 +531,7 @@ final class ProcessImpl extends Process {
      * @return the native HANDLE
      */
     private static native long openForAtomicAppend(String path)
-        throws IOException;
+            throws IOException;
 
     private static native boolean closeHandle(long handle);
 }

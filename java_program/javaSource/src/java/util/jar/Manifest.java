@@ -42,9 +42,9 @@ import java.util.Iterator;
  * <a href="../../../../technotes/guides/jar/jar.html">
  * Manifest format specification</a>.
  *
- * @author  David Connelly
- * @see     Attributes
- * @since   1.2
+ * @author David Connelly
+ * @see Attributes
+ * @since 1.2
  */
 public class Manifest implements Cloneable {
     // manifest main attributes
@@ -81,6 +81,7 @@ public class Manifest implements Cloneable {
 
     /**
      * Returns the main Attributes for the Manifest.
+     *
      * @return the main Attributes for the Manifest
      */
     public Attributes getMainAttributes() {
@@ -96,7 +97,7 @@ public class Manifest implements Cloneable {
      *
      * @return a Map of the entries contained in this Manifest
      */
-    public Map<String,Attributes> getEntries() {
+    public Map<String, Attributes> getEntries() {
         return entries;
     }
 
@@ -140,7 +141,7 @@ public class Manifest implements Cloneable {
      * MainAttributes prior to invoking this method.
      *
      * @param out the output stream
-     * @exception IOException if an I/O error has occurred
+     * @throws IOException if an I/O error has occurred
      * @see #getMainAttributes
      */
     public void write(OutputStream out) throws IOException {
@@ -188,7 +189,7 @@ public class Manifest implements Cloneable {
      * manifest entries.
      *
      * @param is the input stream
-     * @exception IOException if an I/O error has occurred
+     * @throws IOException if an I/O error has occurred
      */
     public void read(InputStream is) throws IOException {
         // Buffered input stream for reading manifest data
@@ -211,7 +212,7 @@ public class Manifest implements Cloneable {
             if (lbuf[--len] != '\n') {
                 throw new IOException("manifest line too long");
             }
-            if (len > 0 && lbuf[len-1] == '\r') {
+            if (len > 0 && lbuf[len - 1] == '\r') {
                 --len;
             }
             if (len == 0 && skipEmptyLines) {
@@ -263,12 +264,11 @@ public class Manifest implements Cloneable {
 
     private String parseName(byte[] lbuf, int len) {
         if (toLower(lbuf[0]) == 'n' && toLower(lbuf[1]) == 'a' &&
-            toLower(lbuf[2]) == 'm' && toLower(lbuf[3]) == 'e' &&
-            lbuf[4] == ':' && lbuf[5] == ' ') {
+                toLower(lbuf[2]) == 'm' && toLower(lbuf[3]) == 'e' &&
+                lbuf[4] == ':' && lbuf[5] == ' ') {
             try {
                 return new String(lbuf, 6, len - 6, "UTF8");
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
             }
         }
         return null;
@@ -288,9 +288,9 @@ public class Manifest implements Cloneable {
      */
     public boolean equals(Object o) {
         if (o instanceof Manifest) {
-            Manifest m = (Manifest)o;
+            Manifest m = (Manifest) o;
             return attr.equals(m.getMainAttributes()) &&
-                   entries.equals(m.getEntries());
+                    entries.equals(m.getEntries());
         } else {
             return false;
         }
@@ -309,6 +309,7 @@ public class Manifest implements Cloneable {
      * <pre>
      *     public Object clone() { return new Manifest(this); }
      * </pre>
+     *
      * @return a shallow copy of this Manifest
      */
     public Object clone() {
@@ -390,7 +391,7 @@ public class Manifest implements Cloneable {
                 off += n;
                 total += n;
                 pos = tpos;
-                if (tbuf[tpos-1] == '\n') {
+                if (tbuf[tpos - 1] == '\n') {
                     break;
                 }
             }

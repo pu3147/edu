@@ -29,21 +29,18 @@ package java.nio;
 
 
 class ByteBufferAsIntBufferL                  // package-private
-    extends IntBuffer
-{
-
+        extends IntBuffer {
 
 
     protected final ByteBuffer bb;
     protected final int offset;
 
 
-
     ByteBufferAsIntBufferL(ByteBuffer bb) {   // package-private
 
         super(-1, 0,
-              bb.remaining() >> 2,
-              bb.remaining() >> 2);
+                bb.remaining() >> 2,
+                bb.remaining() >> 2);
         this.bb = bb;
         // enforce limit == capacity
         int cap = this.capacity();
@@ -53,18 +50,15 @@ class ByteBufferAsIntBufferL                  // package-private
         offset = pos;
 
 
-
     }
 
     ByteBufferAsIntBufferL(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
+                           int mark, int pos, int lim, int cap,
+                           int off) {
 
         super(mark, pos, lim, cap);
         this.bb = bb;
         offset = off;
-
 
 
     }
@@ -81,26 +75,24 @@ class ByteBufferAsIntBufferL                  // package-private
 
     public IntBuffer duplicate() {
         return new ByteBufferAsIntBufferL(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public IntBuffer asReadOnlyBuffer() {
 
         return new ByteBufferAsIntBufferRL(bb,
-                                                 this.markValue(),
-                                                 this.position(),
-                                                 this.limit(),
-                                                 this.capacity(),
-                                                 offset);
-
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
 
 
     }
-
 
 
     protected int ix(int i) {
@@ -116,18 +108,10 @@ class ByteBufferAsIntBufferL                  // package-private
     }
 
 
-
-
-
-
-
-
-
     public IntBuffer put(int x) {
 
         Bits.putIntL(bb, ix(nextPutIndex()), x);
         return this;
-
 
 
     }
@@ -136,7 +120,6 @@ class ByteBufferAsIntBufferL                  // package-private
 
         Bits.putIntL(bb, ix(checkIndex(i)), x);
         return this;
-
 
 
     }
@@ -160,7 +143,6 @@ class ByteBufferAsIntBufferL                  // package-private
         return this;
 
 
-
     }
 
     public boolean isDirect() {
@@ -172,50 +154,7 @@ class ByteBufferAsIntBufferL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
 
 
         return ByteOrder.LITTLE_ENDIAN;

@@ -28,6 +28,7 @@
 package java.nio;
 
 import java.io.FileDescriptor;
+
 import sun.misc.Cleaner;
 import sun.misc.Unsafe;
 import sun.misc.VM;
@@ -37,166 +38,16 @@ import sun.nio.ch.DirectBuffer;
 class DirectCharBufferRU
 
 
+        extends DirectCharBufferU
 
-    extends DirectCharBufferU
-
-    implements DirectBuffer
-{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        implements DirectBuffer {
 
 
     // For duplicates and slices
     //
     DirectCharBufferRU(DirectBuffer db,         // package-private
-                               int mark, int pos, int lim, int cap,
-                               int off)
-    {
-
-
-
-
-
-
+                       int mark, int pos, int lim, int cap,
+                       int off) {
 
 
         super(db, mark, pos, lim, cap, off);
@@ -215,20 +66,14 @@ class DirectCharBufferRU
 
     public CharBuffer duplicate() {
         return new DirectCharBufferRU(this,
-                                              this.markValue(),
-                                              this.position(),
-                                              this.limit(),
-                                              this.capacity(),
-                                              0);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                0);
     }
 
     public CharBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -236,65 +81,7 @@ class DirectCharBufferRU
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public CharBuffer put(char x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -304,47 +91,11 @@ class DirectCharBufferRU
     public CharBuffer put(int i, char x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public CharBuffer put(CharBuffer src) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -354,43 +105,11 @@ class DirectCharBufferRU
     public CharBuffer put(char[] src, int offset, int length) {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public CharBuffer compact() {
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -404,8 +123,6 @@ class DirectCharBufferRU
     public boolean isReadOnly() {
         return true;
     }
-
-
 
 
     public String toString(int start, int end) {
@@ -438,53 +155,21 @@ class DirectCharBufferRU
         if ((start < 0) || (end > len) || (start > end))
             throw new IndexOutOfBoundsException();
         return new DirectCharBufferRU(this,
-                                            -1,
-                                            pos + start,
-                                            pos + end,
-                                            capacity(),
-                                            offset);
+                -1,
+                pos + start,
+                pos + end,
+                capacity(),
+                offset);
     }
 
 
-
-
-
-
-
     public ByteOrder order() {
-
-
-
 
 
         return ((ByteOrder.nativeOrder() != ByteOrder.BIG_ENDIAN)
                 ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

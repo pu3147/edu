@@ -46,7 +46,7 @@ import java.util.function.Predicate;
  *                      .mapToInt(w -> w.getWeight())
  *                      .sum();
  * }</pre>
- *
+ * <p>
  * See the class documentation for {@link Stream} and the package documentation
  * for <a href="package-summary.html">java.util.stream</a> for additional
  * specification of streams, stream operations, stream pipelines, and
@@ -54,12 +54,12 @@ import java.util.function.Predicate;
  *
  * @param <T> the type of the stream elements
  * @param <S> the type of of the stream implementing {@code BaseStream}
- * @since 1.8
  * @see Stream
  * @see IntStream
  * @see LongStream
  * @see DoubleStream
  * @see <a href="package-summary.html">java.util.stream</a>
+ * @since 1.8
  */
 public interface BaseStream<T, S extends BaseStream<T, S>>
         extends AutoCloseable {

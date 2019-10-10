@@ -206,7 +206,6 @@ import java.util.Arrays;
  * the target interface, and the target interface method(s)), as well as a
  * method signature describing the number and static types (but not the values)
  * of the dynamic arguments and the static return type of the invokedynamic site.
- *
  * @implNote The implementation method is described with a method handle. In
  * theory, any method handle could be used. Currently supported are direct method
  * handles representing invocation of virtual, interface, constructor and static
@@ -214,8 +213,10 @@ import java.util.Arrays;
  */
 public class LambdaMetafactory {
 
-    /** Flag for alternate metafactories indicating the lambda object
-     * must be serializable */
+    /**
+     * Flag for alternate metafactories indicating the lambda object
+     * must be serializable
+     */
     public static final int FLAG_SERIALIZABLE = 1 << 0;
 
     /**
@@ -254,36 +255,36 @@ public class LambdaMetafactory {
      * signature given by {@code samMethodType}.  It may also override additional
      * methods from {@code Object}.
      *
-     * @param caller Represents a lookup context with the accessibility
-     *               privileges of the caller.  When used with {@code invokedynamic},
-     *               this is stacked automatically by the VM.
-     * @param invokedName The name of the method to implement.  When used with
-     *                    {@code invokedynamic}, this is provided by the
-     *                    {@code NameAndType} of the {@code InvokeDynamic}
-     *                    structure and is stacked automatically by the VM.
-     * @param invokedType The expected signature of the {@code CallSite}.  The
-     *                    parameter types represent the types of capture variables;
-     *                    the return type is the interface to implement.   When
-     *                    used with {@code invokedynamic}, this is provided by
-     *                    the {@code NameAndType} of the {@code InvokeDynamic}
-     *                    structure and is stacked automatically by the VM.
-     *                    In the event that the implementation method is an
-     *                    instance method and this signature has any parameters,
-     *                    the first parameter in the invocation signature must
-     *                    correspond to the receiver.
-     * @param samMethodType Signature and return type of method to be implemented
-     *                      by the function object.
-     * @param implMethod A direct method handle describing the implementation
-     *                   method which should be called (with suitable adaptation
-     *                   of argument types, return types, and with captured
-     *                   arguments prepended to the invocation arguments) at
-     *                   invocation time.
+     * @param caller                 Represents a lookup context with the accessibility
+     *                               privileges of the caller.  When used with {@code invokedynamic},
+     *                               this is stacked automatically by the VM.
+     * @param invokedName            The name of the method to implement.  When used with
+     *                               {@code invokedynamic}, this is provided by the
+     *                               {@code NameAndType} of the {@code InvokeDynamic}
+     *                               structure and is stacked automatically by the VM.
+     * @param invokedType            The expected signature of the {@code CallSite}.  The
+     *                               parameter types represent the types of capture variables;
+     *                               the return type is the interface to implement.   When
+     *                               used with {@code invokedynamic}, this is provided by
+     *                               the {@code NameAndType} of the {@code InvokeDynamic}
+     *                               structure and is stacked automatically by the VM.
+     *                               In the event that the implementation method is an
+     *                               instance method and this signature has any parameters,
+     *                               the first parameter in the invocation signature must
+     *                               correspond to the receiver.
+     * @param samMethodType          Signature and return type of method to be implemented
+     *                               by the function object.
+     * @param implMethod             A direct method handle describing the implementation
+     *                               method which should be called (with suitable adaptation
+     *                               of argument types, return types, and with captured
+     *                               arguments prepended to the invocation arguments) at
+     *                               invocation time.
      * @param instantiatedMethodType The signature and return type that should
      *                               be enforced dynamically at invocation time.
      *                               This may be the same as {@code samMethodType},
      *                               or may be a specialization of it.
      * @return a CallSite whose target can be used to perform capture, generating
-     *         instances of the interface named by {@code invokedType}
+     * instances of the interface named by {@code invokedType}
      * @throws LambdaConversionException If any of the linkage invariants
      *                                   described {@link LambdaMetafactory above}
      *                                   are violated
@@ -297,9 +298,9 @@ public class LambdaMetafactory {
             throws LambdaConversionException {
         AbstractValidatingLambdaMetafactory mf;
         mf = new InnerClassLambdaMetafactory(caller, invokedType,
-                                             invokedName, samMethodType,
-                                             implMethod, instantiatedMethodType,
-                                             false, EMPTY_CLASS_ARRAY, EMPTY_MT_ARRAY);
+                invokedName, samMethodType,
+                implMethod, instantiatedMethodType,
+                false, EMPTY_CLASS_ARRAY, EMPTY_MT_ARRAY);
         mf.validateMetafactoryArgs();
         return mf.buildCallSite();
     }
@@ -395,9 +396,9 @@ public class LambdaMetafactory {
      *     implement methods related to serialization.</li>
      * </ul>
      *
-     * @param caller Represents a lookup context with the accessibility
-     *               privileges of the caller.  When used with {@code invokedynamic},
-     *               this is stacked automatically by the VM.
+     * @param caller      Represents a lookup context with the accessibility
+     *                    privileges of the caller.  When used with {@code invokedynamic},
+     *                    this is stacked automatically by the VM.
      * @param invokedName The name of the method to implement.  When used with
      *                    {@code invokedynamic}, this is provided by the
      *                    {@code NameAndType} of the {@code InvokeDynamic}
@@ -412,13 +413,13 @@ public class LambdaMetafactory {
      *                    instance method and this signature has any parameters,
      *                    the first parameter in the invocation signature must
      *                    correspond to the receiver.
-     * @param  args       An {@code Object[]} array containing the required
+     * @param args        An {@code Object[]} array containing the required
      *                    arguments {@code samMethodType}, {@code implMethod},
      *                    {@code instantiatedMethodType}, {@code flags}, and any
      *                    optional arguments, as described
      *                    {@link #altMetafactory(MethodHandles.Lookup, String, MethodType, Object...)} above}
      * @return a CallSite whose target can be used to perform capture, generating
-     *         instances of the interface named by {@code invokedType}
+     * instances of the interface named by {@code invokedType}
      * @throws LambdaConversionException If any of the linkage invariants
      *                                   described {@link LambdaMetafactory above}
      *                                   are violated
@@ -428,9 +429,9 @@ public class LambdaMetafactory {
                                           MethodType invokedType,
                                           Object... args)
             throws LambdaConversionException {
-        MethodType samMethodType = (MethodType)args[0];
-        MethodHandle implMethod = (MethodHandle)args[1];
-        MethodType instantiatedMethodType = (MethodType)args[2];
+        MethodType samMethodType = (MethodType) args[0];
+        MethodHandle implMethod = (MethodHandle) args[1];
+        MethodType instantiatedMethodType = (MethodType) args[2];
         int flags = (Integer) args[3];
         Class<?>[] markerInterfaces;
         MethodType[] bridges;
@@ -440,16 +441,14 @@ public class LambdaMetafactory {
             markerInterfaces = new Class<?>[markerCount];
             System.arraycopy(args, argIndex, markerInterfaces, 0, markerCount);
             argIndex += markerCount;
-        }
-        else
+        } else
             markerInterfaces = EMPTY_CLASS_ARRAY;
         if ((flags & FLAG_BRIDGES) != 0) {
             int bridgeCount = (Integer) args[argIndex++];
             bridges = new MethodType[bridgeCount];
             System.arraycopy(args, argIndex, bridges, 0, bridgeCount);
             argIndex += bridgeCount;
-        }
-        else
+        } else
             bridges = EMPTY_MT_ARRAY;
 
         boolean isSerializable = ((flags & FLAG_SERIALIZABLE) != 0);
@@ -459,17 +458,17 @@ public class LambdaMetafactory {
                 foundSerializableSupertype |= Serializable.class.isAssignableFrom(c);
             if (!foundSerializableSupertype) {
                 markerInterfaces = Arrays.copyOf(markerInterfaces, markerInterfaces.length + 1);
-                markerInterfaces[markerInterfaces.length-1] = Serializable.class;
+                markerInterfaces[markerInterfaces.length - 1] = Serializable.class;
             }
         }
 
         AbstractValidatingLambdaMetafactory mf
                 = new InnerClassLambdaMetafactory(caller, invokedType,
-                                                  invokedName, samMethodType,
-                                                  implMethod,
-                                                  instantiatedMethodType,
-                                                  isSerializable,
-                                                  markerInterfaces, bridges);
+                invokedName, samMethodType,
+                implMethod,
+                instantiatedMethodType,
+                isSerializable,
+                markerInterfaces, bridges);
         mf.validateMetafactoryArgs();
         return mf.buildCallSite();
     }

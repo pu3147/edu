@@ -37,8 +37,8 @@ package java.awt;
  * moves. To get the updated location, you must call
  * {@link MouseInfo#getPointerInfo} again.
  *
- * @see MouseInfo#getPointerInfo
  * @author Roman Poborchiy
+ * @see MouseInfo#getPointerInfo
  * @since 1.5
  */
 public class PointerInfo {

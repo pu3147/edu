@@ -41,7 +41,7 @@ package java.lang.reflect;
  * <li> The flags field contains an illegal flag (something other than
  *     FINAL, SYNTHETIC, or MANDATED)
  * </ul>
- *
+ * <p>
  * See {@link java.lang.reflect.Executable#getParameters} for more
  * information.
  *
@@ -59,7 +59,8 @@ public class MalformedParametersException extends RuntimeException {
      * Create a {@code MalformedParametersException} with an empty
      * reason.
      */
-    public MalformedParametersException() {}
+    public MalformedParametersException() {
+    }
 
     /**
      * Create a {@code MalformedParametersException}.

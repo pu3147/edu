@@ -49,11 +49,10 @@ import java.security.spec.AlgorithmParameterSpec;
  *   ...  -- Allows for future expansion --
  * }
  * </pre>
- * @see PSSParameterSpec
- * @see javax.crypto.spec.OAEPParameterSpec
  *
  * @author Valerie Peng
- *
+ * @see PSSParameterSpec
+ * @see javax.crypto.spec.OAEPParameterSpec
  * @since 1.5
  */
 public class MGF1ParameterSpec implements AlgorithmParameterSpec {
@@ -62,27 +61,27 @@ public class MGF1ParameterSpec implements AlgorithmParameterSpec {
      * The MGF1ParameterSpec which uses "SHA-1" message digest.
      */
     public static final MGF1ParameterSpec SHA1 =
-        new MGF1ParameterSpec("SHA-1");
+            new MGF1ParameterSpec("SHA-1");
     /**
      * The MGF1ParameterSpec which uses "SHA-224" message digest.
      */
     public static final MGF1ParameterSpec SHA224 =
-        new MGF1ParameterSpec("SHA-224");
+            new MGF1ParameterSpec("SHA-224");
     /**
      * The MGF1ParameterSpec which uses "SHA-256" message digest.
      */
     public static final MGF1ParameterSpec SHA256 =
-        new MGF1ParameterSpec("SHA-256");
+            new MGF1ParameterSpec("SHA-256");
     /**
      * The MGF1ParameterSpec which uses "SHA-384" message digest.
      */
     public static final MGF1ParameterSpec SHA384 =
-        new MGF1ParameterSpec("SHA-384");
+            new MGF1ParameterSpec("SHA-384");
     /**
      * The MGF1ParameterSpec which uses SHA-512 message digest.
      */
     public static final MGF1ParameterSpec SHA512 =
-        new MGF1ParameterSpec("SHA-512");
+            new MGF1ParameterSpec("SHA-512");
 
     private String mdName;
 
@@ -91,8 +90,8 @@ public class MGF1ParameterSpec implements AlgorithmParameterSpec {
      * as defined in the PKCS #1 standard.
      *
      * @param mdName the algorithm name for the message digest
-     * used in this mask generation function MGF1.
-     * @exception NullPointerException if {@code mdName} is null.
+     *               used in this mask generation function MGF1.
+     * @throws NullPointerException if {@code mdName} is null.
      */
     public MGF1ParameterSpec(String mdName) {
         if (mdName == null) {

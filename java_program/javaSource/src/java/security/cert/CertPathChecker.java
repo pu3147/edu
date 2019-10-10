@@ -45,11 +45,11 @@ public interface CertPathChecker {
      * be passed to the {@link #check check} method (forward or reverse).
      *
      * @param forward the order that certificates are presented to the
-     *        {@code check} method. If {@code true}, certificates are
-     *        presented from target to trust anchor (forward); if
-     *        {@code false}, from trust anchor to target (reverse).
+     *                {@code check} method. If {@code true}, certificates are
+     *                presented from target to trust anchor (forward); if
+     *                {@code false}, from trust anchor to target (reverse).
      * @throws CertPathValidatorException if this {@code CertPathChecker} is
-     *         unable to check certificates in the specified order
+     *                                    unable to check certificates in the specified order
      */
     void init(boolean forward) throws CertPathValidatorException;
 
@@ -60,7 +60,7 @@ public interface CertPathChecker {
      * forward direction (from target to trust anchor).
      *
      * @return {@code true} if forward checking is supported, {@code false}
-     *         otherwise
+     * otherwise
      */
     boolean isForwardCheckingSupported();
 
@@ -71,7 +71,7 @@ public interface CertPathChecker {
      *
      * @param cert the {@code Certificate} to be checked
      * @throws CertPathValidatorException if the specified certificate does
-     *         not pass the check
+     *                                    not pass the check
      */
     void check(Certificate cert) throws CertPathValidatorException;
 }

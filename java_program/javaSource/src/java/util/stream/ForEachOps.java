@@ -55,16 +55,17 @@ import java.util.function.LongConsumer;
  */
 final class ForEachOps {
 
-    private ForEachOps() { }
+    private ForEachOps() {
+    }
 
     /**
      * Constructs a {@code TerminalOp} that perform an action for every element
      * of a stream.
      *
-     * @param action the {@code Consumer} that receives all elements of a
-     *        stream
+     * @param action  the {@code Consumer} that receives all elements of a
+     *                stream
      * @param ordered whether an ordered traversal is requested
-     * @param <T> the type of the stream elements
+     * @param <T>     the type of the stream elements
      * @return the {@code TerminalOp} instance
      */
     public static <T> TerminalOp<T, Void> makeRef(Consumer<? super T> action,
@@ -77,8 +78,8 @@ final class ForEachOps {
      * Constructs a {@code TerminalOp} that perform an action for every element
      * of an {@code IntStream}.
      *
-     * @param action the {@code IntConsumer} that receives all elements of a
-     *        stream
+     * @param action  the {@code IntConsumer} that receives all elements of a
+     *                stream
      * @param ordered whether an ordered traversal is requested
      * @return the {@code TerminalOp} instance
      */
@@ -92,8 +93,8 @@ final class ForEachOps {
      * Constructs a {@code TerminalOp} that perform an action for every element
      * of a {@code LongStream}.
      *
-     * @param action the {@code LongConsumer} that receives all elements of a
-     *        stream
+     * @param action  the {@code LongConsumer} that receives all elements of a
+     *                stream
      * @param ordered whether an ordered traversal is requested
      * @return the {@code TerminalOp} instance
      */
@@ -107,8 +108,8 @@ final class ForEachOps {
      * Constructs a {@code TerminalOp} that perform an action for every element
      * of a {@code DoubleStream}.
      *
-     * @param action the {@code DoubleConsumer} that receives all elements of
-     *        a stream
+     * @param action  the {@code DoubleConsumer} that receives all elements of
+     *                a stream
      * @param ordered whether an ordered traversal is requested
      * @return the {@code TerminalOp} instance
      */
@@ -170,7 +171,9 @@ final class ForEachOps {
 
         // Implementations
 
-        /** Implementation class for reference streams */
+        /**
+         * Implementation class for reference streams
+         */
         static final class OfRef<T> extends ForEachOp<T> {
             final Consumer<? super T> consumer;
 
@@ -185,7 +188,9 @@ final class ForEachOps {
             }
         }
 
-        /** Implementation class for {@code IntStream} */
+        /**
+         * Implementation class for {@code IntStream}
+         */
         static final class OfInt extends ForEachOp<Integer>
                 implements Sink.OfInt {
             final IntConsumer consumer;
@@ -206,7 +211,9 @@ final class ForEachOps {
             }
         }
 
-        /** Implementation class for {@code LongStream} */
+        /**
+         * Implementation class for {@code LongStream}
+         */
         static final class OfLong extends ForEachOp<Long>
                 implements Sink.OfLong {
             final LongConsumer consumer;
@@ -227,7 +234,9 @@ final class ForEachOps {
             }
         }
 
-        /** Implementation class for {@code DoubleStream} */
+        /**
+         * Implementation class for {@code DoubleStream}
+         */
         static final class OfDouble extends ForEachOp<Double>
                 implements Sink.OfDouble {
             final DoubleConsumer consumer;
@@ -249,7 +258,9 @@ final class ForEachOps {
         }
     }
 
-    /** A {@code ForkJoinTask} for performing a parallel for-each operation */
+    /**
+     * A {@code ForkJoinTask} for performing a parallel for-each operation
+     */
     @SuppressWarnings("serial")
     static final class ForEachTask<S, T> extends CountedCompleter<Void> {
         private Spliterator<S> spliterator;
@@ -287,7 +298,7 @@ final class ForEachOps {
             ForEachTask<S, T> task = this;
             while (!isShortCircuit || !taskSink.cancellationRequested()) {
                 if (sizeEstimate <= sizeThreshold ||
-                    (leftSplit = rightSplit.trySplit()) == null) {
+                        (leftSplit = rightSplit.trySplit()) == null) {
                     task.helper.copyInto(taskSink, rightSplit);
                     break;
                 }
@@ -299,8 +310,7 @@ final class ForEachOps {
                     rightSplit = leftSplit;
                     taskToFork = task;
                     task = leftTask;
-                }
-                else {
+                } else {
                     forkRight = true;
                     taskToFork = leftTask;
                 }
@@ -405,11 +415,11 @@ final class ForEachOps {
             long sizeThreshold = task.targetSize;
             boolean forkRight = false;
             while (rightSplit.estimateSize() > sizeThreshold &&
-                   (leftSplit = rightSplit.trySplit()) != null) {
+                    (leftSplit = rightSplit.trySplit()) != null) {
                 ForEachOrderedTask<S, T> leftChild =
-                    new ForEachOrderedTask<>(task, leftSplit, task.leftPredecessor);
+                        new ForEachOrderedTask<>(task, leftSplit, task.leftPredecessor);
                 ForEachOrderedTask<S, T> rightChild =
-                    new ForEachOrderedTask<>(task, rightSplit, leftChild);
+                        new ForEachOrderedTask<>(task, rightSplit, leftChild);
 
                 // Fork the parent task
                 // Completion of the left and right children "happens-before"
@@ -452,8 +462,7 @@ final class ForEachOps {
                     rightSplit = leftSplit;
                     task = leftChild;
                     taskToFork = rightChild;
-                }
-                else {
+                } else {
                     forkRight = true;
                     task = rightChild;
                     taskToFork = leftChild;
@@ -489,8 +498,7 @@ final class ForEachOps {
                 // Dump buffered elements from this leaf into the sink
                 node.forEach(action);
                 node = null;
-            }
-            else if (spliterator != null) {
+            } else if (spliterator != null) {
                 // Dump elements output from this leaf's pipeline into the sink
                 helper.wrapAndCopyInto(action, spliterator);
                 spliterator = null;

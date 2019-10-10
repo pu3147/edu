@@ -39,14 +39,14 @@ package java.nio.channels;
  */
 
 public class FileLockInterruptionException
-    extends java.io.IOException
-{
+        extends java.io.IOException {
 
     private static final long serialVersionUID = 7104080643653532383L;
 
     /**
      * Constructs an instance of this class.
      */
-    public FileLockInterruptionException() { }
+    public FileLockInterruptionException() {
+    }
 
 }

@@ -77,9 +77,7 @@ import java.util.concurrent.ConcurrentMap;
  * A significant part of dealing with dates and times is the localization.
  * This class acts as a central point for accessing the information.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class DecimalStyle {
@@ -113,6 +111,7 @@ public final class DecimalStyle {
     private final char decimalSeparator;
 
     //-----------------------------------------------------------------------
+
     /**
      * Lists all the locales that are supported.
      * <p>
@@ -135,10 +134,10 @@ public final class DecimalStyle {
      * <p>
      * This is equivalent to calling
      * {@link #of(Locale)
-     *     of(Locale.getDefault(Locale.Category.FORMAT))}.
+     * of(Locale.getDefault(Locale.Category.FORMAT))}.
      *
-     * @see java.util.Locale.Category#FORMAT
      * @return the info, not null
+     * @see java.util.Locale.Category#FORMAT
      */
     public static DecimalStyle ofDefaultLocale() {
         return of(Locale.getDefault(Locale.Category.FORMAT));
@@ -149,7 +148,7 @@ public final class DecimalStyle {
      * <p>
      * This method provides access to locale sensitive decimal style symbols.
      *
-     * @param locale  the locale, not null
+     * @param locale the locale, not null
      * @return the info, not null
      */
     public static DecimalStyle of(Locale locale) {
@@ -176,13 +175,14 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Restricted constructor.
      *
-     * @param zeroChar  the character to use for the digit of zero
-     * @param positiveSignChar  the character to use for the positive sign
-     * @param negativeSignChar  the character to use for the negative sign
-     * @param decimalPointChar  the character to use for the decimal point
+     * @param zeroChar         the character to use for the digit of zero
+     * @param positiveSignChar the character to use for the positive sign
+     * @param negativeSignChar the character to use for the negative sign
+     * @param decimalPointChar the character to use for the decimal point
      */
     private DecimalStyle(char zeroChar, char positiveSignChar, char negativeSignChar, char decimalPointChar) {
         this.zeroDigit = zeroChar;
@@ -192,6 +192,7 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the character that represents zero.
      * <p>
@@ -210,9 +211,8 @@ public final class DecimalStyle {
      * The character used to represent digits may vary by culture.
      * This method specifies the zero character to use, which implies the characters for one to nine.
      *
-     * @param zeroDigit  the character for zero
-     * @return  a copy with a new character that represents zero, not null
-
+     * @param zeroDigit the character for zero
+     * @return a copy with a new character that represents zero, not null
      */
     public DecimalStyle withZeroDigit(char zeroDigit) {
         if (zeroDigit == this.zeroDigit) {
@@ -222,6 +222,7 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the character that represents the positive sign.
      * <p>
@@ -240,8 +241,8 @@ public final class DecimalStyle {
      * The character used to represent a positive number may vary by culture.
      * This method specifies the character to use.
      *
-     * @param positiveSign  the character for the positive sign
-     * @return  a copy with a new character that represents the positive sign, not null
+     * @param positiveSign the character for the positive sign
+     * @return a copy with a new character that represents the positive sign, not null
      */
     public DecimalStyle withPositiveSign(char positiveSign) {
         if (positiveSign == this.positiveSign) {
@@ -251,6 +252,7 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the character that represents the negative sign.
      * <p>
@@ -269,8 +271,8 @@ public final class DecimalStyle {
      * The character used to represent a negative number may vary by culture.
      * This method specifies the character to use.
      *
-     * @param negativeSign  the character for the negative sign
-     * @return  a copy with a new character that represents the negative sign, not null
+     * @param negativeSign the character for the negative sign
+     * @return a copy with a new character that represents the negative sign, not null
      */
     public DecimalStyle withNegativeSign(char negativeSign) {
         if (negativeSign == this.negativeSign) {
@@ -280,6 +282,7 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the character that represents the decimal point.
      * <p>
@@ -298,8 +301,8 @@ public final class DecimalStyle {
      * The character used to represent a decimal point may vary by culture.
      * This method specifies the character to use.
      *
-     * @param decimalSeparator  the character for the decimal point
-     * @return  a copy with a new character that represents the decimal point, not null
+     * @param decimalSeparator the character for the decimal point
+     * @return a copy with a new character that represents the decimal point, not null
      */
     public DecimalStyle withDecimalSeparator(char decimalSeparator) {
         if (decimalSeparator == this.decimalSeparator) {
@@ -309,10 +312,11 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks whether the character is a digit, based on the currently set zero character.
      *
-     * @param ch  the character to check
+     * @param ch the character to check
      * @return the value, 0 to 9, of the character, or -1 if not a digit
      */
     int convertToDigit(char ch) {
@@ -323,7 +327,7 @@ public final class DecimalStyle {
     /**
      * Converts the input numeric text to the internationalized form using the zero character.
      *
-     * @param numericText  the text, consisting of digits 0 to 9, to convert, not null
+     * @param numericText the text, consisting of digits 0 to 9, to convert, not null
      * @return the internationalized text, not null
      */
     String convertNumberToI18N(String numericText) {
@@ -339,10 +343,11 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this DecimalStyle is equal another DecimalStyle.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
     @Override
@@ -369,6 +374,7 @@ public final class DecimalStyle {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a string describing this DecimalStyle.
      *

@@ -30,9 +30,9 @@ import java.io.IOException;
 /**
  * Signals that a Zip exception of some sort has occurred.
  *
- * @author  unascribed
- * @see     java.io.IOException
- * @since   JDK1.0
+ * @author unascribed
+ * @see java.io.IOException
+ * @since JDK1.0
  */
 
 public
@@ -51,7 +51,7 @@ class ZipException extends IOException {
      * Constructs a <code>ZipException</code> with the specified detail
      * message.
      *
-     * @param   s   the detail message.
+     * @param s the detail message.
      */
 
     public ZipException(String s) {

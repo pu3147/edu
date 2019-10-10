@@ -39,8 +39,8 @@ package java.rmi.activation;
  * instance of <code>ActivationException</code> always throws {@link
  * IllegalStateException}.
  *
- * @author      Ann Wollrath
- * @since       1.2
+ * @author Ann Wollrath
+ * @since 1.2
  */
 public class ActivationException extends Exception {
 
@@ -55,7 +55,9 @@ public class ActivationException extends Exception {
      */
     public Throwable detail;
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
+    /**
+     * indicate compatibility with the Java 2 SDK v1.2 version of class
+     */
     private static final long serialVersionUID = -4320118837291406071L;
 
     /**
@@ -81,7 +83,7 @@ public class ActivationException extends Exception {
      * detail message and cause.  This constructor sets the {@link #detail}
      * field to the specified <code>Throwable</code>.
      *
-     * @param s the detail message
+     * @param s     the detail message
      * @param cause the cause
      */
     public ActivationException(String s, Throwable cause) {
@@ -94,23 +96,23 @@ public class ActivationException extends Exception {
      * Returns the detail message, including the message from the cause, if
      * any, of this exception.
      *
-     * @return  the detail message
+     * @return the detail message
      */
     public String getMessage() {
         if (detail == null)
             return super.getMessage();
         else
             return super.getMessage() +
-                "; nested exception is: \n\t" +
-                detail.toString();
+                    "; nested exception is: \n\t" +
+                    detail.toString();
     }
 
     /**
      * Returns the cause of this exception.  This method returns the value
      * of the {@link #detail} field.
      *
-     * @return  the cause, which may be <tt>null</tt>.
-     * @since   1.4
+     * @return the cause, which may be <tt>null</tt>.
+     * @since 1.4
      */
     public Throwable getCause() {
         return detail;

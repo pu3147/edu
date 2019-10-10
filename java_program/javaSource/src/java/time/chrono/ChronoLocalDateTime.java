@@ -109,12 +109,10 @@ import java.util.Objects;
  * Ensure that the discussion in {@code ChronoLocalDate} has been read and understood
  * before using this interface.
  *
- * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
+ * @param <D> the concrete type for the date of this date-time
+ * @implSpec This interface must be implemented with care to ensure other classes operate correctly.
  * All implementations that can be instantiated must be final, immutable and thread-safe.
  * Subclasses should be Serializable wherever possible.
- *
- * @param <D> the concrete type for the date of this date-time
  * @since 1.8
  */
 public interface ChronoLocalDateTime<D extends ChronoLocalDate>
@@ -131,7 +129,6 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * The underlying comparison is equivalent to comparing the epoch-day and nano-of-day.
      *
      * @return a comparator that compares in time-line order ignoring the chronology
-     *
      * @see #isAfter
      * @see #isBefore
      * @see #isEqual
@@ -141,6 +138,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ChronoLocalDateTime} from a temporal object.
      * <p>
@@ -157,7 +155,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code ChronoLocalDateTime::from}.
      *
-     * @param temporal  the temporal object to convert, not null
+     * @param temporal the temporal object to convert, not null
      * @return the date-time, not null
      * @throws DateTimeException if unable to convert to a {@code ChronoLocalDateTime}
      * @see Chronology#localDateTime(TemporalAccessor)
@@ -175,6 +173,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the chronology of this date-time.
      * <p>
@@ -195,7 +194,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      *
      * @return the date part of this date-time, not null
      */
-    D toLocalDate() ;
+    D toLocalDate();
 
     /**
      * Gets the local time part of this date-time.
@@ -223,7 +222,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
+     * @param field the field to check, null returns false
      * @return true if the field can be queried, false if not
      */
     @Override
@@ -244,7 +243,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * passing {@code this} as the argument.
      * Whether the unit is supported is determined by the unit.
      *
-     * @param unit  the unit to check, null returns false
+     * @param unit the unit to check, null returns false
      * @return true if the unit can be added/subtracted, false if not
      */
     @Override
@@ -257,9 +256,11 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
 
     //-----------------------------------------------------------------------
     // override for covariant return type
+
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -269,7 +270,8 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -277,7 +279,8 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -287,7 +290,8 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -295,7 +299,8 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -305,7 +310,8 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -314,6 +320,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Queries this date-time using the specified query.
      * <p>
@@ -326,10 +333,10 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * {@link java.time.temporal.TemporalQuery#queryFrom(TemporalAccessor)} method on the
      * specified query passing {@code this} as the argument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
+     * @param <R>   the type of the result
+     * @param query the query to invoke, not null
      * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @throws DateTimeException   if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
     @SuppressWarnings("unchecked")
@@ -369,9 +376,9 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the target object to be adjusted, not null
+     * @param temporal the target object to be adjusted, not null
      * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @throws DateTimeException   if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
@@ -391,7 +398,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      *  return formatter.format(this);
      * </pre>
      *
-     * @param formatter  the formatter to use, not null
+     * @param formatter the formatter to use, not null
      * @return the formatted date-time string, not null
      * @throws DateTimeException if an error occurs during printing
      */
@@ -401,6 +408,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Combines this time with a time-zone to create a {@code ChronoZonedDateTime}.
      * <p>
@@ -412,7 +420,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * The local date-time is resolved to a single instant on the time-line.
      * This is achieved by finding a valid offset from UTC/Greenwich for the local
      * date-time as defined by the {@link ZoneRules rules} of the zone ID.
-     *<p>
+     * <p>
      * In most cases, there is only one valid offset for a local date-time.
      * In the case of an overlap, where clocks are set back, there are two valid offsets.
      * This method uses the earlier offset typically corresponding to "summer".
@@ -425,12 +433,13 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * To obtain the later offset during an overlap, call
      * {@link ChronoZonedDateTime#withLaterOffsetAtOverlap()} on the result of this method.
      *
-     * @param zone  the time-zone to use, not null
+     * @param zone the time-zone to use, not null
      * @return the zoned date-time formed from this date-time, not null
      */
     ChronoZonedDateTime<D> atZone(ZoneId zone);
 
     //-----------------------------------------------------------------------
+
     /**
      * Converts this date-time to an {@code Instant}.
      * <p>
@@ -440,7 +449,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * This default implementation calculates from the epoch-day of the date and the
      * second-of-day of the time.
      *
-     * @param offset  the offset to use for the conversion, not null
+     * @param offset the offset to use for the conversion, not null
      * @return an {@code Instant} representing the same instant, not null
      */
     default Instant toInstant(ZoneOffset offset) {
@@ -458,7 +467,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * This default implementation calculates from the epoch-day of the date and the
      * second-of-day of the time.
      *
-     * @param offset  the offset to use for the conversion, not null
+     * @param offset the offset to use for the conversion, not null
      * @return the number of seconds from the epoch of 1970-01-01T00:00:00Z
      */
     default long toEpochSecond(ZoneOffset offset) {
@@ -470,6 +479,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Compares this date-time to another date-time, including the chronology.
      * <p>
@@ -493,7 +503,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * <p>
      * This default implementation performs the comparison defined above.
      *
-     * @param other  the other date-time to compare to, not null
+     * @param other the other date-time to compare to, not null
      * @return the comparator value, negative if less, positive if greater
      */
     @Override
@@ -519,14 +529,14 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * This default implementation performs the comparison based on the epoch-day
      * and nano-of-day.
      *
-     * @param other  the other date-time to compare to, not null
+     * @param other the other date-time to compare to, not null
      * @return true if this is after the specified date-time
      */
     default boolean isAfter(ChronoLocalDateTime<?> other) {
         long thisEpDay = this.toLocalDate().toEpochDay();
         long otherEpDay = other.toLocalDate().toEpochDay();
         return thisEpDay > otherEpDay ||
-            (thisEpDay == otherEpDay && this.toLocalTime().toNanoOfDay() > other.toLocalTime().toNanoOfDay());
+                (thisEpDay == otherEpDay && this.toLocalTime().toNanoOfDay() > other.toLocalTime().toNanoOfDay());
     }
 
     /**
@@ -540,14 +550,14 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * This default implementation performs the comparison based on the epoch-day
      * and nano-of-day.
      *
-     * @param other  the other date-time to compare to, not null
+     * @param other the other date-time to compare to, not null
      * @return true if this is before the specified date-time
      */
     default boolean isBefore(ChronoLocalDateTime<?> other) {
         long thisEpDay = this.toLocalDate().toEpochDay();
         long otherEpDay = other.toLocalDate().toEpochDay();
         return thisEpDay < otherEpDay ||
-            (thisEpDay == otherEpDay && this.toLocalTime().toNanoOfDay() < other.toLocalTime().toNanoOfDay());
+                (thisEpDay == otherEpDay && this.toLocalTime().toNanoOfDay() < other.toLocalTime().toNanoOfDay());
     }
 
     /**
@@ -561,13 +571,13 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * This default implementation performs the comparison based on the epoch-day
      * and nano-of-day.
      *
-     * @param other  the other date-time to compare to, not null
+     * @param other the other date-time to compare to, not null
      * @return true if the underlying date-time is equal to the specified date-time on the timeline
      */
     default boolean isEqual(ChronoLocalDateTime<?> other) {
         // Do the time check first, it is cheaper than computing EPOCH day.
         return this.toLocalTime().toNanoOfDay() == other.toLocalTime().toNanoOfDay() &&
-               this.toLocalDate().toEpochDay() == other.toLocalDate().toEpochDay();
+                this.toLocalDate().toEpochDay() == other.toLocalDate().toEpochDay();
     }
 
     /**
@@ -575,7 +585,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
      * <p>
      * Compares this date-time with another ensuring that the date-time and chronology are the same.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
     @Override
@@ -590,6 +600,7 @@ public interface ChronoLocalDateTime<D extends ChronoLocalDate>
     int hashCode();
 
     //-----------------------------------------------------------------------
+
     /**
      * Outputs this date-time as a {@code String}.
      * <p>

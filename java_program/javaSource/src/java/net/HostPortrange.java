@@ -28,6 +28,7 @@ package java.net;
 import java.net.*;
 import java.util.Formatter;
 import java.util.Locale;
+
 import sun.net.util.IPAddressUtil;
 
 /**
@@ -43,14 +44,14 @@ class HostPortrange {
     boolean literal;
     boolean ipv6, ipv4;
     static final int PORT_MIN = 0;
-    static final int PORT_MAX = (1 << 16) -1;
+    static final int PORT_MAX = (1 << 16) - 1;
 
     boolean equals(HostPortrange that) {
         return this.hostname.equals(that.hostname)
-            && this.portrange[0] == that.portrange[0]
-            && this.portrange[1] == that.portrange[1]
-            && this.wildcard == that.wildcard
-            && this.literal == that.literal;
+                && this.portrange[0] == that.portrange[0]
+                && this.portrange[1] == that.portrange[1]
+                && this.wildcard == that.wildcard
+                && this.literal == that.literal;
     }
 
     public int hashCode() {
@@ -92,7 +93,7 @@ class HostPortrange {
             StringBuilder sb = new StringBuilder();
             Formatter formatter = new Formatter(sb, Locale.US);
             formatter.format("%02x%02x:%02x%02x:%02x%02x:%02x"
-                    + "%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x",
+                            + "%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x",
                     ip[0], ip[1], ip[2], ip[3], ip[4], ip[5], ip[6], ip[7], ip[8],
                     ip[9], ip[10], ip[11], ip[12], ip[13], ip[14], ip[15]);
             hostname = sb.toString();
@@ -171,7 +172,7 @@ class HostPortrange {
         int len = s.length();
         StringBuilder sb = null;
 
-        for (int i=0; i<len; i++) {
+        for (int i = 0; i < len; i++) {
             char c = s.charAt(i);
             if ((c >= 'a' && c <= 'z') || (c == '.')) {
                 if (sb != null)
@@ -184,7 +185,7 @@ class HostPortrange {
                     sb = new StringBuilder(len);
                     sb.append(s, 0, i);
                 }
-                sb.append((char)(c - CASE_DIFF));
+                sb.append((char) (c - CASE_DIFF));
             } else {
                 throw new IllegalArgumentException("Invalid characters in hostname");
             }
@@ -238,15 +239,14 @@ class HostPortrange {
         return NO_PORT;
     }
 
-    int[] parsePort(String port)
-    {
+    int[] parsePort(String port) {
 
         if (port == null || port.equals("")) {
             return defaultPort();
         }
 
         if (port.equals("*")) {
-            return new int[] {PORT_MIN, PORT_MAX};
+            return new int[]{PORT_MIN, PORT_MAX};
         }
 
         try {
@@ -254,11 +254,11 @@ class HostPortrange {
 
             if (dash == -1) {
                 int p = Integer.parseInt(port);
-                return new int[] {p, p};
+                return new int[]{p, p};
             } else {
                 String low = port.substring(0, dash);
-                String high = port.substring(dash+1);
-                int l,h;
+                String high = port.substring(dash + 1);
+                int l, h;
 
                 if (low.equals("")) {
                     l = PORT_MIN;
@@ -271,11 +271,11 @@ class HostPortrange {
                 } else {
                     h = Integer.parseInt(high);
                 }
-                if (l < 0 || h < 0 || h<l) {
+                if (l < 0 || h < 0 || h < l) {
                     return defaultPort();
                 }
-                return new int[] {l, h};
-             }
+                return new int[]{l, h};
+            }
         } catch (IllegalArgumentException e) {
             return defaultPort();
         }

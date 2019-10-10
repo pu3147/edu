@@ -36,8 +36,8 @@ import sun.security.util.Debug;
  * classes with an associated code source and permissions which are
  * retrieved by the system policy by default.
  *
- * @author  Li Gong
- * @author  Roland Schemers
+ * @author Li Gong
+ * @author Roland Schemers
  */
 public class SecureClassLoader extends ClassLoader {
     /*
@@ -50,7 +50,7 @@ public class SecureClassLoader extends ClassLoader {
     // HashMap that maps CodeSource to ProtectionDomain
     // @GuardedBy("pdcache")
     private final HashMap<CodeSource, ProtectionDomain> pdcache =
-                        new HashMap<>(11);
+            new HashMap<>(11);
 
     private static final Debug debug = Debug.getInstance("scl");
 
@@ -66,10 +66,11 @@ public class SecureClassLoader extends ClassLoader {
      * calls the security manager's {@code checkCreateClassLoader}
      * method  to ensure creation of a class loader is allowed.
      * <p>
+     *
      * @param parent the parent ClassLoader
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
+     * @throws SecurityException if a security manager exists and its
+     *                           {@code checkCreateClassLoader} method doesn't allow
+     *                           creation of a class loader.
      * @see SecurityManager#checkCreateClassLoader
      */
     protected SecureClassLoader(ClassLoader parent) {
@@ -90,9 +91,9 @@ public class SecureClassLoader extends ClassLoader {
      * calls the security manager's {@code checkCreateClassLoader}
      * method  to ensure creation of a class loader is allowed.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkCreateClassLoader} method doesn't allow
-     *             creation of a class loader.
+     * @throws SecurityException if a security manager exists and its
+     *                           {@code checkCreateClassLoader} method doesn't allow
+     *                           creation of a class loader.
      * @see SecurityManager#checkCreateClassLoader
      */
     protected SecureClassLoader() {
@@ -113,32 +114,31 @@ public class SecureClassLoader extends ClassLoader {
      * If a non-null CodeSource is supplied a ProtectionDomain is
      * constructed and associated with the class being defined.
      * <p>
-     * @param      name the expected name of the class, or {@code null}
-     *                  if not known, using '.' and not '/' as the separator
-     *                  and without a trailing ".class" suffix.
-     * @param      b    the bytes that make up the class data. The bytes in
+     *
+     * @param name the expected name of the class, or {@code null}
+     *             if not known, using '.' and not '/' as the separator
+     *             and without a trailing ".class" suffix.
+     * @param b    the bytes that make up the class data. The bytes in
      *             positions {@code off} through {@code off+len-1}
      *             should have the format of a valid class file as defined by
      *             <cite>The Java&trade; Virtual Machine Specification</cite>.
-     * @param      off  the start offset in {@code b} of the class data
-     * @param      len  the length of the class data
-     * @param      cs   the associated CodeSource, or {@code null} if none
+     * @param off  the start offset in {@code b} of the class data
+     * @param len  the length of the class data
+     * @param cs   the associated CodeSource, or {@code null} if none
      * @return the {@code Class} object created from the data,
-     *         and optional CodeSource.
-     * @exception  ClassFormatError if the data did not contain a valid class
-     * @exception  IndexOutOfBoundsException if either {@code off} or
-     *             {@code len} is negative, or if
-     *             {@code off+len} is greater than {@code b.length}.
-     *
-     * @exception  SecurityException if an attempt is made to add this class
-     *             to a package that contains classes that were signed by
-     *             a different set of certificates than this class, or if
-     *             the class name begins with "java.".
+     * and optional CodeSource.
+     * @throws ClassFormatError          if the data did not contain a valid class
+     * @throws IndexOutOfBoundsException if either {@code off} or
+     *                                   {@code len} is negative, or if
+     *                                   {@code off+len} is greater than {@code b.length}.
+     * @throws SecurityException         if an attempt is made to add this class
+     *                                   to a package that contains classes that were signed by
+     *                                   a different set of certificates than this class, or if
+     *                                   the class name begins with "java.".
      */
     protected final Class<?> defineClass(String name,
                                          byte[] b, int off, int len,
-                                         CodeSource cs)
-    {
+                                         CodeSource cs) {
         return defineClass(name, b, off, len, getProtectionDomain(cs));
     }
 
@@ -150,27 +150,26 @@ public class SecureClassLoader extends ClassLoader {
      * If a non-null CodeSource is supplied a ProtectionDomain is
      * constructed and associated with the class being defined.
      * <p>
-     * @param      name the expected name of the class, or {@code null}
-     *                  if not known, using '.' and not '/' as the separator
-     *                  and without a trailing ".class" suffix.
-     * @param      b    the bytes that make up the class data.  The bytes from positions
-     *                  {@code b.position()} through {@code b.position() + b.limit() -1}
-     *                  should have the format of a valid class file as defined by
-     *                  <cite>The Java&trade; Virtual Machine Specification</cite>.
-     * @param      cs   the associated CodeSource, or {@code null} if none
-     * @return the {@code Class} object created from the data,
-     *         and optional CodeSource.
-     * @exception  ClassFormatError if the data did not contain a valid class
-     * @exception  SecurityException if an attempt is made to add this class
-     *             to a package that contains classes that were signed by
-     *             a different set of certificates than this class, or if
-     *             the class name begins with "java.".
      *
-     * @since  1.5
+     * @param name the expected name of the class, or {@code null}
+     *             if not known, using '.' and not '/' as the separator
+     *             and without a trailing ".class" suffix.
+     * @param b    the bytes that make up the class data.  The bytes from positions
+     *             {@code b.position()} through {@code b.position() + b.limit() -1}
+     *             should have the format of a valid class file as defined by
+     *             <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * @param cs   the associated CodeSource, or {@code null} if none
+     * @return the {@code Class} object created from the data,
+     * and optional CodeSource.
+     * @throws ClassFormatError  if the data did not contain a valid class
+     * @throws SecurityException if an attempt is made to add this class
+     *                           to a package that contains classes that were signed by
+     *                           a different set of certificates than this class, or if
+     *                           the class name begins with "java.".
+     * @since 1.5
      */
     protected final Class<?> defineClass(String name, java.nio.ByteBuffer b,
-                                         CodeSource cs)
-    {
+                                         CodeSource cs) {
         return defineClass(name, b, getProtectionDomain(cs));
     }
 
@@ -181,13 +180,11 @@ public class SecureClassLoader extends ClassLoader {
      * a CodeSource as an argument when it is constructing the
      * ProtectionDomain for the class being defined.
      * <p>
+     *
      * @param codesource the codesource.
-     *
      * @return the permissions granted to the codesource.
-     *
      */
-    protected PermissionCollection getPermissions(CodeSource codesource)
-    {
+    protected PermissionCollection getPermissions(CodeSource codesource) {
         check();
         return new Permissions(); // ProtectionDomain defers the binding
     }
@@ -207,7 +204,7 @@ public class SecureClassLoader extends ClassLoader {
                 pd = new ProtectionDomain(cs, perms, this, null);
                 pdcache.put(cs, pd);
                 if (debug != null) {
-                    debug.println(" getPermissions "+ pd);
+                    debug.println(" getPermissions " + pd);
                     debug.println("");
                 }
             }

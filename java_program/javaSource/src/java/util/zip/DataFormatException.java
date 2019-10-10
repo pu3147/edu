@@ -28,7 +28,7 @@ package java.util.zip;
 /**
  * Signals that a data format error has occurred.
  *
- * @author      David Connelly
+ * @author David Connelly
  */
 public
 class DataFormatException extends Exception {
@@ -44,6 +44,7 @@ class DataFormatException extends Exception {
     /**
      * Constructs a DataFormatException with the specified detail message.
      * A detail message is a String that describes this particular exception.
+     *
      * @param s the String containing a detail message
      */
     public DataFormatException(String s) {

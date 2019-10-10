@@ -108,8 +108,8 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
         try {
             String libDir = System.getProperty("java.home") + File.separator + "lib";
             try (DataInputStream dis = new DataInputStream(
-                     new BufferedInputStream(new FileInputStream(
-                         new File(libDir, "tzdb.dat"))))) {
+                    new BufferedInputStream(new FileInputStream(
+                            new File(libDir, "tzdb.dat"))))) {
                 load(dis);
             }
         } catch (Exception ex) {
@@ -155,7 +155,7 @@ final class TzdbZoneRulesProvider extends ZoneRulesProvider {
     /**
      * Loads the rules from a DateInputStream, often in a jar file.
      *
-     * @param dis  the DateInputStream to load, not null
+     * @param dis the DateInputStream to load, not null
      * @throws Exception if an error occurs
      */
     private void load(DataInputStream dis) throws Exception {

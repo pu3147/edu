@@ -29,6 +29,7 @@ import java.lang.reflect.*;
 import java.util.*;
 import java.lang.invoke.MethodHandleNatives.Constants;
 import java.lang.invoke.MethodHandles.Lookup;
+
 import static java.lang.invoke.MethodHandleStatics.*;
 
 /**
@@ -120,6 +121,7 @@ import static java.lang.invoke.MethodHandleStatics.*;
  *     <td>{@code T m(A*);}</td><td>{@code (T) this.m(arg*);}</td>
  * </tr>
  * </table>
+ *
  * @since 1.8
  */
 public
@@ -129,26 +131,28 @@ interface MethodHandleInfo {
      * as defined in the <a href="MethodHandleInfo.html#refkinds">table above</a>.
      */
     public static final int
-        REF_getField                = Constants.REF_getField,
-        REF_getStatic               = Constants.REF_getStatic,
-        REF_putField                = Constants.REF_putField,
-        REF_putStatic               = Constants.REF_putStatic,
-        REF_invokeVirtual           = Constants.REF_invokeVirtual,
-        REF_invokeStatic            = Constants.REF_invokeStatic,
-        REF_invokeSpecial           = Constants.REF_invokeSpecial,
-        REF_newInvokeSpecial        = Constants.REF_newInvokeSpecial,
-        REF_invokeInterface         = Constants.REF_invokeInterface;
+            REF_getField = Constants.REF_getField,
+            REF_getStatic = Constants.REF_getStatic,
+            REF_putField = Constants.REF_putField,
+            REF_putStatic = Constants.REF_putStatic,
+            REF_invokeVirtual = Constants.REF_invokeVirtual,
+            REF_invokeStatic = Constants.REF_invokeStatic,
+            REF_invokeSpecial = Constants.REF_invokeSpecial,
+            REF_newInvokeSpecial = Constants.REF_newInvokeSpecial,
+            REF_invokeInterface = Constants.REF_invokeInterface;
 
     /**
      * Returns the reference kind of the cracked method handle, which in turn
      * determines whether the method handle's underlying member was a constructor, method, or field.
      * See the <a href="MethodHandleInfo.html#refkinds">table above</a> for definitions.
+     *
      * @return the integer code for the kind of reference used to access the underlying member
      */
     public int getReferenceKind();
 
     /**
      * Returns the class in which the cracked method handle's underlying member was defined.
+     *
      * @return the declaring class of the underlying member
      */
     public Class<?> getDeclaringClass();
@@ -157,6 +161,7 @@ interface MethodHandleInfo {
      * Returns the name of the cracked method handle's underlying member.
      * This is {@code "&lt;init&gt;"} if the underlying member was a constructor,
      * else it is a simple method name or field name.
+     *
      * @return the simple name of the underlying member
      */
     public String getName();
@@ -175,6 +180,7 @@ interface MethodHandleInfo {
      * with the constructed class.
      * The nominal type does not include any {@code this} parameter,
      * and (in the case of a constructor) will return {@code void}.
+     *
      * @return the type of the underlying member, expressed as a method type
      */
     public MethodType getMethodType();
@@ -190,20 +196,22 @@ interface MethodHandleInfo {
      * Otherwise, it is reflected as if by
      * {@code getDeclaredMethod}, {@code getDeclaredConstructor}, or {@code getDeclaredField}.
      * The underlying member must be accessible to the given lookup object.
-     * @param <T> the desired type of the result, either {@link Member} or a subtype
+     *
+     * @param <T>      the desired type of the result, either {@link Member} or a subtype
      * @param expected a class object representing the desired result type {@code T}
-     * @param lookup the lookup object that created this MethodHandleInfo, or one with equivalent access privileges
+     * @param lookup   the lookup object that created this MethodHandleInfo, or one with equivalent access privileges
      * @return a reference to the method, constructor, or field object
-     * @exception ClassCastException if the member is not of the expected type
-     * @exception NullPointerException if either argument is {@code null}
-     * @exception IllegalArgumentException if the underlying member is not accessible to the given lookup object
+     * @throws ClassCastException       if the member is not of the expected type
+     * @throws NullPointerException     if either argument is {@code null}
+     * @throws IllegalArgumentException if the underlying member is not accessible to the given lookup object
      */
     public <T extends Member> T reflectAs(Class<T> expected, Lookup lookup);
 
     /**
      * Returns the access modifiers of the underlying member.
+     *
      * @return the Java language modifiers for underlying member,
-     *         or -1 if the member cannot be accessed
+     * or -1 if the member cannot be accessed
      * @see Modifier
      * @see #reflectAs
      */
@@ -212,23 +220,21 @@ interface MethodHandleInfo {
     /**
      * Determines if the underlying member was a variable arity method or constructor.
      * Such members are represented by method handles that are varargs collectors.
-     * @implSpec
-     * This produces a result equivalent to:
+     *
+     * @return {@code true} if and only if the underlying member was declared with variable arity.
+     * @implSpec This produces a result equivalent to:
      * <pre>{@code
      *     getReferenceKind() >= REF_invokeVirtual && Modifier.isTransient(getModifiers())
      * }</pre>
-     *
-     *
-     * @return {@code true} if and only if the underlying member was declared with variable arity.
      */
     // spelling derived from java.lang.reflect.Executable, not MethodHandle.isVarargsCollector
-    public default boolean isVarArgs()  {
+    public default boolean isVarArgs() {
         // fields are never varargs:
         if (MethodHandleNatives.refKindIsField((byte) getReferenceKind()))
             return false;
         // not in the public API: Modifier.VARARGS
         final int ACC_VARARGS = 0x00000080;  // from JVMS 4.6 (Table 4.20)
-        assert(ACC_VARARGS == Modifier.TRANSIENT);
+        assert (ACC_VARARGS == Modifier.TRANSIENT);
         return Modifier.isTransient(getModifiers());
     }
 
@@ -236,15 +242,16 @@ interface MethodHandleInfo {
      * Returns the descriptive name of the given reference kind,
      * as defined in the <a href="MethodHandleInfo.html#refkinds">table above</a>.
      * The conventional prefix "REF_" is omitted.
+     *
      * @param referenceKind an integer code for a kind of reference used to access a class member
      * @return a mixed-case string such as {@code "getField"}
-     * @exception IllegalArgumentException if the argument is not a valid
-     *            <a href="MethodHandleInfo.html#refkinds">reference kind number</a>
+     * @throws IllegalArgumentException if the argument is not a valid
+     *                                  <a href="MethodHandleInfo.html#refkinds">reference kind number</a>
      */
     public static String referenceKindToString(int referenceKind) {
         if (!MethodHandleNatives.refKindIsValid(referenceKind))
             throw newIllegalArgumentException("invalid reference kind", referenceKind);
-        return MethodHandleNatives.refKindName((byte)referenceKind);
+        return MethodHandleNatives.refKindName((byte) referenceKind);
     }
 
     /**
@@ -262,23 +269,22 @@ interface MethodHandleInfo {
      * and {@linkplain #getMethodType method type}
      * of a {@code MethodHandleInfo} object.
      *
-     * @implSpec
-     * This produces a result equivalent to:
-     * <pre>{@code
-     *     String.format("%s %s.%s:%s", referenceKindToString(kind), defc.getName(), name, type)
-     * }</pre>
-     *
      * @param kind the {@linkplain #getReferenceKind reference kind} part of the symbolic reference
      * @param defc the {@linkplain #getDeclaringClass declaring class} part of the symbolic reference
      * @param name the {@linkplain #getName member name} part of the symbolic reference
      * @param type the {@linkplain #getMethodType method type} part of the symbolic reference
      * @return a string of the form {@code "RK C.N:MT"}
-     * @exception IllegalArgumentException if the first argument is not a valid
-     *            <a href="MethodHandleInfo.html#refkinds">reference kind number</a>
-     * @exception NullPointerException if any reference argument is {@code null}
+     * @throws IllegalArgumentException if the first argument is not a valid
+     *                                  <a href="MethodHandleInfo.html#refkinds">reference kind number</a>
+     * @throws NullPointerException     if any reference argument is {@code null}
+     * @implSpec This produces a result equivalent to:
+     * <pre>{@code
+     *     String.format("%s %s.%s:%s", referenceKindToString(kind), defc.getName(), name, type)
+     * }</pre>
      */
     public static String toString(int kind, Class<?> defc, String name, MethodType type) {
-        Objects.requireNonNull(name); Objects.requireNonNull(type);
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(type);
         return String.format("%s %s.%s:%s", referenceKindToString(kind), defc.getName(), name, type);
     }
 }

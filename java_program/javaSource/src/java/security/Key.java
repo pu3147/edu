@@ -61,7 +61,7 @@ package java.security;
  *   algorithm OBJECT IDENTIFIER,
  *   parameters ANY DEFINED BY algorithm OPTIONAL }
  * </pre>
- *
+ * <p>
  * For more information, see
  * <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
  * Internet X.509 Public Key Infrastructure Certificate and CRL Profile</a>.
@@ -72,7 +72,7 @@ package java.security;
  * by the {@link #getFormat() getFormat} method.
  *
  * </UL>
- *
+ * <p>
  * Keys are generally obtained through key generators, certificates,
  * or various Identity classes used to manage keys.
  * Keys may also be obtained from key specifications (transparent
@@ -86,6 +86,7 @@ package java.security;
  * Security Appendix</a>
  * of the Serialization Specification for more information.
  *
+ * @author Benjamin Renaud
  * @see PublicKey
  * @see PrivateKey
  * @see KeyPair
@@ -95,19 +96,17 @@ package java.security;
  * @see java.security.spec.KeySpec
  * @see Identity
  * @see Signer
- *
- * @author Benjamin Renaud
  */
 
 public interface Key extends java.io.Serializable {
 
     // Declare serialVersionUID to be compatible with JDK1.1
 
-   /**
-    * The class fingerprint that is set to indicate
-    * serialization compatibility with a previous
-    * version of the class.
-    */
+    /**
+     * The class fingerprint that is set to indicate
+     * serialization compatibility with a previous
+     * version of the class.
+     */
     static final long serialVersionUID = 6603384152749567654L;
 
     /**

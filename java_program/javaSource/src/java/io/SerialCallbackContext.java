@@ -29,7 +29,7 @@ package java.io;
  * Context during upcalls from object stream to class-defined
  * readObject/writeObject methods.
  * Holds object currently being deserialized and descriptor for current class.
- *
+ * <p>
  * This context keeps track of the thread it was constructed on, and allows
  * only a single call of defaultReadObject, readFields, defaultWriteObject
  * or writeFields which must be invoked on the same thread before the class's
@@ -63,14 +63,14 @@ final class SerialCallbackContext {
     public void check() throws NotActiveException {
         if (thread != null && thread != Thread.currentThread()) {
             throw new NotActiveException(
-                "expected thread: " + thread + ", but got: " + Thread.currentThread());
+                    "expected thread: " + thread + ", but got: " + Thread.currentThread());
         }
     }
 
     private void checkAndSetUsed() throws NotActiveException {
         if (thread != Thread.currentThread()) {
-             throw new NotActiveException(
-              "not in readObject invocation or fields already read");
+            throw new NotActiveException(
+                    "not in readObject invocation or fields already read");
         }
         thread = null;
     }

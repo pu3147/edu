@@ -43,8 +43,6 @@ import java.security.spec.AlgorithmParameterSpec;
  * of 1024 bits.
  *
  * @author Benjamin Renaud
- *
- *
  * @see KeyPairGenerator
  * @see java.security.spec.AlgorithmParameterSpec
  */
@@ -56,13 +54,11 @@ public abstract class KeyPairGeneratorSpi {
      * the default parameter set.
      *
      * @param keysize the keysize. This is an
-     * algorithm-specific metric, such as modulus length, specified in
-     * number of bits.
-     *
-     * @param random the source of randomness for this generator.
-     *
-     * @exception InvalidParameterException if the {@code keysize} is not
-     * supported by this KeyPairGeneratorSpi object.
+     *                algorithm-specific metric, such as modulus length, specified in
+     *                number of bits.
+     * @param random  the source of randomness for this generator.
+     * @throws InvalidParameterException if the {@code keysize} is not
+     *                                   supported by this KeyPairGeneratorSpi object.
      */
     public abstract void initialize(int keysize, SecureRandom random);
 
@@ -80,18 +76,15 @@ public abstract class KeyPairGeneratorSpi {
      * UnsupportedOperationException.
      *
      * @param params the parameter set used to generate the keys.
-     *
      * @param random the source of randomness for this generator.
-     *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this key pair generator.
-     *
+     * @throws InvalidAlgorithmParameterException if the given parameters
+     *                                            are inappropriate for this key pair generator.
      * @since 1.2
      */
     public void initialize(AlgorithmParameterSpec params,
                            SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-            throw new UnsupportedOperationException();
+            throws InvalidAlgorithmParameterException {
+        throw new UnsupportedOperationException();
     }
 
     /**

@@ -32,7 +32,6 @@ package java.util.function;
  * whose functional method is {@link #applyAsDouble(Object)}.
  *
  * @param <T> the type of the input to the function
- *
  * @see Function
  * @since 1.8
  */

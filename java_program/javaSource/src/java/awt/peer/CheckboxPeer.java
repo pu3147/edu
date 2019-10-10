@@ -29,7 +29,7 @@ import java.awt.CheckboxGroup;
 
 /**
  * The peer interface for {@link Checkbox}.
- *
+ * <p>
  * The peer interfaces are intended only for use in porting
  * the AWT. They are not intended for use by application
  * developers, and developers should not implement peers
@@ -43,7 +43,6 @@ public interface CheckboxPeer extends ComponentPeer {
      * unchecked {@code false}.
      *
      * @param state the state to set on the checkbox
-     *
      * @see Checkbox#setState(boolean)
      */
     void setState(boolean state);
@@ -55,7 +54,6 @@ public interface CheckboxPeer extends ComponentPeer {
      *
      * @param g the checkbox group to set, or {@code null} when this
      *          checkbox should not be placed in any group
-     *
      * @see Checkbox#setCheckboxGroup(CheckboxGroup)
      */
     void setCheckboxGroup(CheckboxGroup g);

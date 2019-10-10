@@ -122,18 +122,20 @@ import java.util.concurrent.ConcurrentMap;
  * {@code ZoneOffset} may have unpredictable results and should be avoided.
  * The {@code equals} method should be used for comparisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class ZoneOffset
         extends ZoneId
         implements TemporalAccessor, TemporalAdjuster, Comparable<ZoneOffset>, Serializable {
 
-    /** Cache of time-zone offset by offset in seconds. */
+    /**
+     * Cache of time-zone offset by offset in seconds.
+     */
     private static final ConcurrentMap<Integer, ZoneOffset> SECONDS_CACHE = new ConcurrentHashMap<>(16, 0.75f, 4);
-    /** Cache of time-zone offset by ID. */
+    /**
+     * Cache of time-zone offset by ID.
+     */
     private static final ConcurrentMap<String, ZoneOffset> ID_CACHE = new ConcurrentHashMap<>(16, 0.75f, 4);
 
     /**
@@ -168,6 +170,7 @@ public final class ZoneOffset
     private final transient String id;
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ZoneOffset} using the ID.
      * <p>
@@ -194,7 +197,7 @@ public final class ZoneOffset
      * <p>
      * The maximum supported range is from +18:00 to -18:00 inclusive.
      *
-     * @param offsetId  the offset ID, not null
+     * @param offsetId the offset ID, not null
      * @return the zone-offset, not null
      * @throws DateTimeException if the offset ID is invalid
      */
@@ -254,9 +257,9 @@ public final class ZoneOffset
     /**
      * Parse a two digit zero-prefixed number.
      *
-     * @param offsetId  the offset ID, not null
-     * @param pos  the position to parse, valid
-     * @param precededByColon  should this number be prefixed by a precededByColon
+     * @param offsetId        the offset ID, not null
+     * @param pos             the position to parse, valid
+     * @param precededByColon should this number be prefixed by a precededByColon
      * @return the parsed number, from 0 to 99
      */
     private static int parseNumber(CharSequence offsetId, int pos, boolean precededByColon) {
@@ -272,10 +275,11 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ZoneOffset} using an offset in hours.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
+     * @param hours the time-zone offset in hours, from -18 to +18
      * @return the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -291,8 +295,8 @@ public final class ZoneOffset
      * Thus, if the hours is negative, the minutes must be negative or zero.
      * If the hours is zero, the minutes may be positive, negative or zero.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours
+     * @param hours   the time-zone offset in hours, from -18 to +18
+     * @param minutes the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours
      * @return the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -307,9 +311,9 @@ public final class ZoneOffset
      * The sign of the hours, minutes and seconds components must match.
      * Thus, if the hours is negative, the minutes and seconds must be negative or zero.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
-     * @param seconds  the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
+     * @param hours   the time-zone offset in hours, from -18 to +18
+     * @param minutes the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
+     * @param seconds the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
      * @return the zone-offset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -320,6 +324,7 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ZoneOffset} from a temporal object.
      * <p>
@@ -336,7 +341,7 @@ public final class ZoneOffset
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used in queries via method reference, {@code ZoneOffset::from}.
      *
-     * @param temporal  the temporal object to convert, not null
+     * @param temporal the temporal object to convert, not null
      * @return the zone-offset, not null
      * @throws DateTimeException if unable to convert to an {@code ZoneOffset}
      */
@@ -351,12 +356,13 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Validates the offset fields.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59
-     * @param seconds  the time-zone offset in seconds, from 0 to &plusmn;59
+     * @param hours   the time-zone offset in hours, from -18 to +18
+     * @param minutes the time-zone offset in minutes, from 0 to &plusmn;59
+     * @param seconds the time-zone offset in seconds, from 0 to &plusmn;59
      * @throws DateTimeException if the offset is not in the required range
      */
     private static void validate(int hours, int minutes, int seconds) {
@@ -391,9 +397,9 @@ public final class ZoneOffset
     /**
      * Calculates the total offset in seconds.
      *
-     * @param hours  the time-zone offset in hours, from -18 to +18
-     * @param minutes  the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
-     * @param seconds  the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
+     * @param hours   the time-zone offset in hours, from -18 to +18
+     * @param minutes the time-zone offset in minutes, from 0 to &plusmn;59, sign matches hours and seconds
+     * @param seconds the time-zone offset in seconds, from 0 to &plusmn;59, sign matches hours and minutes
      * @return the total in seconds
      */
     private static int totalSeconds(int hours, int minutes, int seconds) {
@@ -401,12 +407,13 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains an instance of {@code ZoneOffset} specifying the total offset in seconds
      * <p>
      * The offset must be in the range {@code -18:00} to {@code +18:00}, which corresponds to -64800 to +64800.
      *
-     * @param totalSeconds  the total time-zone offset in seconds, from -64800 to +64800
+     * @param totalSeconds the total time-zone offset in seconds, from -64800 to +64800
      * @return the ZoneOffset, not null
      * @throws DateTimeException if the offset is not in the required range
      */
@@ -430,10 +437,11 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Constructor.
      *
-     * @param totalSeconds  the total time-zone offset in seconds, from -64800 to +64800
+     * @param totalSeconds the total time-zone offset in seconds, from -64800 to +64800
      */
     private ZoneOffset(int totalSeconds) {
         super();
@@ -450,8 +458,8 @@ public final class ZoneOffset
             int absHours = absTotalSeconds / SECONDS_PER_HOUR;
             int absMinutes = (absTotalSeconds / SECONDS_PER_MINUTE) % MINUTES_PER_HOUR;
             buf.append(totalSeconds < 0 ? "-" : "+")
-                .append(absHours < 10 ? "0" : "").append(absHours)
-                .append(absMinutes < 10 ? ":0" : ":").append(absMinutes);
+                    .append(absHours < 10 ? "0" : "").append(absHours)
+                    .append(absMinutes < 10 ? ":0" : ":").append(absMinutes);
             int absSeconds = absTotalSeconds % SECONDS_PER_MINUTE;
             if (absSeconds != 0) {
                 buf.append(absSeconds < 10 ? ":0" : ":").append(absSeconds);
@@ -461,6 +469,7 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the total zone offset in seconds.
      * <p>
@@ -506,6 +515,7 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if the specified field is supported.
      * <p>
@@ -522,7 +532,7 @@ public final class ZoneOffset
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
+     * @param field the field to check, null returns false
      * @return true if the field is supported on this offset, false if not
      */
     @Override
@@ -551,9 +561,9 @@ public final class ZoneOffset
      * passing {@code this} as the argument.
      * Whether the range can be obtained is determined by the field.
      *
-     * @param field  the field to query the range for, not null
+     * @param field the field to query the range for, not null
      * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
+     * @throws DateTimeException                if the range for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
      */
     @Override  // override for Javadoc
@@ -578,13 +588,13 @@ public final class ZoneOffset
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param field  the field to get, not null
+     * @param field the field to get, not null
      * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
+     * @throws DateTimeException                if a value for the field cannot be obtained or
+     *                                          the value is outside the range of valid values for the field
      * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
+     *                                          the range of values exceeds an {@code int}
+     * @throws ArithmeticException              if numeric overflow occurs
      */
     @Override  // override for Javadoc and performance
     public int get(TemporalField field) {
@@ -612,11 +622,11 @@ public final class ZoneOffset
      * passing {@code this} as the argument. Whether the value can be obtained,
      * and what the value represents, is determined by the field.
      *
-     * @param field  the field to get, not null
+     * @param field the field to get, not null
      * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
+     * @throws DateTimeException                if a value for the field cannot be obtained
      * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @throws ArithmeticException              if numeric overflow occurs
      */
     @Override
     public long getLong(TemporalField field) {
@@ -629,6 +639,7 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Queries this offset using the specified query.
      * <p>
@@ -641,10 +652,10 @@ public final class ZoneOffset
      * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
      * specified query passing {@code this} as the argument.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
+     * @param <R>   the type of the result
+     * @param query the query to invoke, not null
      * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
+     * @throws DateTimeException   if unable to query (defined by the query)
      * @throws ArithmeticException if numeric overflow occurs (defined by the query)
      */
     @SuppressWarnings("unchecked")
@@ -675,9 +686,9 @@ public final class ZoneOffset
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the target object to be adjusted, not null
+     * @param temporal the target object to be adjusted, not null
      * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
+     * @throws DateTimeException   if unable to make the adjustment
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
@@ -686,6 +697,7 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Compares this offset to another offset in descending order.
      * <p>
@@ -695,7 +707,7 @@ public final class ZoneOffset
      * <p>
      * The comparison is "consistent with equals", as defined by {@link Comparable}.
      *
-     * @param other  the other date to compare to, not null
+     * @param other the other date to compare to, not null
      * @return the comparator value, negative if less, postive if greater
      * @throws NullPointerException if {@code other} is null
      */
@@ -705,19 +717,20 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this offset is equal to another offset.
      * <p>
      * The comparison is based on the amount of the offset in seconds.
      * This is equivalent to a comparison by ID.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other offset
      */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
-           return true;
+            return true;
         }
         if (obj instanceof ZoneOffset) {
             return totalSeconds == ((ZoneOffset) obj).totalSeconds;
@@ -736,6 +749,7 @@ public final class ZoneOffset
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Outputs this offset as a {@code String}, using the normalized ID.
      *
@@ -747,11 +761,13 @@ public final class ZoneOffset
     }
 
     // -----------------------------------------------------------------------
+
     /**
      * Writes the object using a
      * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
+     *
+     * @return the instance of {@code Ser}, not null
+     * @serialData <pre>
      *  out.writeByte(8);                  // identifies a ZoneOffset
      *  int offsetByte = totalSeconds % 900 == 0 ? totalSeconds / 900 : 127;
      *  out.writeByte(offsetByte);
@@ -759,8 +775,6 @@ public final class ZoneOffset
      *      out.writeInt(totalSeconds);
      *  }
      * </pre>
-     *
-     * @return the instance of {@code Ser}, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.ZONE_OFFSET_TYPE, this);

@@ -33,28 +33,37 @@ import java.io.IOException;
  * Implements an input stream filter for compressing data in the "deflate"
  * compression format.
  *
- * @since       1.6
- * @author      David R Tribble (david@tribble.com)
- *
+ * @author David R Tribble (david@tribble.com)
  * @see DeflaterOutputStream
  * @see InflaterOutputStream
  * @see InflaterInputStream
+ * @since 1.6
  */
 
 public class DeflaterInputStream extends FilterInputStream {
-    /** Compressor for this stream. */
+    /**
+     * Compressor for this stream.
+     */
     protected final Deflater def;
 
-    /** Input buffer for reading compressed data. */
+    /**
+     * Input buffer for reading compressed data.
+     */
     protected final byte[] buf;
 
-    /** Temporary read buffer. */
+    /**
+     * Temporary read buffer.
+     */
     private byte[] rbuf = new byte[1];
 
-    /** Default compressor is used. */
+    /**
+     * Default compressor is used.
+     */
     private boolean usesDefaultDeflater = false;
 
-    /** End of the underlying input stream has been reached. */
+    /**
+     * End of the underlying input stream has been reached.
+     */
     private boolean reachEOF = false;
 
     /**
@@ -82,7 +91,7 @@ public class DeflaterInputStream extends FilterInputStream {
      * Creates a new input stream with the specified compressor and a
      * default buffer size.
      *
-     * @param in input stream to read the uncompressed data to
+     * @param in   input stream to read the uncompressed data to
      * @param defl compressor ("deflater") for this stream
      * @throws NullPointerException if {@code in} or {@code defl} is null
      */
@@ -94,11 +103,11 @@ public class DeflaterInputStream extends FilterInputStream {
      * Creates a new input stream with the specified compressor and buffer
      * size.
      *
-     * @param in input stream to read the uncompressed data to
-     * @param defl compressor ("deflater") for this stream
+     * @param in     input stream to read the uncompressed data to
+     * @param defl   compressor ("deflater") for this stream
      * @param bufLen compression buffer size
      * @throws IllegalArgumentException if {@code bufLen <= 0}
-     * @throws NullPointerException if {@code in} or {@code defl} is null
+     * @throws NullPointerException     if {@code in} or {@code defl} is null
      */
     public DeflaterInputStream(InputStream in, Deflater defl, int bufLen) {
         super(in);
@@ -144,7 +153,7 @@ public class DeflaterInputStream extends FilterInputStream {
      * @return a single byte of compressed data, or -1 if the end of the
      * uncompressed input stream is reached
      * @throws IOException if an I/O error occurs or if this stream is
-     * already closed
+     *                     already closed
      */
     public int read() throws IOException {
         // Read a single byte of compressed data
@@ -158,14 +167,14 @@ public class DeflaterInputStream extends FilterInputStream {
      * Reads compressed data into a byte array.
      * This method will block until some input can be read and compressed.
      *
-     * @param b buffer into which the data is read
+     * @param b   buffer into which the data is read
      * @param off starting offset of the data within {@code b}
      * @param len maximum number of compressed bytes to read into {@code b}
      * @return the actual number of bytes read, or -1 if the end of the
      * uncompressed input stream is reached
-     * @throws IndexOutOfBoundsException  if {@code len > b.length - off}
-     * @throws IOException if an I/O error occurs or if this input stream is
-     * already closed
+     * @throws IndexOutOfBoundsException if {@code len > b.length - off}
+     * @throws IOException               if an I/O error occurs or if this input stream is
+     *                                   already closed
      */
     public int read(byte[] b, int off, int len) throws IOException {
         // Sanity checks
@@ -218,7 +227,7 @@ public class DeflaterInputStream extends FilterInputStream {
      * @param n number of bytes to be skipped
      * @return the actual number of bytes skipped
      * @throws IOException if an I/O error occurs or if this stream is
-     * already closed
+     *                     already closed
      */
     public long skip(long n) throws IOException {
         if (n < 0) {
@@ -230,7 +239,7 @@ public class DeflaterInputStream extends FilterInputStream {
         if (rbuf.length < 512)
             rbuf = new byte[512];
 
-        int total = (int)Math.min(n, Integer.MAX_VALUE);
+        int total = (int) Math.min(n, Integer.MAX_VALUE);
         long cnt = 0;
         while (total > 0) {
             // Read a small block of uncompressed bytes
@@ -250,10 +259,11 @@ public class DeflaterInputStream extends FilterInputStream {
      * <p>
      * Programs should not count on this method to return the actual number
      * of bytes that could be read without blocking
+     *
      * @return zero after the end of the underlying input stream has been
      * reached, otherwise always returns 1
      * @throws IOException if an I/O error occurs or if this stream is
-     * already closed
+     *                     already closed
      */
     public int available() throws IOException {
         ensureOpen();

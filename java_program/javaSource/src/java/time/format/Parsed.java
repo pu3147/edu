@@ -113,11 +113,9 @@ import java.util.Set;
  * Once parsing is completed, this class can be used as the resultant {@code TemporalAccessor}.
  * In most cases, it is only exposed once the fields have been resolved.
  *
- * @implSpec
- * This class is a mutable context intended for use from a single thread.
+ * @implSpec This class is a mutable context intended for use from a single thread.
  * Usage of the class is thread-safe within standard parsing as a new instance of this class
  * is automatically created for each parse and parsing is single-threaded
- *
  * @since 1.8
  */
 final class Parsed implements TemporalAccessor {
@@ -227,14 +225,15 @@ final class Parsed implements TemporalAccessor {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Resolves the fields in this context.
      *
      * @param resolverStyle  the resolver style, not null
-     * @param resolverFields  the fields to use for resolving, null for all fields
+     * @param resolverFields the fields to use for resolving, null for all fields
      * @return this, for method chaining
      * @throws DateTimeException if resolving one field results in a value for
-     *  another field that is in conflict
+     *                           another field that is in conflict
      */
     TemporalAccessor resolve(ResolverStyle resolverStyle, Set<TemporalField> resolverFields) {
         if (resolverFields != null) {
@@ -569,8 +568,8 @@ final class Parsed implements TemporalAccessor {
         // resolveTimeLenient() will have merged MICRO_OF_SECOND/MILLI_OF_SECOND to NANO_OF_SECOND
         if (time == null &&
                 (fieldValues.containsKey(INSTANT_SECONDS) ||
-                    fieldValues.containsKey(SECOND_OF_DAY) ||
-                    fieldValues.containsKey(SECOND_OF_MINUTE))) {
+                        fieldValues.containsKey(SECOND_OF_DAY) ||
+                        fieldValues.containsKey(SECOND_OF_MINUTE))) {
             if (fieldValues.containsKey(NANO_OF_SECOND)) {
                 long nos = fieldValues.get(NANO_OF_SECOND);
                 fieldValues.put(MICRO_OF_SECOND, nos / 1000);

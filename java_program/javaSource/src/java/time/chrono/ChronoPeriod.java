@@ -84,11 +84,9 @@ import java.util.Objects;
  * The period is modeled as a directed amount of time, meaning that individual
  * parts of the period may be negative.
  *
- * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
+ * @implSpec This interface must be implemented with care to ensure other classes operate correctly.
  * All implementations that can be instantiated must be final, immutable and thread-safe.
  * Subclasses should be Serializable wherever possible.
- *
  * @since 1.8
  */
 public interface ChronoPeriod
@@ -108,8 +106,8 @@ public interface ChronoPeriod
      * The result of this method can be a negative period if the end is before the start.
      * In most cases, the positive/negative sign will be the same in each of the supported fields.
      *
-     * @param startDateInclusive  the start date, inclusive, specifying the chronology of the calculation, not null
-     * @param endDateExclusive  the end date, exclusive, in any chronology, not null
+     * @param startDateInclusive the start date, inclusive, specifying the chronology of the calculation, not null
+     * @param endDateExclusive   the end date, exclusive, in any chronology, not null
      * @return the period between this date and the end date, not null
      * @see ChronoLocalDate#until(ChronoLocalDate)
      */
@@ -120,6 +118,7 @@ public interface ChronoPeriod
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the value of the requested unit.
      * <p>
@@ -130,7 +129,7 @@ public interface ChronoPeriod
      *
      * @param unit the {@code TemporalUnit} for which to return the value
      * @return the long value of the unit
-     * @throws DateTimeException if the unit is not supported
+     * @throws DateTimeException                if the unit is not supported
      * @throws UnsupportedTemporalTypeException if the unit is not supported
      */
     @Override
@@ -164,6 +163,7 @@ public interface ChronoPeriod
     Chronology getChronology();
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if all the supported units of this period are zero.
      *
@@ -193,6 +193,7 @@ public interface ChronoPeriod
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this period with the specified period added.
      * <p>
@@ -202,7 +203,7 @@ public interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param amountToAdd  the period to add, not null
+     * @param amountToAdd the period to add, not null
      * @return a {@code ChronoPeriod} based on this period with the requested period added, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
@@ -217,13 +218,14 @@ public interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param amountToSubtract  the period to subtract, not null
+     * @param amountToSubtract the period to subtract, not null
      * @return a {@code ChronoPeriod} based on this period with the requested period subtracted, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
     ChronoPeriod minus(TemporalAmount amountToSubtract);
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a new instance with each amount in this period in this period
      * multiplied by the specified scalar.
@@ -233,9 +235,9 @@ public interface ChronoPeriod
      * 3 will return "6 years, -9 months and 12 days".
      * No normalization is performed.
      *
-     * @param scalar  the scalar to multiply by, not null
+     * @param scalar the scalar to multiply by, not null
      * @return a {@code ChronoPeriod} based on this period with the amounts multiplied
-     *  by the scalar, not null
+     * by the scalar, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
     ChronoPeriod multipliedBy(int scalar);
@@ -250,13 +252,14 @@ public interface ChronoPeriod
      *
      * @return a {@code ChronoPeriod} based on this period with the amounts negated, not null
      * @throws ArithmeticException if numeric overflow occurs, which only happens if
-     *  one of the units has the value {@code Long.MIN_VALUE}
+     *                             one of the units has the value {@code Long.MIN_VALUE}
      */
     default ChronoPeriod negated() {
         return multipliedBy(-1);
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this period with the amounts of each unit normalized.
      * <p>
@@ -268,12 +271,13 @@ public interface ChronoPeriod
      * This instance is immutable and unaffected by this method call.
      *
      * @return a {@code ChronoPeriod} based on this period with the amounts of each
-     *  unit normalized, not null
+     * unit normalized, not null
      * @throws ArithmeticException if numeric overflow occurs
      */
     ChronoPeriod normalized();
 
     //-------------------------------------------------------------------------
+
     /**
      * Adds this period to the specified temporal object.
      * <p>
@@ -293,9 +297,9 @@ public interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the temporal object to adjust, not null
+     * @param temporal the temporal object to adjust, not null
      * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to add
+     * @throws DateTimeException   if unable to add
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
@@ -320,15 +324,16 @@ public interface ChronoPeriod
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param temporal  the temporal object to adjust, not null
+     * @param temporal the temporal object to adjust, not null
      * @return an object of the same type with the adjustment made, not null
-     * @throws DateTimeException if unable to subtract
+     * @throws DateTimeException   if unable to subtract
      * @throws ArithmeticException if numeric overflow occurs
      */
     @Override
     Temporal subtractFrom(Temporal temporal);
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this period is equal to another period, including the chronology.
      * <p>
@@ -337,7 +342,7 @@ public interface ChronoPeriod
      * Note that this means that a period of "15 Months" is not equal to a period
      * of "1 Year and 3 Months".
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other period
      */
     @Override
@@ -352,6 +357,7 @@ public interface ChronoPeriod
     int hashCode();
 
     //-----------------------------------------------------------------------
+
     /**
      * Outputs this period as a {@code String}.
      * <p>

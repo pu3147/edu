@@ -46,7 +46,7 @@
  * </ul>
  *
  * <h2>Related Documentation</h2>
- *
+ * <p>
  * For information about X.509 certificates and CRLs, please see:
  * <ul>
  *   <li><a href="http://www.ietf.org/rfc/rfc5280.txt">

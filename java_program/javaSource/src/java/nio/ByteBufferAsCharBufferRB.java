@@ -29,27 +29,10 @@ package java.nio;
 
 
 class ByteBufferAsCharBufferRB                  // package-private
-    extends ByteBufferAsCharBufferB
-{
-
-
-
-
-
-
+        extends ByteBufferAsCharBufferB {
 
 
     ByteBufferAsCharBufferRB(ByteBuffer bb) {   // package-private
-
-
-
-
-
-
-
-
-
-
 
 
         super(bb);
@@ -57,12 +40,8 @@ class ByteBufferAsCharBufferRB                  // package-private
     }
 
     ByteBufferAsCharBufferRB(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
-
-
-
+                             int mark, int pos, int lim, int cap,
+                             int off) {
 
 
         super(bb, mark, pos, lim, cap, off);
@@ -81,20 +60,14 @@ class ByteBufferAsCharBufferRB                  // package-private
 
     public CharBuffer duplicate() {
         return new ByteBufferAsCharBufferRB(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public CharBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -102,30 +75,7 @@ class ByteBufferAsCharBufferRB                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public CharBuffer put(char x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -135,28 +85,11 @@ class ByteBufferAsCharBufferRB                  // package-private
     public CharBuffer put(int i, char x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public CharBuffer compact() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -170,7 +103,6 @@ class ByteBufferAsCharBufferRB                  // package-private
     public boolean isReadOnly() {
         return true;
     }
-
 
 
     public String toString(int start, int end) {
@@ -203,21 +135,17 @@ class ByteBufferAsCharBufferRB                  // package-private
         if ((start < 0) || (end > len) || (start > end))
             throw new IndexOutOfBoundsException();
         return new ByteBufferAsCharBufferRB(bb,
-                                                  -1,
-                                                  pos + start,
-                                                  pos + end,
-                                                  capacity(),
-                                                  offset);
+                -1,
+                pos + start,
+                pos + end,
+                capacity(),
+                offset);
     }
-
-
 
 
     public ByteOrder order() {
 
         return ByteOrder.BIG_ENDIAN;
-
-
 
 
     }

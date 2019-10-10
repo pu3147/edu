@@ -45,9 +45,9 @@ import java.rmi.MarshalledObject;
  * as the second argument to the remote object's constructor for
  * object to use during reinitialization/activation.
  *
- * @author      Ann Wollrath
- * @since       1.2
- * @see         java.rmi.activation.Activatable
+ * @author Ann Wollrath
+ * @see java.rmi.activation.Activatable
+ * @since 1.2
  */
 public final class ActivationDesc implements Serializable {
 
@@ -76,7 +76,9 @@ public final class ActivationDesc implements Serializable {
      */
     private boolean restart;
 
-    /** indicate compatibility with the Java 2 SDK v1.2 version of class */
+    /**
+     * indicate compatibility with the Java 2 SDK v1.2 version of class
+     */
     private static final long serialVersionUID = 7455834104417690957L;
 
     /**
@@ -100,22 +102,21 @@ public final class ActivationDesc implements Serializable {
      * <code>ActivationGroup.createGroup</code> method.
      *
      * @param className the object's fully package qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data the object's initialization (activation) data contained
-     * in marshalled form.
-     * @exception ActivationException if the current group is nonexistent
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @param location  the object's code location (from where the class is
+     *                  loaded)
+     * @param data      the object's initialization (activation) data contained
+     *                  in marshalled form.
+     * @throws ActivationException           if the current group is nonexistent
+     * @throws UnsupportedOperationException if and only if activation is
+     *                                       not supported by this implementation
      * @since 1.2
      */
     public ActivationDesc(String className,
                           String location,
                           MarshalledObject<?> data)
-        throws ActivationException
-    {
+            throws ActivationException {
         this(ActivationGroup.internalCurrentGroupID(),
-             className, location, data, false);
+                className, location, data, false);
     }
 
     /**
@@ -133,29 +134,28 @@ public final class ActivationDesc implements Serializable {
      * <code>ActivationGroup.createGroup</code> method.
      *
      * @param className the object's fully package qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data the object's initialization (activation) data contained
-     * in marshalled form.
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @exception ActivationException if the current group is nonexistent
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @param location  the object's code location (from where the class is
+     *                  loaded)
+     * @param data      the object's initialization (activation) data contained
+     *                  in marshalled form.
+     * @param restart   if true, the object is restarted (reactivated) when
+     *                  either the activator is restarted or the object's activation group
+     *                  is restarted after an unexpected crash; if false, the object is only
+     *                  activated on demand.  Specifying <code>restart</code> to be
+     *                  <code>true</code> does not force an initial immediate activation of
+     *                  a newly registered object;  initial activation is lazy.
+     * @throws ActivationException           if the current group is nonexistent
+     * @throws UnsupportedOperationException if and only if activation is
+     *                                       not supported by this implementation
      * @since 1.2
      */
     public ActivationDesc(String className,
                           String location,
                           MarshalledObject<?> data,
                           boolean restart)
-        throws ActivationException
-    {
+            throws ActivationException {
         this(ActivationGroup.internalCurrentGroupID(),
-             className, location, data, restart);
+                className, location, data, restart);
     }
 
     /**
@@ -171,24 +171,23 @@ public final class ActivationDesc implements Serializable {
      * services, use one of the <code>ActivationDesc</code> constructors that
      * takes a boolean parameter, <code>restart</code>.
      *
-     * @param groupID the group's identifier (obtained from registering
-     * <code>ActivationSystem.registerGroup</code> method). The group
-     * indicates the VM in which the object should be activated.
+     * @param groupID   the group's identifier (obtained from registering
+     *                  <code>ActivationSystem.registerGroup</code> method). The group
+     *                  indicates the VM in which the object should be activated.
      * @param className the object's fully package-qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data  the object's initialization (activation) data contained
-     * in marshalled form.
-     * @exception IllegalArgumentException if <code>groupID</code> is null
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @param location  the object's code location (from where the class is
+     *                  loaded)
+     * @param data      the object's initialization (activation) data contained
+     *                  in marshalled form.
+     * @throws IllegalArgumentException      if <code>groupID</code> is null
+     * @throws UnsupportedOperationException if and only if activation is
+     *                                       not supported by this implementation
      * @since 1.2
      */
     public ActivationDesc(ActivationGroupID groupID,
                           String className,
                           String location,
-                          MarshalledObject<?> data)
-    {
+                          MarshalledObject<?> data) {
         this(groupID, className, location, data, false);
     }
 
@@ -199,31 +198,30 @@ public final class ActivationDesc implements Serializable {
      * information is <code>data</code>. All objects with the same
      * <code>groupID</code> are activated in the same Java VM.
      *
-     * @param groupID the group's identifier (obtained from registering
-     * <code>ActivationSystem.registerGroup</code> method). The group
-     * indicates the VM in which the object should be activated.
+     * @param groupID   the group's identifier (obtained from registering
+     *                  <code>ActivationSystem.registerGroup</code> method). The group
+     *                  indicates the VM in which the object should be activated.
      * @param className the object's fully package-qualified class name
-     * @param location the object's code location (from where the class is
-     * loaded)
-     * @param data  the object's initialization (activation) data contained
-     * in marshalled form.
-     * @param restart if true, the object is restarted (reactivated) when
-     * either the activator is restarted or the object's activation group
-     * is restarted after an unexpected crash; if false, the object is only
-     * activated on demand.  Specifying <code>restart</code> to be
-     * <code>true</code> does not force an initial immediate activation of
-     * a newly registered object;  initial activation is lazy.
-     * @exception IllegalArgumentException if <code>groupID</code> is null
-     * @exception UnsupportedOperationException if and only if activation is
-     * not supported by this implementation
+     * @param location  the object's code location (from where the class is
+     *                  loaded)
+     * @param data      the object's initialization (activation) data contained
+     *                  in marshalled form.
+     * @param restart   if true, the object is restarted (reactivated) when
+     *                  either the activator is restarted or the object's activation group
+     *                  is restarted after an unexpected crash; if false, the object is only
+     *                  activated on demand.  Specifying <code>restart</code> to be
+     *                  <code>true</code> does not force an initial immediate activation of
+     *                  a newly registered object;  initial activation is lazy.
+     * @throws IllegalArgumentException      if <code>groupID</code> is null
+     * @throws UnsupportedOperationException if and only if activation is
+     *                                       not supported by this implementation
      * @since 1.2
      */
     public ActivationDesc(ActivationGroupID groupID,
                           String className,
                           String location,
                           MarshalledObject<?> data,
-                          boolean restart)
-    {
+                          boolean restart) {
         if (groupID == null)
             throw new IllegalArgumentException("groupID can't be null");
         this.groupID = groupID;
@@ -249,6 +247,7 @@ public final class ActivationDesc implements Serializable {
     /**
      * Returns the class name for the object specified by this
      * descriptor.
+     *
      * @return the class name
      * @since 1.2
      */
@@ -259,6 +258,7 @@ public final class ActivationDesc implements Serializable {
     /**
      * Returns the code location for the object specified by
      * this descriptor.
+     *
      * @return the code location
      * @since 1.2
      */
@@ -269,6 +269,7 @@ public final class ActivationDesc implements Serializable {
     /**
      * Returns a "marshalled object" containing intialization/activation
      * data for the object specified by this descriptor.
+     *
      * @return the object specific "initialization" data
      * @since 1.2
      */
@@ -297,9 +298,9 @@ public final class ActivationDesc implements Serializable {
     /**
      * Compares two activation descriptors for content equality.
      *
-     * @param   obj     the Object to compare with
-     * @return  true if these Objects are equal; false otherwise.
-     * @see             java.util.Hashtable
+     * @param obj the Object to compare with
+     * @return true if these Objects are equal; false otherwise.
+     * @see java.util.Hashtable
      * @since 1.2
      */
     public boolean equals(Object obj) {
@@ -307,15 +308,15 @@ public final class ActivationDesc implements Serializable {
         if (obj instanceof ActivationDesc) {
             ActivationDesc desc = (ActivationDesc) obj;
             return
-                ((groupID == null ? desc.groupID == null :
-                  groupID.equals(desc.groupID)) &&
-                 (className == null ? desc.className == null :
-                  className.equals(desc.className)) &&
-                 (location == null ? desc.location == null:
-                  location.equals(desc.location)) &&
-                 (data == null ? desc.data == null :
-                  data.equals(desc.data)) &&
-                 (restart == desc.restart));
+                    ((groupID == null ? desc.groupID == null :
+                            groupID.equals(desc.groupID)) &&
+                            (className == null ? desc.className == null :
+                                    className.equals(desc.className)) &&
+                            (location == null ? desc.location == null :
+                                    location.equals(desc.location)) &&
+                            (data == null ? desc.data == null :
+                                    data.equals(desc.data)) &&
+                            (restart == desc.restart));
 
         } else {
             return false;
@@ -324,24 +325,25 @@ public final class ActivationDesc implements Serializable {
 
     /**
      * Return the same hashCode for similar <code>ActivationDesc</code>s.
+     *
      * @return an integer
      * @see java.util.Hashtable
      */
     public int hashCode() {
         return ((location == null
-                    ? 0
-                    : location.hashCode() << 24) ^
+                ? 0
+                : location.hashCode() << 24) ^
                 (groupID == null
-                    ? 0
-                    : groupID.hashCode() << 16) ^
+                        ? 0
+                        : groupID.hashCode() << 16) ^
                 (className == null
-                    ? 0
-                    : className.hashCode() << 9) ^
+                        ? 0
+                        : className.hashCode() << 9) ^
                 (data == null
-                    ? 0
-                    : data.hashCode() << 1) ^
+                        ? 0
+                        : data.hashCode() << 1) ^
                 (restart
-                    ? 1
-                    : 0));
+                        ? 1
+                        : 0));
     }
 }

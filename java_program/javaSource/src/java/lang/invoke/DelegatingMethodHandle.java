@@ -26,12 +26,14 @@
 package java.lang.invoke;
 
 import java.util.Arrays;
+
 import static java.lang.invoke.LambdaForm.*;
 import static java.lang.invoke.MethodHandleStatics.*;
 
 /**
  * A method handle whose invocation behavior is determined by a target.
  * The delegating MH itself can hold extra "intentions" beyond the simple behavior.
+ *
  * @author jrose
  */
 /*non-public*/
@@ -48,7 +50,9 @@ abstract class DelegatingMethodHandle extends MethodHandle {
         super(type, form);
     }
 
-    /** Define this to extract the delegated target which supplies the invocation behavior. */
+    /**
+     * Define this to extract the delegated target which supplies the invocation behavior.
+     */
     abstract protected MethodHandle getTarget();
 
     @Override
@@ -77,8 +81,8 @@ abstract class DelegatingMethodHandle extends MethodHandle {
 
     @Override
     String internalProperties() {
-        return "\n& Class="+getClass().getSimpleName()+
-               "\n& Target="+getTarget().debugString();
+        return "\n& Class=" + getClass().getSimpleName() +
+                "\n& Target=" + getTarget().debugString();
     }
 
     @Override
@@ -97,15 +101,24 @@ abstract class DelegatingMethodHandle extends MethodHandle {
                                         Object constraint,
                                         NamedFunction getTargetFn) {
         String debugString;
-        switch(whichCache) {
-            case MethodTypeForm.LF_REBIND:            debugString = "BMH.reinvoke";      break;
-            case MethodTypeForm.LF_DELEGATE:          debugString = "MH.delegate";       break;
-            default:                                  debugString = "MH.reinvoke";       break;
+        switch (whichCache) {
+            case MethodTypeForm.LF_REBIND:
+                debugString = "BMH.reinvoke";
+                break;
+            case MethodTypeForm.LF_DELEGATE:
+                debugString = "MH.delegate";
+                break;
+            default:
+                debugString = "MH.reinvoke";
+                break;
         }
         // No pre-action needed.
         return makeReinvokerForm(target, whichCache, constraint, debugString, true, getTargetFn, null);
     }
-    /** Create a LF which simply reinvokes a target of the given basic type. */
+
+    /**
+     * Create a LF which simply reinvokes a target of the given basic type.
+     */
     static LambdaForm makeReinvokerForm(MethodHandle target,
                                         int whichCache,
                                         Object constraint,
@@ -120,17 +133,17 @@ abstract class DelegatingMethodHandle extends MethodHandle {
         LambdaForm form;
         if (!customized) {
             form = mtype.form().cachedLambdaForm(whichCache);
-            if (form != null)  return form;
+            if (form != null) return form;
         }
-        final int THIS_DMH    = 0;
-        final int ARG_BASE    = 1;
-        final int ARG_LIMIT   = ARG_BASE + mtype.parameterCount();
+        final int THIS_DMH = 0;
+        final int ARG_BASE = 1;
+        final int ARG_LIMIT = ARG_BASE + mtype.parameterCount();
         int nameCursor = ARG_LIMIT;
-        final int PRE_ACTION   = hasPreAction ? nameCursor++ : -1;
-        final int NEXT_MH     = customized ? -1 : nameCursor++;
-        final int REINVOKE    = nameCursor++;
+        final int PRE_ACTION = hasPreAction ? nameCursor++ : -1;
+        final int NEXT_MH = customized ? -1 : nameCursor++;
+        final int REINVOKE = nameCursor++;
         LambdaForm.Name[] names = LambdaForm.arguments(nameCursor - ARG_LIMIT, mtype.invokerType());
-        assert(names.length == nameCursor);
+        assert (names.length == nameCursor);
         names[THIS_DMH] = names[THIS_DMH].withConstraint(constraint);
         Object[] targetArgs;
         if (hasPreAction) {
@@ -153,10 +166,11 @@ abstract class DelegatingMethodHandle extends MethodHandle {
     }
 
     static final NamedFunction NF_getTarget;
+
     static {
         try {
             NF_getTarget = new NamedFunction(DelegatingMethodHandle.class
-                                             .getDeclaredMethod("getTarget"));
+                    .getDeclaredMethod("getTarget"));
         } catch (ReflectiveOperationException ex) {
             throw newInternalError(ex);
         }

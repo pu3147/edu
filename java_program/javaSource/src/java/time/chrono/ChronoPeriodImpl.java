@@ -88,9 +88,7 @@ import java.util.Objects;
  * This class is used by applications seeking to handle dates in non-ISO calendar systems.
  * For example, the Japanese, Minguo, Thai Buddhist and others.
  *
- * @implSpec
- * This class is immutable nad thread-safe.
- *
+ * @implSpec This class is immutable nad thread-safe.
  * @since 1.8
  */
 final class ChronoPeriodImpl
@@ -195,7 +193,7 @@ final class ChronoPeriodImpl
     /**
      * Obtains an instance of {@code ChronoPeriodImpl} from a temporal amount.
      *
-     * @param amount  the temporal amount to convert, not null
+     * @param amount the temporal amount to convert, not null
      * @return the period, not null
      */
     private ChronoPeriodImpl validateAmount(TemporalAmount amount) {
@@ -279,7 +277,6 @@ final class ChronoPeriodImpl
     }
 
 
-
     @Override
     public Temporal subtractFrom(Temporal temporal) {
         validateChrono(temporal);
@@ -356,6 +353,7 @@ final class ChronoPeriodImpl
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Writes the Chronology using a
      * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.

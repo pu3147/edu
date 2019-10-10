@@ -36,10 +36,9 @@ import java.util.EventListener;
  * occurs, that object's <code>actionPerformed</code> method is
  * invoked.
  *
+ * @author Carl Quinn
  * @see ActionEvent
  * @see <a href="https://docs.oracle.com/javase/tutorial/uiswing/events/actionlistener.html">How to Write an Action Listener</a>
- *
- * @author Carl Quinn
  * @since 1.1
  */
 public interface ActionListener extends EventListener {

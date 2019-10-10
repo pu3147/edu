@@ -24,6 +24,7 @@
  */
 
 package java.util.prefs;
+
 import java.util.*;
 
 /**
@@ -37,14 +38,15 @@ import java.util.*;
  * Normal users of the <tt>Preferences</tt> facility should have no need to
  * consult this documentation.</strong>
  *
- * @author  Josh Bloch
- * @see     Preferences
- * @since   1.4
+ * @author Josh Bloch
+ * @see Preferences
+ * @since 1.4
  */
 public interface PreferencesFactory {
     /**
      * Returns the system root preference node.  (Multiple calls on this
      * method will return the same object reference.)
+     *
      * @return the system root preference node
      */
     Preferences systemRoot();
@@ -53,6 +55,7 @@ public interface PreferencesFactory {
      * Returns the user root preference node corresponding to the calling
      * user.  In a server, the returned value will typically depend on
      * some implicit client-context.
+     *
      * @return the user root preference node corresponding to the calling
      * user
      */

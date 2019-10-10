@@ -69,9 +69,7 @@ import java.time.Duration;
  * just with slightly different rules.
  * The documentation of each unit explains how it operates.
  *
- * @implSpec
- * This is a final, immutable and thread-safe enum.
- *
+ * @implSpec This is a final, immutable and thread-safe enum.
  * @since 1.8
  */
 public enum ChronoUnit implements TemporalUnit {
@@ -198,6 +196,7 @@ public enum ChronoUnit implements TemporalUnit {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the estimated duration of this unit in the ISO calendar system.
      * <p>
@@ -228,6 +227,7 @@ public enum ChronoUnit implements TemporalUnit {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if this unit is a date unit.
      * <p>

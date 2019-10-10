@@ -41,8 +41,7 @@ final class MethodRef {
             this.signature = null;
             this.methodRef = null;
             this.typeRef = null;
-        }
-        else {
+        } else {
             this.signature = method.toGenericString();
             this.methodRef = new SoftReference<>(method);
             this.typeRef = new WeakReference<Class<?>>(method.getDeclaringClass());
@@ -64,8 +63,7 @@ final class MethodRef {
                 this.signature = null;
                 this.methodRef = null;
                 this.typeRef = null;
-            }
-            else {
+            } else {
                 this.methodRef = new SoftReference<>(method);
             }
         }

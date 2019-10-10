@@ -118,9 +118,7 @@ import sun.util.calendar.LocalGregorianCalendar;
  * {@code JapaneseDate} may have unpredictable results and should be avoided.
  * The {@code equals} method should be used for comparisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class JapaneseDate
@@ -151,6 +149,7 @@ public final class JapaneseDate
     static final LocalDate MEIJI_6_ISODATE = LocalDate.of(1873, 1, 1);
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains the current {@code JapaneseDate} from the system clock in the default time-zone.
      * <p>
@@ -175,7 +174,7 @@ public final class JapaneseDate
      * Using this method will prevent the ability to use an alternate clock for testing
      * because the clock is hard-coded.
      *
-     * @param zone  the zone ID to use, not null
+     * @param zone the zone ID to use, not null
      * @return the current date using the system clock, not null
      */
     public static JapaneseDate now(ZoneId zone) {
@@ -189,7 +188,7 @@ public final class JapaneseDate
      * Using this method allows the use of an alternate clock for testing.
      * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
      *
-     * @param clock  the clock to use, not null
+     * @param clock the clock to use, not null
      * @return the current date, not null
      * @throws DateTimeException if the current date cannot be obtained
      */
@@ -214,14 +213,14 @@ public final class JapaneseDate
      *  9th Jan Heisei 1 = ISO 1989-01-09
      * </pre>
      *
-     * @param era  the Japanese era, not null
+     * @param era        the Japanese era, not null
      * @param yearOfEra  the Japanese year-of-era
-     * @param month  the Japanese month-of-year, from 1 to 12
-     * @param dayOfMonth  the Japanese day-of-month, from 1 to 31
+     * @param month      the Japanese month-of-year, from 1 to 12
+     * @param dayOfMonth the Japanese day-of-month, from 1 to 31
      * @return the date in Japanese calendar system, not null
      * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year,
-     *  or if the date is not a Japanese era
+     *                           or if the day-of-month is invalid for the month-year,
+     *                           or if the date is not a Japanese era
      */
     public static JapaneseDate of(JapaneseEra era, int yearOfEra, int month, int dayOfMonth) {
         Objects.requireNonNull(era, "era");
@@ -244,12 +243,12 @@ public final class JapaneseDate
      * The Japanese proleptic year, month and day-of-month are the same as those
      * in the ISO calendar system. They are not reset when the era changes.
      *
-     * @param prolepticYear  the Japanese proleptic-year
-     * @param month  the Japanese month-of-year, from 1 to 12
-     * @param dayOfMonth  the Japanese day-of-month, from 1 to 31
+     * @param prolepticYear the Japanese proleptic-year
+     * @param month         the Japanese month-of-year, from 1 to 12
+     * @param dayOfMonth    the Japanese day-of-month, from 1 to 31
      * @return the date in Japanese calendar system, not null
      * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
+     *                           or if the day-of-month is invalid for the month-year
      */
     public static JapaneseDate of(int prolepticYear, int month, int dayOfMonth) {
         return new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth));
@@ -273,12 +272,12 @@ public final class JapaneseDate
      *  9th Jan Heisei 1 = day-of-year 2
      * </pre>
      *
-     * @param era  the Japanese era, not null
-     * @param yearOfEra  the Japanese year-of-era
-     * @param dayOfYear  the chronology day-of-year, from 1 to 366
+     * @param era       the Japanese era, not null
+     * @param yearOfEra the Japanese year-of-era
+     * @param dayOfYear the chronology day-of-year, from 1 to 366
      * @return the date in Japanese calendar system, not null
      * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-year is invalid for the year
+     *                           or if the day-of-year is invalid for the year
      */
     static JapaneseDate ofYearDay(JapaneseEra era, int yearOfEra, int dayOfYear) {
         Objects.requireNonNull(era, "era");
@@ -295,7 +294,7 @@ public final class JapaneseDate
             throw new DateTimeException("Invalid parameters");
         }
         LocalDate localdate = LocalDate.of(jdate.getNormalizedYear(),
-                                      jdate.getMonth(), jdate.getDayOfMonth());
+                jdate.getMonth(), jdate.getDayOfMonth());
         return new JapaneseDate(era, yearOfEra, localdate);
     }
 
@@ -312,7 +311,7 @@ public final class JapaneseDate
      * This method matches the signature of the functional interface {@link TemporalQuery}
      * allowing it to be used as a query via method reference, {@code JapaneseDate::from}.
      *
-     * @param temporal  the temporal object to convert, not null
+     * @param temporal the temporal object to convert, not null
      * @return the date in Japanese calendar system, not null
      * @throws DateTimeException if unable to convert to a {@code JapaneseDate}
      */
@@ -321,10 +320,11 @@ public final class JapaneseDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Creates an instance from an ISO date.
      *
-     * @param isoDate  the standard local date, validated not null
+     * @param isoDate the standard local date, validated not null
      */
     JapaneseDate(LocalDate isoDate) {
         if (isoDate.isBefore(MEIJI_6_ISODATE)) {
@@ -340,9 +340,9 @@ public final class JapaneseDate
      * Constructs a {@code JapaneseDate}. This constructor does NOT validate the given parameters,
      * and {@code era} and {@code year} must agree with {@code isoDate}.
      *
-     * @param era  the era, validated not null
-     * @param year  the year-of-era, validated
-     * @param isoDate  the standard local date, validated not null
+     * @param era     the era, validated not null
+     * @param year    the year-of-era, validated
+     * @param isoDate the standard local date, validated not null
      */
     JapaneseDate(JapaneseEra era, int year, LocalDate isoDate) {
         if (isoDate.isBefore(MEIJI_6_ISODATE)) {
@@ -354,6 +354,7 @@ public final class JapaneseDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the chronology of this date, which is the Japanese calendar system.
      * <p>
@@ -397,10 +398,11 @@ public final class JapaneseDate
         Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
         jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
         jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-        return  jcal.getActualMaximum(Calendar.DAY_OF_YEAR);
+        return jcal.getActualMaximum(Calendar.DAY_OF_YEAR);
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if the specified field is supported.
      * <p>
@@ -428,7 +430,7 @@ public final class JapaneseDate
      * passing {@code this} as the argument.
      * Whether the field is supported is determined by the field.
      *
-     * @param field  the field to check, null returns false
+     * @param field the field to check, null returns false
      * @return true if the field is supported on this date, false if not
      */
     @Override
@@ -446,8 +448,10 @@ public final class JapaneseDate
             if (isSupported(field)) {
                 ChronoField f = (ChronoField) field;
                 switch (f) {
-                    case DAY_OF_MONTH: return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR: return ValueRange.of(1, lengthOfYear());
+                    case DAY_OF_MONTH:
+                        return ValueRange.of(1, lengthOfMonth());
+                    case DAY_OF_YEAR:
+                        return ValueRange.of(1, lengthOfYear());
                     case YEAR_OF_ERA: {
                         Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
                         jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
@@ -494,7 +498,7 @@ public final class JapaneseDate
     /**
      * Returns a {@code LocalGregorianCalendar.Date} converted from the given {@code isoDate}.
      *
-     * @param isoDate  the local date, not null
+     * @param isoDate the local date, not null
      * @return a {@code LocalGregorianCalendar.Date}, not null
      */
     private static LocalGregorianCalendar.Date toPrivateJapaneseDate(LocalDate isoDate) {
@@ -541,17 +545,19 @@ public final class JapaneseDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
-    public  JapaneseDate with(TemporalAdjuster adjuster) {
+    public JapaneseDate with(TemporalAdjuster adjuster) {
         return super.with(adjuster);
     }
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -561,7 +567,8 @@ public final class JapaneseDate
 
     /**
      * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
+     *
+     * @throws DateTimeException   {@inheritDoc}
      * @throws ArithmeticException {@inheritDoc}
      */
     @Override
@@ -569,6 +576,7 @@ public final class JapaneseDate
         return super.minus(amount);
     }
     //-----------------------------------------------------------------------
+
     /**
      * Returns a copy of this date with the year altered.
      * <p>
@@ -578,8 +586,8 @@ public final class JapaneseDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param era  the era to set in the result, not null
-     * @param yearOfEra  the year-of-era to set in the returned date
+     * @param era       the era to set in the result, not null
+     * @param yearOfEra the year-of-era to set in the returned date
      * @return a {@code JapaneseDate} based on this date with the requested year, never null
      * @throws DateTimeException if {@code year} is invalid
      */
@@ -597,7 +605,7 @@ public final class JapaneseDate
      * <p>
      * This instance is immutable and unaffected by this method call.
      *
-     * @param year  the year to set in the returned date
+     * @param year the year to set in the returned date
      * @return a {@code JapaneseDate} based on this date with the requested year-of-era, never null
      * @throws DateTimeException if {@code year} is invalid
      */
@@ -663,7 +671,7 @@ public final class JapaneseDate
     @Override        // for javadoc and covariant return type
     @SuppressWarnings("unchecked")
     public final ChronoLocalDateTime<JapaneseDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<JapaneseDate>)super.atTime(localTime);
+        return (ChronoLocalDateTime<JapaneseDate>) super.atTime(localTime);
     }
 
     @Override
@@ -678,6 +686,7 @@ public final class JapaneseDate
     }
 
     //-------------------------------------------------------------------------
+
     /**
      * Compares this date to another date, including the chronology.
      * <p>
@@ -687,7 +696,7 @@ public final class JapaneseDate
      * To compare the dates of two {@code TemporalAccessor} instances, including dates
      * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
      *
-     * @param obj  the object to check, null returns false
+     * @param obj the object to check, null returns false
      * @return true if this is equal to the other date
      */
     @Override  // override for performance
@@ -713,6 +722,7 @@ public final class JapaneseDate
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Defend against malicious streams.
      *
@@ -726,15 +736,14 @@ public final class JapaneseDate
     /**
      * Writes the object using a
      * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
+     *
+     * @return the instance of {@code Ser}, not null
+     * @serialData <pre>
      *  out.writeByte(4);                 // identifies a JapaneseDate
      *  out.writeInt(get(YEAR));
      *  out.writeByte(get(MONTH_OF_YEAR));
      *  out.writeByte(get(DAY_OF_MONTH));
      * </pre>
-     *
-     * @return the instance of {@code Ser}, not null
      */
     private Object writeReplace() {
         return new Ser(Ser.JAPANESE_DATE_TYPE, this);

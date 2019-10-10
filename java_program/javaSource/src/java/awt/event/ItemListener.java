@@ -37,11 +37,9 @@ import java.util.EventListener;
  * <code>itemStateChanged</code> method is invoked.
  *
  * @author Amy Fowler
- *
  * @see java.awt.ItemSelectable
  * @see ItemEvent
  * @see <a href="https://docs.oracle.com/javase/tutorial/uiswing/events/itemlistener.html">Tutorial: Writing an Item Listener</a>
- *
  * @since 1.1
  */
 public interface ItemListener extends EventListener {

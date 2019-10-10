@@ -29,7 +29,7 @@ package java.lang.management;
  * The permission which the SecurityManager will check when code
  * that is running with a SecurityManager calls methods defined
  * in the management interface for the Java platform.
- * <P>
+ * <p>
  * The following table
  * provides a summary description of what the permission allows,
  * and discusses the risks of granting code the permission.
@@ -74,15 +74,13 @@ package java.lang.management;
  * Instead they are created by the security policy code based on reading
  * the security policy file.
  *
- * @author  Mandy Chung
- * @since   1.5
- *
+ * @author Mandy Chung
  * @see java.security.BasicPermission
  * @see java.security.Permission
  * @see java.security.Permissions
  * @see java.security.PermissionCollection
  * @see java.lang.SecurityManager
- *
+ * @since 1.5
  */
 
 public final class ManagementPermission extends java.security.BasicPermission {
@@ -92,8 +90,7 @@ public final class ManagementPermission extends java.security.BasicPermission {
      * Constructs a ManagementPermission with the specified name.
      *
      * @param name Permission name. Must be either "monitor" or "control".
-     *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
+     * @throws NullPointerException     if <code>name</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>name</code> is empty or invalid.
      */
     public ManagementPermission(String name) {
@@ -106,15 +103,14 @@ public final class ManagementPermission extends java.security.BasicPermission {
     /**
      * Constructs a new ManagementPermission object.
      *
-     * @param name Permission name. Must be either "monitor" or "control".
+     * @param name    Permission name. Must be either "monitor" or "control".
      * @param actions Must be either null or the empty string.
-     *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
+     * @throws NullPointerException     if <code>name</code> is <code>null</code>.
      * @throws IllegalArgumentException if <code>name</code> is empty or
-     * if arguments are invalid.
+     *                                  if arguments are invalid.
      */
     public ManagementPermission(String name, String actions)
-        throws IllegalArgumentException {
+            throws IllegalArgumentException {
         super(name);
         if (!name.equals("control") && !name.equals("monitor")) {
             throw new IllegalArgumentException("name: " + name);

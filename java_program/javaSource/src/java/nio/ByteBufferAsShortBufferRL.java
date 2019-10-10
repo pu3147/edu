@@ -29,27 +29,10 @@ package java.nio;
 
 
 class ByteBufferAsShortBufferRL                  // package-private
-    extends ByteBufferAsShortBufferL
-{
-
-
-
-
-
-
+        extends ByteBufferAsShortBufferL {
 
 
     ByteBufferAsShortBufferRL(ByteBuffer bb) {   // package-private
-
-
-
-
-
-
-
-
-
-
 
 
         super(bb);
@@ -57,12 +40,8 @@ class ByteBufferAsShortBufferRL                  // package-private
     }
 
     ByteBufferAsShortBufferRL(ByteBuffer bb,
-                                     int mark, int pos, int lim, int cap,
-                                     int off)
-    {
-
-
-
+                              int mark, int pos, int lim, int cap,
+                              int off) {
 
 
         super(bb, mark, pos, lim, cap, off);
@@ -81,20 +60,14 @@ class ByteBufferAsShortBufferRL                  // package-private
 
     public ShortBuffer duplicate() {
         return new ByteBufferAsShortBufferRL(bb,
-                                                    this.markValue(),
-                                                    this.position(),
-                                                    this.limit(),
-                                                    this.capacity(),
-                                                    offset);
+                this.markValue(),
+                this.position(),
+                this.limit(),
+                this.capacity(),
+                offset);
     }
 
     public ShortBuffer asReadOnlyBuffer() {
-
-
-
-
-
-
 
 
         return duplicate();
@@ -102,30 +75,7 @@ class ByteBufferAsShortBufferRL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ShortBuffer put(short x) {
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -135,28 +85,11 @@ class ByteBufferAsShortBufferRL                  // package-private
     public ShortBuffer put(int i, short x) {
 
 
-
-
         throw new ReadOnlyBufferException();
 
     }
 
     public ShortBuffer compact() {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         throw new ReadOnlyBufferException();
@@ -172,50 +105,7 @@ class ByteBufferAsShortBufferRL                  // package-private
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public ByteOrder order() {
-
-
 
 
         return ByteOrder.LITTLE_ENDIAN;

@@ -44,7 +44,7 @@ import java.util.Set;
 /*package*/ class HttpConnectSocketImpl extends PlainSocketImpl {
 
     private static final String httpURLClazzStr =
-                                  "sun.net.www.protocol.http.HttpURLConnection";
+            "sun.net.www.protocol.http.HttpURLConnection";
     private static final String netClientClazzStr = "sun.net.NetworkClient";
     private static final String doTunnelingStr = "doTunneling";
     private static final Field httpField;
@@ -55,7 +55,7 @@ import java.util.Set;
     private InetSocketAddress external_address;
     private HashMap<Integer, Object> optionsMap = new HashMap<>();
 
-    static  {
+    static {
         try {
             Class<?> httpClazz = Class.forName(httpURLClazzStr, true, null);
             httpField = httpClazz.getDeclaredField("http");
@@ -64,13 +64,13 @@ import java.util.Set;
             serverSocketField = netClientClazz.getDeclaredField("serverSocket");
 
             java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        httpField.setAccessible(true);
-                        serverSocketField.setAccessible(true);
-                        return null;
-                }
-            });
+                    new java.security.PrivilegedAction<Void>() {
+                        public Void run() {
+                            httpField.setAccessible(true);
+                            serverSocketField.setAccessible(true);
+                            return null;
+                        }
+                    });
         } catch (ReflectiveOperationException x) {
             throw new InternalError("Should not reach here", x);
         }
@@ -83,7 +83,7 @@ import java.util.Set;
 
     HttpConnectSocketImpl(Proxy proxy) {
         SocketAddress a = proxy.address();
-        if ( !(a instanceof InetSocketAddress) )
+        if (!(a instanceof InetSocketAddress))
             throw new IllegalArgumentException("Unsupported address type");
 
         InetSocketAddress ad = (InetSocketAddress) a;
@@ -93,13 +93,12 @@ import java.util.Set;
 
     @Override
     protected void connect(SocketAddress endpoint, int timeout)
-        throws IOException
-    {
+            throws IOException {
         if (endpoint == null || !(endpoint instanceof InetSocketAddress))
             throw new IllegalArgumentException("Unsupported address type");
-        final InetSocketAddress epoint = (InetSocketAddress)endpoint;
+        final InetSocketAddress epoint = (InetSocketAddress) endpoint;
         final String destHost = epoint.isUnresolved() ? epoint.getHostName()
-                                                      : epoint.getAddress().getHostAddress();
+                : epoint.getAddress().getHostAddress();
         final int destPort = epoint.getPort();
 
         SecurityManager security = System.getSecurityManager();
@@ -121,12 +120,12 @@ import java.util.Set;
         this.getSocket().impl = psi;
 
         // best effort is made to try and reset options previously set
-        Set<Map.Entry<Integer,Object>> options = optionsMap.entrySet();
+        Set<Map.Entry<Integer, Object>> options = optionsMap.entrySet();
         try {
-            for(Map.Entry<Integer,Object> entry : options) {
+            for (Map.Entry<Integer, Object> entry : options) {
                 psi.setOption(entry.getKey(), entry.getValue());
             }
-        } catch (IOException x) {  /* gulp! */  }
+        } catch (IOException x) {  /* gulp! */ }
     }
 
     @Override
@@ -142,23 +141,21 @@ import java.util.Set;
 
     private Socket privilegedDoTunnel(final String urlString,
                                       final int timeout)
-        throws IOException
-    {
+            throws IOException {
         try {
             return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedExceptionAction<Socket>() {
-                    public Socket run() throws IOException {
-                        return doTunnel(urlString, timeout);
-                }
-            });
+                    new java.security.PrivilegedExceptionAction<Socket>() {
+                        public Socket run() throws IOException {
+                            return doTunnel(urlString, timeout);
+                        }
+                    });
         } catch (java.security.PrivilegedActionException pae) {
             throw (IOException) pae.getException();
         }
     }
 
     private Socket doTunnel(String urlString, int connectTimeout)
-        throws IOException
-    {
+            throws IOException {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(server, port));
         URL destURL = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) destURL.openConnection(proxy);

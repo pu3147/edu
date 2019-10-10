@@ -29,6 +29,7 @@ package java.security;
 import java.util.Enumeration;
 import java.util.WeakHashMap;
 import java.util.concurrent.atomic.AtomicReference;
+
 import sun.security.jca.GetInstance;
 import sun.security.util.Debug;
 import sun.security.util.SecurityConstants;
@@ -87,10 +88,11 @@ public abstract class Policy {
 
     /**
      * A read-only empty PermissionCollection instance.
+     *
      * @since 1.6
      */
     public static final PermissionCollection UNSUPPORTED_EMPTY_COLLECTION =
-                        new UnsupportedEmptyCollection();
+            new UnsupportedEmptyCollection();
 
     // Information about the system-wide policy.
     private static class PolicyInfo {
@@ -107,16 +109,17 @@ public abstract class Policy {
 
     // PolicyInfo is stored in an AtomicReference
     private static AtomicReference<PolicyInfo> policy =
-        new AtomicReference<>(new PolicyInfo(null, false));
+            new AtomicReference<>(new PolicyInfo(null, false));
 
     private static final Debug debug = Debug.getInstance("policy");
 
     // Cache mapping ProtectionDomain.Key to PermissionCollection
     private WeakHashMap<ProtectionDomain.Key, PermissionCollection> pdMapping;
 
-    /** package private for AccessControlContext and ProtectionDomain */
-    static boolean isSet()
-    {
+    /**
+     * package private for AccessControlContext and ProtectionDomain
+     */
+    static boolean isSet() {
         PolicyInfo pi = policy.get();
         return pi.policy != null && pi.initialized == true;
     }
@@ -137,17 +140,13 @@ public abstract class Policy {
      * to ensure it's ok to get the Policy object.
      *
      * @return the installed Policy.
-     *
-     * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        getting the Policy object.
-     *
+     * @throws SecurityException if a security manager exists and its
+     *                           {@code checkPermission} method doesn't allow
+     *                           getting the Policy object.
      * @see SecurityManager#checkPermission(Permission)
      * @see #setPolicy(java.security.Policy)
      */
-    public static Policy getPolicy()
-    {
+    public static Policy getPolicy() {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null)
             sm.checkPermission(SecurityConstants.GET_POLICY_PERMISSION);
@@ -160,8 +159,7 @@ public abstract class Policy {
      *
      * @return the installed Policy.
      */
-    static Policy getPolicyNoCheck()
-    {
+    static Policy getPolicyNoCheck() {
         PolicyInfo pi = policy.get();
         // Use double-check idiom to avoid locking if system-wide policy is
         // already initialized
@@ -170,19 +168,19 @@ public abstract class Policy {
                 PolicyInfo pinfo = policy.get();
                 if (pinfo.policy == null) {
                     String policy_class = AccessController.doPrivileged(
-                        new PrivilegedAction<String>() {
-                        public String run() {
-                            return Security.getProperty("policy.provider");
-                        }
-                    });
+                            new PrivilegedAction<String>() {
+                                public String run() {
+                                    return Security.getProperty("policy.provider");
+                                }
+                            });
                     if (policy_class == null) {
                         policy_class = "sun.security.provider.PolicyFile";
                     }
 
                     try {
                         pinfo = new PolicyInfo(
-                            (Policy) Class.forName(policy_class).newInstance(),
-                            true);
+                                (Policy) Class.forName(policy_class).newInstance(),
+                                true);
                     } catch (Exception e) {
                         /*
                          * The policy_class seems to be an extension
@@ -199,30 +197,30 @@ public abstract class Policy {
 
                         final String pc = policy_class;
                         Policy pol = AccessController.doPrivileged(
-                            new PrivilegedAction<Policy>() {
-                            public Policy run() {
-                                try {
-                                    ClassLoader cl =
-                                            ClassLoader.getSystemClassLoader();
-                                    // we want the extension loader
-                                    ClassLoader extcl = null;
-                                    while (cl != null) {
-                                        extcl = cl;
-                                        cl = cl.getParent();
+                                new PrivilegedAction<Policy>() {
+                                    public Policy run() {
+                                        try {
+                                            ClassLoader cl =
+                                                    ClassLoader.getSystemClassLoader();
+                                            // we want the extension loader
+                                            ClassLoader extcl = null;
+                                            while (cl != null) {
+                                                extcl = cl;
+                                                cl = cl.getParent();
+                                            }
+                                            return (extcl != null ? (Policy) Class.forName(
+                                                    pc, true, extcl).newInstance() : null);
+                                        } catch (Exception e) {
+                                            if (debug != null) {
+                                                debug.println("policy provider " +
+                                                        pc +
+                                                        " not available");
+                                                e.printStackTrace();
+                                            }
+                                            return null;
+                                        }
                                     }
-                                    return (extcl != null ? (Policy)Class.forName(
-                                            pc, true, extcl).newInstance() : null);
-                                } catch (Exception e) {
-                                    if (debug != null) {
-                                        debug.println("policy provider " +
-                                                    pc +
-                                                    " not available");
-                                        e.printStackTrace();
-                                    }
-                                    return null;
-                                }
-                            }
-                        });
+                                });
                         /*
                          * if it loaded install it as the policy provider. Otherwise
                          * continue to use the system default implementation
@@ -251,21 +249,16 @@ public abstract class Policy {
      * permission to ensure it's ok to set the Policy.
      *
      * @param p the new system Policy object.
-     *
-     * @throws SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        setting the Policy.
-     *
+     * @throws SecurityException if a security manager exists and its
+     *                           {@code checkPermission} method doesn't allow
+     *                           setting the Policy.
      * @see SecurityManager#checkPermission(Permission)
      * @see #getPolicy()
-     *
      */
-    public static void setPolicy(Policy p)
-    {
+    public static void setPolicy(Policy p) {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) sm.checkPermission(
-                                 new SecurityPermission("setPolicy"));
+                new SecurityPermission("setPolicy"));
         if (p != null) {
             initPolicy(p);
         }
@@ -280,7 +273,7 @@ public abstract class Policy {
      *
      * @since 1.4
      */
-    private static void initPolicy (final Policy p) {
+    private static void initPolicy(final Policy p) {
         /*
          * A policy provider not on the bootclasspath could trigger
          * security checks fulfilling a call to either Policy.implies
@@ -303,11 +296,11 @@ public abstract class Policy {
          */
 
         ProtectionDomain policyDomain =
-        AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
-            public ProtectionDomain run() {
-                return p.getClass().getProtectionDomain();
-            }
-        });
+                AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
+                    public ProtectionDomain run() {
+                        return p.getClass().getProtectionDomain();
+                    }
+                });
 
         /*
          * Collect the permissions granted to this protection domain
@@ -318,7 +311,7 @@ public abstract class Policy {
         synchronized (p) {
             if (p.pdMapping == null) {
                 p.pdMapping = new WeakHashMap<>();
-           }
+            }
         }
 
         if (policyDomain.getCodeSource() != null) {
@@ -353,44 +346,37 @@ public abstract class Policy {
      * <p> Note that the list of registered providers may be retrieved via
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the specified Policy type.  See the Policy section in the
-     *    <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
-     *    Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     *    for a list of standard Policy types.
-     *
+     * @param type   the specified Policy type.  See the Policy section in the
+     *               <a href=
+     *               "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
+     *               Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *               for a list of standard Policy types.
      * @param params parameters for the Policy, which may be null.
-     *
      * @return the new Policy object.
-     *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Policy instance for the specified type.
-     *
-     * @exception NullPointerException if the specified type is null.
-     *
-     * @exception IllegalArgumentException if the specified parameters
-     *          are not understood by the PolicySpi implementation
-     *          from the selected Provider.
-     *
-     * @exception NoSuchAlgorithmException if no Provider supports a PolicySpi
-     *          implementation for the specified type.
-     *
+     * @throws SecurityException        if the caller does not have permission
+     *                                  to get a Policy instance for the specified type.
+     * @throws NullPointerException     if the specified type is null.
+     * @throws IllegalArgumentException if the specified parameters
+     *                                  are not understood by the PolicySpi implementation
+     *                                  from the selected Provider.
+     * @throws NoSuchAlgorithmException if no Provider supports a PolicySpi
+     *                                  implementation for the specified type.
      * @see Provider
      * @since 1.6
      */
     public static Policy getInstance(String type, Policy.Parameters params)
-                throws NoSuchAlgorithmException {
+            throws NoSuchAlgorithmException {
 
         checkPermission(type);
         try {
             GetInstance.Instance instance = GetInstance.getInstance("Policy",
-                                                        PolicySpi.class,
-                                                        type,
-                                                        params);
-            return new PolicyDelegate((PolicySpi)instance.impl,
-                                                        instance.provider,
-                                                        type,
-                                                        params);
+                    PolicySpi.class,
+                    type,
+                    params);
+            return new PolicyDelegate((PolicySpi) instance.impl,
+                    instance.provider,
+                    type,
+                    params);
         } catch (NoSuchAlgorithmException nsae) {
             return handleException(nsae);
         }
@@ -407,41 +393,32 @@ public abstract class Policy {
      * <p> Note that the list of registered providers may be retrieved via
      * the {@link Security#getProviders() Security.getProviders()} method.
      *
-     * @param type the specified Policy type.  See the Policy section in the
-     *    <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
-     *    Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     *    for a list of standard Policy types.
-     *
-     * @param params parameters for the Policy, which may be null.
-     *
+     * @param type     the specified Policy type.  See the Policy section in the
+     *                 <a href=
+     *                 "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
+     *                 Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                 for a list of standard Policy types.
+     * @param params   parameters for the Policy, which may be null.
      * @param provider the provider.
-     *
      * @return the new Policy object.
-     *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Policy instance for the specified type.
-     *
-     * @exception NullPointerException if the specified type is null.
-     *
-     * @exception IllegalArgumentException if the specified provider
-     *          is null or empty,
-     *          or if the specified parameters are not understood by
-     *          the PolicySpi implementation from the specified provider.
-     *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
-     *
-     * @exception NoSuchAlgorithmException if the specified provider does not
-     *          support a PolicySpi implementation for the specified type.
-     *
+     * @throws SecurityException        if the caller does not have permission
+     *                                  to get a Policy instance for the specified type.
+     * @throws NullPointerException     if the specified type is null.
+     * @throws IllegalArgumentException if the specified provider
+     *                                  is null or empty,
+     *                                  or if the specified parameters are not understood by
+     *                                  the PolicySpi implementation from the specified provider.
+     * @throws NoSuchProviderException  if the specified provider is not
+     *                                  registered in the security provider list.
+     * @throws NoSuchAlgorithmException if the specified provider does not
+     *                                  support a PolicySpi implementation for the specified type.
      * @see Provider
      * @since 1.6
      */
     public static Policy getInstance(String type,
-                                Policy.Parameters params,
-                                String provider)
-                throws NoSuchProviderException, NoSuchAlgorithmException {
+                                     Policy.Parameters params,
+                                     String provider)
+            throws NoSuchProviderException, NoSuchAlgorithmException {
 
         if (provider == null || provider.length() == 0) {
             throw new IllegalArgumentException("missing provider");
@@ -450,14 +427,14 @@ public abstract class Policy {
         checkPermission(type);
         try {
             GetInstance.Instance instance = GetInstance.getInstance("Policy",
-                                                        PolicySpi.class,
-                                                        type,
-                                                        params,
-                                                        provider);
-            return new PolicyDelegate((PolicySpi)instance.impl,
-                                                        instance.provider,
-                                                        type,
-                                                        params);
+                    PolicySpi.class,
+                    type,
+                    params,
+                    provider);
+            return new PolicyDelegate((PolicySpi) instance.impl,
+                    instance.provider,
+                    type,
+                    params);
         } catch (NoSuchAlgorithmException nsae) {
             return handleException(nsae);
         }
@@ -471,37 +448,29 @@ public abstract class Policy {
      * object is returned.  Note that the specified Provider object
      * does not have to be registered in the provider list.
      *
-     * @param type the specified Policy type.  See the Policy section in the
-     *    <a href=
-     *    "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
-     *    Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     *    for a list of standard Policy types.
-     *
-     * @param params parameters for the Policy, which may be null.
-     *
+     * @param type     the specified Policy type.  See the Policy section in the
+     *                 <a href=
+     *                 "{@docRoot}/../technotes/guides/security/StandardNames.html#Policy">
+     *                 Java Cryptography Architecture Standard Algorithm Name Documentation</a>
+     *                 for a list of standard Policy types.
+     * @param params   parameters for the Policy, which may be null.
      * @param provider the Provider.
-     *
      * @return the new Policy object.
-     *
-     * @exception SecurityException if the caller does not have permission
-     *          to get a Policy instance for the specified type.
-     *
-     * @exception NullPointerException if the specified type is null.
-     *
-     * @exception IllegalArgumentException if the specified Provider is null,
-     *          or if the specified parameters are not understood by
-     *          the PolicySpi implementation from the specified Provider.
-     *
-     * @exception NoSuchAlgorithmException if the specified Provider does not
-     *          support a PolicySpi implementation for the specified type.
-     *
+     * @throws SecurityException        if the caller does not have permission
+     *                                  to get a Policy instance for the specified type.
+     * @throws NullPointerException     if the specified type is null.
+     * @throws IllegalArgumentException if the specified Provider is null,
+     *                                  or if the specified parameters are not understood by
+     *                                  the PolicySpi implementation from the specified Provider.
+     * @throws NoSuchAlgorithmException if the specified Provider does not
+     *                                  support a PolicySpi implementation for the specified type.
      * @see Provider
      * @since 1.6
      */
     public static Policy getInstance(String type,
-                                Policy.Parameters params,
-                                Provider provider)
-                throws NoSuchAlgorithmException {
+                                     Policy.Parameters params,
+                                     Provider provider)
+            throws NoSuchAlgorithmException {
 
         if (provider == null) {
             throw new IllegalArgumentException("missing provider");
@@ -510,24 +479,24 @@ public abstract class Policy {
         checkPermission(type);
         try {
             GetInstance.Instance instance = GetInstance.getInstance("Policy",
-                                                        PolicySpi.class,
-                                                        type,
-                                                        params,
-                                                        provider);
-            return new PolicyDelegate((PolicySpi)instance.impl,
-                                                        instance.provider,
-                                                        type,
-                                                        params);
+                    PolicySpi.class,
+                    type,
+                    params,
+                    provider);
+            return new PolicyDelegate((PolicySpi) instance.impl,
+                    instance.provider,
+                    type,
+                    params);
         } catch (NoSuchAlgorithmException nsae) {
             return handleException(nsae);
         }
     }
 
     private static Policy handleException(NoSuchAlgorithmException nsae)
-                throws NoSuchAlgorithmException {
+            throws NoSuchAlgorithmException {
         Throwable cause = nsae.getCause();
         if (cause instanceof IllegalArgumentException) {
-            throw (IllegalArgumentException)cause;
+            throw (IllegalArgumentException) cause;
         }
         throw nsae;
     }
@@ -540,7 +509,6 @@ public abstract class Policy {
      * Otherwise this method returns null.
      *
      * @return the Provider of this Policy, or null.
-     *
      * @since 1.6
      */
     public Provider getProvider() {
@@ -555,7 +523,6 @@ public abstract class Policy {
      * Otherwise this method returns null.
      *
      * @return the type of this Policy, or null.
-     *
      * @since 1.6
      */
     public String getType() {
@@ -570,7 +537,6 @@ public abstract class Policy {
      * Otherwise this method returns null.
      *
      * @return Policy parameters, or null.
-     *
      * @since 1.6
      */
     public Policy.Parameters getParameters() {
@@ -594,14 +560,13 @@ public abstract class Policy {
      * permissions granted to a CodeSource.
      *
      * @param codesource the CodeSource to which the returned
-     *          PermissionCollection has been granted.
-     *
+     *                   PermissionCollection has been granted.
      * @return a set of permissions granted to the specified CodeSource.
-     *          If this operation is supported, the returned
-     *          set of permissions must be a new mutable instance
-     *          and it must support heterogeneous Permission types.
-     *          If this operation is not supported,
-     *          Policy.UNSUPPORTED_EMPTY_COLLECTION is returned.
+     * If this operation is supported, the returned
+     * set of permissions must be a new mutable instance
+     * and it must support heterogeneous Permission types.
+     * If this operation is not supported,
+     * Policy.UNSUPPORTED_EMPTY_COLLECTION is returned.
      */
     public PermissionCollection getPermissions(CodeSource codesource) {
         return Policy.UNSUPPORTED_EMPTY_COLLECTION;
@@ -630,15 +595,13 @@ public abstract class Policy {
      * supports returning a set of permissions granted to a ProtectionDomain.
      *
      * @param domain the ProtectionDomain to which the returned
-     *          PermissionCollection has been granted.
-     *
+     *               PermissionCollection has been granted.
      * @return a set of permissions granted to the specified ProtectionDomain.
-     *          If this operation is supported, the returned
-     *          set of permissions must be a new mutable instance
-     *          and it must support heterogeneous Permission types.
-     *          If this operation is not supported,
-     *          Policy.UNSUPPORTED_EMPTY_COLLECTION is returned.
-     *
+     * If this operation is supported, the returned
+     * set of permissions must be a new mutable instance
+     * and it must support heterogeneous Permission types.
+     * If this operation is not supported,
+     * Policy.UNSUPPORTED_EMPTY_COLLECTION is returned.
      * @since 1.4
      */
     public PermissionCollection getPermissions(ProtectionDomain domain) {
@@ -658,7 +621,7 @@ public abstract class Policy {
         if (pc != null) {
             Permissions perms = new Permissions();
             synchronized (pc) {
-                for (Enumeration<Permission> e = pc.elements() ; e.hasMoreElements() ;) {
+                for (Enumeration<Permission> e = pc.elements(); e.hasMoreElements(); ) {
                     perms.add(e.nextElement());
                 }
             }
@@ -694,12 +657,10 @@ public abstract class Policy {
      * the ProtectionDomain and tests whether the permission is
      * granted.
      *
-     * @param domain the ProtectionDomain to test
+     * @param domain     the ProtectionDomain to test
      * @param permission the Permission object to be tested for implication.
-     *
      * @return true if "permission" is a proper subset of a permission
      * granted to this ProtectionDomain.
-     *
      * @see java.security.ProtectionDomain
      * @since 1.4
      */
@@ -740,7 +701,8 @@ public abstract class Policy {
      * This method should be overridden if a refresh operation is supported
      * by the policy implementation.
      */
-    public void refresh() { }
+    public void refresh() {
+    }
 
     /**
      * This subclass is returned by the getInstance calls.  All Policy calls
@@ -754,31 +716,43 @@ public abstract class Policy {
         private Policy.Parameters params;
 
         private PolicyDelegate(PolicySpi spi, Provider p,
-                        String type, Policy.Parameters params) {
+                               String type, Policy.Parameters params) {
             this.spi = spi;
             this.p = p;
             this.type = type;
             this.params = params;
         }
 
-        @Override public String getType() { return type; }
+        @Override
+        public String getType() {
+            return type;
+        }
 
-        @Override public Policy.Parameters getParameters() { return params; }
+        @Override
+        public Policy.Parameters getParameters() {
+            return params;
+        }
 
-        @Override public Provider getProvider() { return p; }
+        @Override
+        public Provider getProvider() {
+            return p;
+        }
 
         @Override
         public PermissionCollection getPermissions(CodeSource codesource) {
             return spi.engineGetPermissions(codesource);
         }
+
         @Override
         public PermissionCollection getPermissions(ProtectionDomain domain) {
             return spi.engineGetPermissions(domain);
         }
+
         @Override
         public boolean implies(ProtectionDomain domain, Permission perm) {
             return spi.engineImplies(domain, perm);
         }
+
         @Override
         public void refresh() {
             spi.engineRefresh();
@@ -790,7 +764,8 @@ public abstract class Policy {
      *
      * @since 1.6
      */
-    public static interface Parameters { }
+    public static interface Parameters {
+    }
 
     /**
      * This class represents a read-only empty PermissionCollection object that
@@ -800,7 +775,7 @@ public abstract class Policy {
      * supported by the Policy implementation.
      */
     private static class UnsupportedEmptyCollection
-        extends PermissionCollection {
+            extends PermissionCollection {
 
         private static final long serialVersionUID = -8492269157353014774L;
 
@@ -819,11 +794,11 @@ public abstract class Policy {
          * objects.
          *
          * @param permission the Permission object to add.
-         *
-         * @exception SecurityException - if this PermissionCollection object
-         *                                has been marked readonly
+         * @throws SecurityException - if this PermissionCollection object
+         *                           has been marked readonly
          */
-        @Override public void add(Permission permission) {
+        @Override
+        public void add(Permission permission) {
             perms.add(permission);
         }
 
@@ -832,11 +807,11 @@ public abstract class Policy {
          * collection of Permission objects held in this PermissionCollection.
          *
          * @param permission the Permission object to compare.
-         *
          * @return true if "permission" is implied by the permissions in
          * the collection, false if not.
          */
-        @Override public boolean implies(Permission permission) {
+        @Override
+        public boolean implies(Permission permission) {
             return perms.implies(permission);
         }
 
@@ -846,7 +821,8 @@ public abstract class Policy {
          *
          * @return an enumeration of all the Permissions.
          */
-        @Override public Enumeration<Permission> elements() {
+        @Override
+        public Enumeration<Permission> elements() {
             return perms.elements();
         }
     }

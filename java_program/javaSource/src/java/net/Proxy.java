@@ -30,10 +30,10 @@ package java.net;
  * a socket address.
  * A {@code Proxy} is an immutable object.
  *
- * @see     java.net.ProxySelector
  * @author Yingxian Wang
  * @author Jean-Christophe Collet
- * @since   1.5
+ * @see java.net.ProxySelector
+ * @since 1.5
  */
 public class Proxy {
 
@@ -55,7 +55,9 @@ public class Proxy {
          * Represents a SOCKS (V4 or V5) proxy.
          */
         SOCKS
-    };
+    }
+
+    ;
 
     private Type type;
     private SocketAddress sa;
@@ -65,9 +67,8 @@ public class Proxy {
      * basically telling the protocol handler not to use any proxying.
      * Used, for instance, to create sockets bypassing any other global
      * proxy settings (like SOCKS):
-     * <P>
+     * <p>
      * {@code Socket s = new Socket(Proxy.NO_PROXY);}
-     *
      */
     public final static Proxy NO_PROXY = new Proxy();
 
@@ -81,14 +82,14 @@ public class Proxy {
      * Creates an entry representing a PROXY connection.
      * Certain combinations are illegal. For instance, for types Http, and
      * Socks, a SocketAddress <b>must</b> be provided.
-     * <P>
+     * <p>
      * Use the {@code Proxy.NO_PROXY} constant
      * for representing a direct connection.
      *
      * @param type the {@code Type} of the proxy
-     * @param sa the {@code SocketAddress} for that proxy
+     * @param sa   the {@code SocketAddress} for that proxy
      * @throws IllegalArgumentException when the type and the address are
-     * incompatible
+     *                                  incompatible
      */
     public Proxy(Type type, SocketAddress sa) {
         if ((type == Type.DIRECT) || !(sa instanceof InetSocketAddress))
@@ -111,7 +112,7 @@ public class Proxy {
      * {@code null} if its a direct connection.
      *
      * @return a {@code SocketAddress} representing the socket end
-     *         point of the proxy
+     * point of the proxy
      */
     public SocketAddress address() {
         return sa;
@@ -123,7 +124,7 @@ public class Proxy {
      * and concatenating " @ " and the toString() result from its address
      * if its type is not {@code DIRECT}.
      *
-     * @return  a string representation of this object.
+     * @return a string representation of this object.
      */
     public String toString() {
         if (type() == Type.DIRECT)
@@ -131,7 +132,7 @@ public class Proxy {
         return type() + " @ " + address();
     }
 
-        /**
+    /**
      * Compares this object against the specified object.
      * The result is {@code true} if and only if the argument is
      * not {@code null} and it represents the same proxy as
@@ -140,9 +141,9 @@ public class Proxy {
      * Two instances of {@code Proxy} represent the same
      * address if both the SocketAddresses and type are equal.
      *
-     * @param   obj   the object to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
+     * @param obj the object to compare against.
+     * @return {@code true} if the objects are the same;
+     * {@code false} otherwise.
      * @see java.net.InetSocketAddress#equals(java.lang.Object)
      */
     public final boolean equals(Object obj) {
@@ -161,7 +162,7 @@ public class Proxy {
     /**
      * Returns a hashcode for this Proxy.
      *
-     * @return  a hash code value for this Proxy.
+     * @return a hash code value for this Proxy.
      */
     public final int hashCode() {
         if (address() == null)

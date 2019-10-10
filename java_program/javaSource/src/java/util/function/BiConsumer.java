@@ -37,7 +37,6 @@ import java.util.Objects;
  *
  * @param <T> the type of the first argument to the operation
  * @param <U> the type of the second argument to the operation
- *
  * @see Consumer
  * @since 1.8
  */

@@ -86,11 +86,9 @@ import java.util.Objects;
  * <p>
  * This class provides a single wrapper to items used in the format.
  *
- * @implSpec
- * This class is a mutable context intended for use from a single thread.
+ * @implSpec This class is a mutable context intended for use from a single thread.
  * Usage of the class is thread-safe within standard printing as the framework creates
  * a new instance of the class for each format and printing is single-threaded.
- *
  * @since 1.8
  */
 final class DateTimePrintContext {
@@ -112,7 +110,7 @@ final class DateTimePrintContext {
      * Creates a new instance of the context.
      *
      * @param temporal  the temporal object being output, not null
-     * @param formatter  the formatter controlling the format, not null
+     * @param formatter the formatter controlling the format, not null
      */
     DateTimePrintContext(TemporalAccessor temporal, DateTimeFormatter formatter) {
         super();
@@ -190,6 +188,7 @@ final class DateTimePrintContext {
                 }
                 return temporal.isSupported(field);
             }
+
             @Override
             public ValueRange range(TemporalField field) {
                 if (effectiveDate != null && field.isDateBased()) {
@@ -197,6 +196,7 @@ final class DateTimePrintContext {
                 }
                 return temporal.range(field);
             }
+
             @Override
             public long getLong(TemporalField field) {
                 if (effectiveDate != null && field.isDateBased()) {
@@ -204,6 +204,7 @@ final class DateTimePrintContext {
                 }
                 return temporal.getLong(field);
             }
+
             @SuppressWarnings("unchecked")
             @Override
             public <R> R query(TemporalQuery<R> query) {
@@ -222,6 +223,7 @@ final class DateTimePrintContext {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the temporal object being output.
      *
@@ -255,6 +257,7 @@ final class DateTimePrintContext {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Starts the printing of an optional segment of the input.
      */
@@ -272,7 +275,7 @@ final class DateTimePrintContext {
     /**
      * Gets a value using a query.
      *
-     * @param query  the query to use, not null
+     * @param query the query to use, not null
      * @return the result, null if not found and optional is true
      * @throws DateTimeException if the type is not available and the section is not optional
      */
@@ -289,7 +292,7 @@ final class DateTimePrintContext {
      * <p>
      * This will return the value for the specified field.
      *
-     * @param field  the field to find, not null
+     * @param field the field to find, not null
      * @return the value, null if not found and optional is true
      * @throws DateTimeException if the field is not available and the section is not optional
      */
@@ -305,6 +308,7 @@ final class DateTimePrintContext {
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Returns a string version of the context for debugging.
      *

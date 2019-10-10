@@ -35,12 +35,12 @@ import java.util.StringTokenizer;
  * A SecurityPermission contains a name (also referred to as a "target name")
  * but no actions list; you either have the named permission
  * or you don't.
- * <P>
+ * <p>
  * The target name is the name of a security configuration parameter (see below).
  * Currently the SecurityPermission object is used to guard access
  * to the Policy, Security, Provider, Signer, and Identity
  * objects.
- * <P>
+ * <p>
  * The following table lists all the possible SecurityPermission target names,
  * and for each provides a description of what the permission allows
  * and a discussion of the risks of granting code the permission.
@@ -110,7 +110,7 @@ import java.util.StringTokenizer;
  * compromise the security of the system, it does provide malicious
  * code with additional information which it may use to better aim
  * an attack.
-</td>
+ * </td>
  * </tr>
  *
  * <tr>
@@ -125,7 +125,7 @@ import java.util.StringTokenizer;
  * may point it to a security policy that grants the attacker
  * all the necessary permissions it requires to successfully mount
  * an attack on the system.
-</td>
+ * </td>
  * </tr>
  *
  * <tr>
@@ -187,7 +187,7 @@ import java.util.StringTokenizer;
  *
  * </table>
  *
- * <P>
+ * <p>
  * The following permissions have been superseded by newer permissions or are
  * associated with classes that have been deprecated: {@link Identity},
  * {@link IdentityScope}, {@link Signer}. Use of them is discouraged. See the
@@ -273,7 +273,7 @@ import java.util.StringTokenizer;
  * printout of an identity named "carol", who is
  * marked not trusted in the user's identity database:<br>
  *   carol[/home/luehe/identitydb.obj][not trusted]</td>
- *</tr>
+ * </tr>
  *
  * <tr>
  *   <td>getSignerPrivateKey</td>
@@ -299,15 +299,13 @@ import java.util.StringTokenizer;
  *
  * </table>
  *
+ * @author Marianne Mueller
+ * @author Roland Schemers
  * @see java.security.BasicPermission
  * @see java.security.Permission
  * @see java.security.Permissions
  * @see java.security.PermissionCollection
  * @see java.lang.SecurityManager
- *
- *
- * @author Marianne Mueller
- * @author Roland Schemers
  */
 
 public final class SecurityPermission extends BasicPermission {
@@ -321,12 +319,10 @@ public final class SecurityPermission extends BasicPermission {
      * signify a wildcard match.
      *
      * @param name the name of the SecurityPermission
-     *
-     * @throws NullPointerException if {@code name} is {@code null}.
+     * @throws NullPointerException     if {@code name} is {@code null}.
      * @throws IllegalArgumentException if {@code name} is empty.
      */
-    public SecurityPermission(String name)
-    {
+    public SecurityPermission(String name) {
         super(name);
     }
 
@@ -335,14 +331,12 @@ public final class SecurityPermission extends BasicPermission {
      * The name is the symbolic name of the SecurityPermission, and the
      * actions String is currently unused and should be null.
      *
-     * @param name the name of the SecurityPermission
+     * @param name    the name of the SecurityPermission
      * @param actions should be null.
-     *
-     * @throws NullPointerException if {@code name} is {@code null}.
+     * @throws NullPointerException     if {@code name} is {@code null}.
      * @throws IllegalArgumentException if {@code name} is empty.
      */
-    public SecurityPermission(String name, String actions)
-    {
+    public SecurityPermission(String name, String actions) {
         super(name, actions);
     }
 }

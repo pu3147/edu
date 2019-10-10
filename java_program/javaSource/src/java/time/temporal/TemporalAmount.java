@@ -90,10 +90,8 @@ import java.util.List;
  * used in application code. Instead, applications should create and pass
  * around instances of concrete types, such as {@code Period} and {@code Duration}.
  *
- * @implSpec
- * This interface places no restrictions on the mutability of implementations,
+ * @implSpec This interface places no restrictions on the mutability of implementations,
  * however immutability is strongly recommended.
- *
  * @since 1.8
  */
 public interface TemporalAmount {
@@ -104,15 +102,13 @@ public interface TemporalAmount {
      * value of the {@code TemporalAmount}.  A value must be returned
      * for each unit listed in {@code getUnits}.
      *
-     * @implSpec
-     * Implementations may declare support for units not listed by {@link #getUnits()}.
-     * Typically, the implementation would define additional units
-     * as conversions for the convenience of developers.
-     *
      * @param unit the {@code TemporalUnit} for which to return the value
      * @return the long value of the unit
-     * @throws DateTimeException if a value for the unit cannot be obtained
+     * @throws DateTimeException                if a value for the unit cannot be obtained
      * @throws UnsupportedTemporalTypeException if the {@code unit} is not supported
+     * @implSpec Implementations may declare support for units not listed by {@link #getUnits()}.
+     * Typically, the implementation would define additional units
+     * as conversions for the convenience of developers.
      */
     long get(TemporalUnit unit);
 
@@ -124,12 +120,10 @@ public interface TemporalAmount {
      * The units are ordered from longest duration to the shortest duration
      * of the unit.
      *
-     * @implSpec
-     * The list of units completely and uniquely represents the
+     * @return the List of {@code TemporalUnits}; not null
+     * @implSpec The list of units completely and uniquely represents the
      * state of the object without omissions, overlaps or duplication.
      * The units are in order from longest duration to shortest.
-     *
-     * @return the List of {@code TemporalUnits}; not null
      */
     List<TemporalUnit> getUnits();
 
@@ -150,8 +144,11 @@ public interface TemporalAmount {
      * It is recommended to use the second approach, {@code plus(TemporalAmount)},
      * as it is a lot clearer to read in code.
      *
-     * @implSpec
-     * The implementation must take the input object and add to it.
+     * @param temporal the temporal object to add the amount to, not null
+     * @return an object of the same observable type with the addition made, not null
+     * @throws DateTimeException   if unable to add
+     * @throws ArithmeticException if numeric overflow occurs
+     * @implSpec The implementation must take the input object and add to it.
      * The implementation defines the logic of the addition and is responsible for
      * documenting that logic. It may use any method on {@code Temporal} to
      * query the temporal object and perform the addition.
@@ -167,11 +164,6 @@ public interface TemporalAmount {
      * <p>
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
-     *
-     * @param temporal  the temporal object to add the amount to, not null
-     * @return an object of the same observable type with the addition made, not null
-     * @throws DateTimeException if unable to add
-     * @throws ArithmeticException if numeric overflow occurs
      */
     Temporal addTo(Temporal temporal);
 
@@ -192,8 +184,11 @@ public interface TemporalAmount {
      * It is recommended to use the second approach, {@code minus(TemporalAmount)},
      * as it is a lot clearer to read in code.
      *
-     * @implSpec
-     * The implementation must take the input object and subtract from it.
+     * @param temporal the temporal object to subtract the amount from, not null
+     * @return an object of the same observable type with the subtraction made, not null
+     * @throws DateTimeException   if unable to subtract
+     * @throws ArithmeticException if numeric overflow occurs
+     * @implSpec The implementation must take the input object and subtract from it.
      * The implementation defines the logic of the subtraction and is responsible for
      * documenting that logic. It may use any method on {@code Temporal} to
      * query the temporal object and perform the subtraction.
@@ -209,11 +204,6 @@ public interface TemporalAmount {
      * <p>
      * This method may be called from multiple threads in parallel.
      * It must be thread-safe when invoked.
-     *
-     * @param temporal  the temporal object to subtract the amount from, not null
-     * @return an object of the same observable type with the subtraction made, not null
-     * @throws DateTimeException if unable to subtract
-     * @throws ArithmeticException if numeric overflow occurs
      */
     Temporal subtractFrom(Temporal temporal);
 }

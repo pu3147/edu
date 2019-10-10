@@ -57,6 +57,7 @@
 package java.time.chrono;
 
 import java.io.InvalidObjectException;
+
 import static java.time.temporal.ChronoField.PROLEPTIC_MONTH;
 import static java.time.temporal.ChronoField.YEAR;
 
@@ -100,9 +101,7 @@ import java.util.Map;
  *  are never out of step.
  * </ul>
  *
- * @implSpec
- * This class is immutable and thread-safe.
- *
+ * @implSpec This class is immutable and thread-safe.
  * @since 1.8
  */
 public final class MinguoChronology extends AbstractChronology implements Serializable {
@@ -128,6 +127,7 @@ public final class MinguoChronology extends AbstractChronology implements Serial
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Gets the ID of the chronology - 'Minguo'.
      * <p>
@@ -160,16 +160,17 @@ public final class MinguoChronology extends AbstractChronology implements Serial
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Obtains a local date in Minguo calendar system from the
      * era, year-of-era, month-of-year and day-of-month fields.
      *
-     * @param era  the Minguo era, not null
+     * @param era        the Minguo era, not null
      * @param yearOfEra  the year-of-era
-     * @param month  the month-of-year
-     * @param dayOfMonth  the day-of-month
+     * @param month      the month-of-year
+     * @param dayOfMonth the day-of-month
      * @return the Minguo local date, not null
-     * @throws DateTimeException if unable to create the date
+     * @throws DateTimeException  if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code MinguoEra}
      */
     @Override
@@ -181,9 +182,9 @@ public final class MinguoChronology extends AbstractChronology implements Serial
      * Obtains a local date in Minguo calendar system from the
      * proleptic-year, month-of-year and day-of-month fields.
      *
-     * @param prolepticYear  the proleptic-year
-     * @param month  the month-of-year
-     * @param dayOfMonth  the day-of-month
+     * @param prolepticYear the proleptic-year
+     * @param month         the month-of-year
+     * @param dayOfMonth    the day-of-month
      * @return the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -196,11 +197,11 @@ public final class MinguoChronology extends AbstractChronology implements Serial
      * Obtains a local date in Minguo calendar system from the
      * era, year-of-era and day-of-year fields.
      *
-     * @param era  the Minguo era, not null
-     * @param yearOfEra  the year-of-era
-     * @param dayOfYear  the day-of-year
+     * @param era       the Minguo era, not null
+     * @param yearOfEra the year-of-era
+     * @param dayOfYear the day-of-year
      * @return the Minguo local date, not null
-     * @throws DateTimeException if unable to create the date
+     * @throws DateTimeException  if unable to create the date
      * @throws ClassCastException if the {@code era} is not a {@code MinguoEra}
      */
     @Override
@@ -212,8 +213,8 @@ public final class MinguoChronology extends AbstractChronology implements Serial
      * Obtains a local date in Minguo calendar system from the
      * proleptic-year and day-of-year fields.
      *
-     * @param prolepticYear  the proleptic-year
-     * @param dayOfYear  the day-of-year
+     * @param prolepticYear the proleptic-year
+     * @param dayOfYear     the day-of-year
      * @return the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -225,7 +226,7 @@ public final class MinguoChronology extends AbstractChronology implements Serial
     /**
      * Obtains a local date in the Minguo calendar system from the epoch-day.
      *
-     * @param epochDay  the epoch day
+     * @param epochDay the epoch day
      * @return the Minguo local date, not null
      * @throws DateTimeException if unable to create the date
      */
@@ -260,22 +261,23 @@ public final class MinguoChronology extends AbstractChronology implements Serial
     @Override
     @SuppressWarnings("unchecked")
     public ChronoLocalDateTime<MinguoDate> localDateTime(TemporalAccessor temporal) {
-        return (ChronoLocalDateTime<MinguoDate>)super.localDateTime(temporal);
+        return (ChronoLocalDateTime<MinguoDate>) super.localDateTime(temporal);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<MinguoDate> zonedDateTime(TemporalAccessor temporal) {
-        return (ChronoZonedDateTime<MinguoDate>)super.zonedDateTime(temporal);
+        return (ChronoZonedDateTime<MinguoDate>) super.zonedDateTime(temporal);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public ChronoZonedDateTime<MinguoDate> zonedDateTime(Instant instant, ZoneId zone) {
-        return (ChronoZonedDateTime<MinguoDate>)super.zonedDateTime(instant, zone);
+        return (ChronoZonedDateTime<MinguoDate>) super.zonedDateTime(instant, zone);
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Checks if the specified year is a leap year.
      * <p>
@@ -283,7 +285,7 @@ public final class MinguoChronology extends AbstractChronology implements Serial
      * This method does not validate the year passed in, and only has a
      * well-defined result for years in the supported range.
      *
-     * @param prolepticYear  the proleptic-year to check, not validated for range
+     * @param prolepticYear the proleptic-year to check, not validated for range
      * @return true if the year is a leap year
      */
     @Override
@@ -336,16 +338,16 @@ public final class MinguoChronology extends AbstractChronology implements Serial
     }
 
     //-----------------------------------------------------------------------
+
     /**
      * Writes the Chronology using a
      * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
+     *
+     * @return the instance of {@code Ser}, not null
+     * @serialData <pre>
      *  out.writeByte(1);     // identifies a Chronology
      *  out.writeUTF(getId());
      * </pre>
-     *
-     * @return the instance of {@code Ser}, not null
      */
     @Override
     Object writeReplace() {

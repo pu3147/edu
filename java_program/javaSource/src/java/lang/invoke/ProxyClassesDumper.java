@@ -39,20 +39,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Helper class used by InnerClassLambdaMetafactory to log generated classes
  *
- * @implNote
- * <p> Because this class is called by LambdaMetafactory, make use
+ * @implNote <p> Because this class is called by LambdaMetafactory, make use
  * of lambda lead to recursive calls cause stack overflow.
  */
 final class ProxyClassesDumper {
     private static final char[] HEX = {
-        '0', '1', '2', '3', '4', '5', '6', '7',
-        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+            '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };
     private static final char[] BAD_CHARS = {
-        '\\', ':', '*', '?', '"', '<', '>', '|'
+            '\\', ':', '*', '?', '"', '<', '>', '|'
     };
     private static final String[] REPLACEMENT = {
-        "%5C", "%3A", "%2A", "%3F", "%22", "%3C", "%3E", "%7C"
+            "%5C", "%3A", "%2A", "%3F", "%22", "%3C", "%3E", "%7C"
     };
 
     private final Path dumpDir;
@@ -65,19 +64,19 @@ final class ProxyClassesDumper {
             path = path.trim();
             final Path dir = Paths.get(path.length() == 0 ? "." : path);
             AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                    @Override
-                    public Void run() {
-                        validateDumpDir(dir);
-                        return null;
-                    }
-                }, null, new FilePermission("<<ALL FILES>>", "read, write"));
+                @Override
+                public Void run() {
+                    validateDumpDir(dir);
+                    return null;
+                }
+            }, null, new FilePermission("<<ALL FILES>>", "read, write"));
             return new ProxyClassesDumper(dir);
         } catch (InvalidPathException ex) {
             PlatformLogger.getLogger(ProxyClassesDumper.class.getName())
-                          .warning("Path " + path + " is not valid - dumping disabled", ex);
+                    .warning("Path " + path + " is not valid - dumping disabled", ex);
         } catch (IllegalArgumentException iae) {
             PlatformLogger.getLogger(ProxyClassesDumper.class.getName())
-                          .warning(iae.getMessage() + " - dumping disabled");
+                    .warning(iae.getMessage() + " - dumping disabled");
         }
         return null;
     }
@@ -130,7 +129,7 @@ final class ProxyClassesDumper {
             file = dumpDir.resolve(encodeForFilename(className) + ".class");
         } catch (InvalidPathException ex) {
             PlatformLogger.getLogger(ProxyClassesDumper.class.getName())
-                          .warning("Invalid path for class " + className);
+                    .warning("Invalid path for class " + className);
             return;
         }
 
@@ -140,7 +139,7 @@ final class ProxyClassesDumper {
             Files.write(file, classBytes);
         } catch (Exception ignore) {
             PlatformLogger.getLogger(ProxyClassesDumper.class.getName())
-                          .warning("Exception writing to path at " + file.toString());
+                    .warning("Exception writing to path at " + file.toString());
             // simply don't care if this operation failed
         }
     }
