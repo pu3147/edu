@@ -6,12 +6,34 @@
         </div>
 
         <script>
-            new Vue({
+            var app = new Vue({
                 el:"#app",
                 data:{
                     message:"hello Vue.js"
                 }
             })
+        </script>
+
+        <div id="vueDetail">
+            <h1>sit:{{sit}}</h1>
+            <h1>name:{{name}}</h1>
+            <h1 v-html="htmlMsg"></h1>      
+            <h1>methods.detail:{{detail()}}</h1>      
+        </div>
+        <script>
+            var vueDetail = new Vue({
+                el:"#vueDetail",
+                data:{
+                        sit:"sit Value",
+                        name:"sit name",
+                        htmlMsg:"<p><b>wwwwwwwwww</b></p>"
+                },
+                methods:{
+                    detail:function(){
+                        return this.sit + this.name;
+                    }
+                }
+            });
         </script>
     </body>
 
