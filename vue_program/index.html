@@ -2,14 +2,39 @@
     <script src="vue.min.js"></script>
     <body>
         <div id="app">
-            {{message}}
+            <div>{{message}}</div>
+            <ui>
+                <li v-for="tmp in liAry">
+                    {{tmp}}
+                </li>
+            </ui>
+            <table>
+                <tr v-for="(tmpValeu,tmpKey,tempIndex) in tdMap">
+                    <td>
+                            {{tempIndex}}
+                    </td>
+                    <td>
+                            {{tmpKey}}
+                    </td>
+                    <td>
+                            {{tmpValeu}}
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <script>
             var app = new Vue({
                 el:"#app",
                 data:{
-                    message:"hello Vue.js"
+                    message:"hello Vue.js",
+                    liAry:["l1","l2","l3","l4","l5","l6","l7"],
+                    tdMap:{
+                        "name":"name",
+                        "sex":"sex",
+                        "age":"age",
+                        "score":"score"                        
+                    }
                 }
             })
         </script>
