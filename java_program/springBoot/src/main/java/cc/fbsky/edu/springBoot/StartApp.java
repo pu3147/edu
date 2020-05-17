@@ -2,30 +2,24 @@ package cc.fbsky.edu.springBoot;
 
 import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.context.annotation.ImportResource;
 @SpringBootApplication
-public class StartApp {
-	@Bean
-	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-		return args -> {
+@ImportResource()
+@EnableCaching
+public class StartApp extends SpringBootServletInitializer {
 
-			System.out.println("Let's inspect the beans provided by Spring Boot:");
+	@Autowired
+	private CacheManager cacheManager;
 
-			String[] beanNames = ctx.getBeanDefinitionNames();
-			Arrays.sort(beanNames);
-			for (String beanName : beanNames) {
-				System.out.println(beanName);
-			}
 
-		};
-	}
-
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(StartApp.class, args);
-	}
 }
