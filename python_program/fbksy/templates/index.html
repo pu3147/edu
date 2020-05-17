@@ -1,0 +1,25 @@
+<h1>{{ hello }}</h1>
+<h1>{{ size }}</h1>
+{%if 60 > size%}
+    <div>D</div>
+{%endif%}
+
+{%if 70 > size and 60 <= size%}
+<div>C</div>
+{%endif%}
+{%if 80 > size and 70 <= size%}
+<div>B</div>
+{%endif%}
+{%if 90 > size and 80 <= size%}
+<div>A</div>
+{%endif%}
+{%if 90 <= size%}
+<div>A+</div>
+{%endif%}
+
+{#这是一个注解#}
+<ul>
+    {%for stu in stuList%}
+    <li>学生：{{stu}}</li>
+    {%endfor%}
+</ul>
