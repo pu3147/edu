@@ -20,12 +20,18 @@ public class TestNio {
 
         FileChannel fileChannel = randomAccessFile.getChannel();
 
-        fileChannel.write(ByteBuffer.wrap("算法A\n".getBytes()));
-        fileChannel.write(ByteBuffer.wrap("算法A1\n".getBytes()));
-        fileChannel.write(ByteBuffer.wrap("算法A2\n".getBytes()));
-        fileChannel.write(ByteBuffer.wrap("算法A3\n".getBytes()));
-        fileChannel.write(ByteBuffer.wrap("算法C".getBytes()));
+        ByteBuffer byteBuffer = ByteBuffer.allocate(100);
+        for(int index=0;index<100;index++){
+            String info = "index:"+index+"\ttime:"+System.currentTimeMillis()+"\n";
+            byteBuffer.put(info.getBytes());
 
+            byteBuffer.flip();
+            while (byteBuffer.hasRemaining()){
+                System.out.println("index:"+index);
+                fileChannel.write(byteBuffer);
+            }
+            byteBuffer.clear();
+        }
         fileChannel.close();
     }
 
