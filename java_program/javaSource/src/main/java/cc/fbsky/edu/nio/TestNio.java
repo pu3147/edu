@@ -26,7 +26,7 @@ public class TestNio {
         while ((readSize=fileChannel.read(byteBuffer)) >-1){
             System.out.println("readSize:"+readSize);
 
-            //切换为都得模式
+            //切换为读取模式
             byteBuffer.flip();
 
             while (byteBuffer.hasRemaining()){
