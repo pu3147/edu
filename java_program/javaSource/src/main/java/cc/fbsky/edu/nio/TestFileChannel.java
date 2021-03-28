@@ -8,7 +8,7 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-public class TestNio {
+public class TestFileChannel {
 
     private String fileToPath = "D:\\tmp\\demoTo.log";
     private String fromFilePath = "D:\\tmp\\demoFom.log";
